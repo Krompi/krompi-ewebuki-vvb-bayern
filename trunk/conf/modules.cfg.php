@@ -64,6 +64,14 @@
         include $pathvars["moduleroot"]."basic/view.inc.php";
     }
 
+    
+    
+    
+    
+if ( $_SESSION["uid"] != "" ) {
+    
+    
+    
     // wizard: for testing only !!
     if ( preg_match("/^\/wizard/",$environment["ebene"]) )
     {
@@ -178,6 +186,19 @@
         include $pathvars["moduleroot"]."addon/kontakt.cfg.php";
         include $pathvars["moduleroot"]."addon/kontakt-ctrl.inc.php";
     }
+    
+
+echo "<pre>";
+    // Mitglieder-Ausgabe
+    if ( strstr($environment["ebene"]."/".$environment["kategorie"],"/admin/mitglieder") )
+    {
+        include $pathvars["moduleroot"]."vvb/mitglieder.cfg.php";
+        include $pathvars["moduleroot"]."vvb/mitglieder-ctrl.inc.php"; # erweitertes modul
+    }
+echo "</pre>";
+    
+    
+}
 
 #    // addon: search
 #    if (  ( $environment["ebene"] == "" && $environment["kategorie"] == "search" )
@@ -235,15 +256,6 @@
     {
         include $pathvars["moduleroot"]."vvb/artikel-list.inc.php"; # erweitertes modul
     }
-
-echo "<pre>";
-    // Mitglieder-Ausgabe
-    if ( strstr($environment["ebene"]."/".$environment["kategorie"],"/admin/mitglieder") )
-    {
-        include $pathvars["moduleroot"]."vvb/mitglieder.cfg.php";
-        include $pathvars["moduleroot"]."vvb/mitglieder-ctrl.inc.php"; # erweitertes modul
-    }
-echo "</pre>";
 
     // customer: modul beispiel "my" eweitert
     if ( $environment["ebene"] == "" && ($environment["kategorie"] == "login" || $environment["kategorie"] == "admin") )
