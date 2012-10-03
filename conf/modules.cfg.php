@@ -228,13 +228,22 @@
 #        include $pathvars["moduleroot"]."customer/leer-ctrl.inc.php"; # erweitertes modul
 #    }
 
-    // customer: modul beispiel "my" eweitert
+    
+    
+    // Artikelanzeige mit Jahresauswahl
     if ( ($environment["ebene"] == "" && $environment["kategorie"] == "index") || $environment["ebene"] == "" && $environment["kategorie"] == "aktuell" )
     {
-
         include $pathvars["moduleroot"]."vvb/artikel-list.inc.php"; # erweitertes modul
-
     }
+
+echo "<pre>";
+    // Mitglieder-Ausgabe
+    if ( strstr($environment["ebene"]."/".$environment["kategorie"],"/admin/mitglieder") )
+    {
+        include $pathvars["moduleroot"]."vvb/mitglieder.cfg.php";
+        include $pathvars["moduleroot"]."vvb/mitglieder-ctrl.inc.php"; # erweitertes modul
+    }
+echo "</pre>";
 
     // customer: modul beispiel "my" eweitert
     if ( $environment["ebene"] == "" && ($environment["kategorie"] == "login" || $environment["kategorie"] == "admin") )
