@@ -1,0 +1,42 @@
+<!--##begin-->
+<!--                <div class="grid_9">
+                    #(inhalt)
+                </div>-->
+                <div class="grid_2">
+                    <div class="sub_menu box border-all">
+                        <h3><a href="!#pathvars_virtual/aktuell.html">Archiv</a></h3>
+                        <ul>
+                            <!--##loop-archiv_menu-->
+                            <li style="!{style}"><a href="!{link}">!{label}</a></li>
+                            <!--##cont-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid_6">
+                    #(inhalt)
+                    <!--##hide-new-->
+                    <form action="/auth/admin/bloged/add.html" method="post">
+                        <input type="submit" value="g(new)" name="blog"/>
+                        <input type="hidden" name="link" value="!{link}"/>
+                        <input type="hidden" name="kategorie" value="!{kategorie}"/>
+                    </form>
+                    <!--##show-->
+
+                    <!--##loop-list-->
+                    <article>
+                        <header class="headin1g">
+                            <h3><span class="meta">!{datum}:</span> <a href="!{detaillink}">!{titel_org}</a></h3>
+
+                        </header>
+                        <div class="">
+                            <p>!{teaser_org}&nbsp;&nbsp;<a href="!{detaillink}">&raquo;mehr</a></p>
+                        </div>
+                        <div class="clear"></div>
+                    </article>
+                    <!--##cont-->
+
+                    <div class="selektor-trigger">!#ausgaben_inhalt_selector</div>
+
+                </div>
+
+<!--##end-->

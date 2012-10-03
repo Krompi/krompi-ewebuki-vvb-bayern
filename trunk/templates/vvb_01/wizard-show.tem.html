@@ -1,0 +1,257 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Wizard-Show</title>
+<link rel="stylesheet" href="../../css/default/screen.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../css/default/eed.css" type="text/css" media="screen" />
+</head>
+<body>
+<!--##begin-->
+<div id="wizard">
+
+    <div class="grid_9">
+        #(inhalt)
+        <!--versions-umschalter-->
+        <p>
+            <!--##hide-version_prev-->
+            | <a href="!{link_first}">&lt;&lt;</a> | <a href="!{link_prev}">&lt;</a> |
+            <!--##show-->
+            g(version) !#ausgaben_vaktuell g(of) !#ausgaben_vgesamt
+            <!--##hide-version_next-->
+            | <a href="!{link_next}">&gt;</a> | <a href="!{link_last}">&gt;&gt;</a> |
+            <!--##show-->
+        <p>
+        <hr>
+    </div>
+
+    <span style="float:right;">
+    </span>
+
+    <pre id="output"></pre>
+
+    <div class="clearer">
+        <a name="preview">&nbsp;</a>
+    </div>
+
+<!--     <div id="vorhang_cancel" style="display:none;"></div> -->
+    <div id="vorhang_preview" style="display:none;"></div>
+
+<!--    <div class="column_1">
+        #{image_map}
+    </div>-->
+
+    <div class="grid_7">
+        <!--##hide-no_sort_content-->
+        <div style="display:block;margin:5px;background:silver;" id="no_sort_content">#(show_none)</div>
+        <!--##show-->
+        <!--##hide-show_one_content-->
+        <div style="display:block;margin:5px;padding:5px;background:#FFF3CF;" id="no_sort_content">#(show_one)</div>
+        <!--##show-->
+        <!--##hide-sort_content-->
+        <ul id="content_blocks">
+            <!--##loop-sort_content-->
+            <li id="item_!{key}" class="!{class}" style="!{style}">
+<!--                 <a name="item_!{key}" href="#" style="float:right;">nach oben</a> -->
+                <div class="clearer"></div>
+                !{value_html}
+                <div class="clearer"></div>
+                <p class="buttons" !{modify}>
+                    <a href="!{link_up}" class="button" title="#(wiz_moveup_desc)" style="!{display_up}">#(wiz_moveup)</a>
+                    <a href="!{link_down}" class="button" title="#(wiz_movedown_desc)" style="!{display_down}">#(wiz_movedown)</a>
+                    <a href="!{delete}" class="button" title="#(wiz_delete_desc)" style="!{display_delete}">#(wiz_delete)</a>
+                </p>
+                <div class="clearer"></div>
+            </li>
+            <!--##cont-->
+        </ul>
+        <!--##show-->
+    </div>
+
+    <div class="grid_2">
+        #{image_map}
+        <fieldset>
+            <h3>#(add_block)</h3>
+            <!--##loop-add_buttons-->
+            <a href="!{link}" class="button" title="!{item}">!{item}</a>
+            <!--##cont-->
+            <div class="clearer"></div>
+        </fieldset>
+
+        <!--##hide-default-->
+        <fieldset>
+            <form method="post" action="!#ausgaben_form_aktion">
+                <button type="button" onclick="preview();" id="button_preview" class="button">g(preview)</button>
+                <button type="submit" name="version[]" value="version" class="button">g(save)</button>
+                <button type="button" onclick="lb_cancel.show();" class="button">g(abort)</button>
+                <div id="cancel" style="display:none;">
+                    #(confirm_cancel)
+                    <p >
+                        <button type="submit" name="cancel[]" value="cancel" class="button" style="display:block;margin:3px;width:100px;float:left;">g(yes)</button>
+                        <button type="button" onclick="lb_cancel.hide();;" class="button" style="display:block;margin:3px;width:100px;float:right;">g(no)</button>
+                    </p>
+                </div>
+
+                <div class="clearer"></div>
+            </form>
+        </fieldset>
+        <!--##show-->
+
+        <!--##hide-edit-->
+        <fieldset>
+            <form method="post" action="!#ausgaben_form_aktion">
+                <button type="button" onclick="preview();" id="button_preview" class="button">g(preview)</button>
+                <button type="submit" name="version[]" value="version" class="button">g(save)</button>
+                <button type="button" onclick="lb_cancel.show();" class="button">g(abort)</button>
+                <div id="cancel" style="display:none;">
+                    #(confirm_cancel)
+                    <p >
+                        <button type="submit" name="cancel[]" value="cancel" class="button" style="display:block;margin:3px;width:100px;float:left;">g(yes)</button>
+                        <button type="button" onclick="lb_cancel.hide();;" class="button" style="display:block;margin:3px;width:100px;float:right;">g(no)</button>
+                    </p>
+                </div>
+
+                <div class="clearer"></div>
+            </form>
+        </fieldset>
+        <fieldset>
+            <form method="post" action="!#ausgaben_form_aktion">
+                <button type="button" onclick="lb_release.show();" class="button">#(ask_release)</button>
+                <div id="release" class="ajax_pop_up" style="display:none;">
+                    #(confirm_release)
+                    <p >
+                        <button type="submit" name="version[]" value="version" class="button" style="display:block;margin:3px;width:100px;float:left;">g(yes)</button>
+                        <button type="button" onclick="lb_release.hide();;" class="button" style="display:block;margin:3px;width:100px;float:right;">g(no)</button>
+                        <input type="hidden" name="release_mark" value="-1" />
+                    </p>
+                </div>
+                <div class="clearer"></div>
+            </form>
+        </fieldset>
+        <!--##show-->
+
+        <!--##hide-publish-->
+        <fieldset>
+            <form method="post" id="" name="form_sent" action="!#ausgaben_form_aktion">
+                <button type="button" onclick="preview();" id="button_preview" class="button">g(preview)</button>
+                <button type="submit" name="version[]" value="version" class="button">g(save)</button>
+                <button type="button" class="button button-cancel">g(abort)</button>
+
+                <div class="clearer"></div>
+            </form>
+        </fieldset>
+
+        <div id="cancel_dialog" style="display:none;">
+            <form method="post" id="form_sent" name="form_sent" action="!#ausgaben_form_aktion">
+            <p>Nicht gespeicherte Änderungen gehen unwiederbringlich verloren.</p>
+            <p>Wirklich abbrechen?</p>
+            <input type="hidden" name="cancel[]" value="cancel" class="cancel-aktiv" disabled="true" />
+            </form>
+        </div>
+        <!--##show-->
+
+        <!--##hide-blocked-->
+        <fieldset>
+            <form method="post" action="!#ausgaben_form_aktion">
+                #(blocked)
+                <button type="submit" name="cancel[]" value="cancel" class="button">g(abort)</button>
+                <div class="clearer"></div>
+            </form>
+        </fieldset>
+        <!--##show-->
+    </div>
+
+    <div class="clearer"></div>
+
+</div>
+
+<div id="vorschau_wrap" style="display:none;">
+</div>
+
+!#ausgaben_output
+!#ausgaben_inaccessible
+
+<script type="text/javascript">
+    // <!--##hide-sort_content-->
+    jQuery('#content_blocks').sortable({
+        axis: 'y',
+        items: '.ajax_move',
+        update: function(event, ui) {
+            jQuery.ajax({
+                url: '!#ausgaben_ajax_request?' + jQuery('#content_blocks').sortable('serialize',{'key':'content_blocks[]'}),
+                complete: function(data) {
+                    jQuery('#content_blocks').effect('highlight');
+                    location.reload(true);
+                }
+            });
+        }
+    });
+    // <!--##show-->
+
+    // <!--##hide-ajax_scroll-->
+    jQuery(document).ready(function(){
+        var position = jQuery('#!{section}').offset();
+        jQuery(window).scrollTop(position.top);
+        jQuery('#!{section}').effect('pulsate')
+    })
+    // <!--##show-->
+
+    jQuery('#cancel_dialog').dialog ({
+        position: ['center',35],
+        modal: true,
+        autoOpen: false,
+        title: 'Bearbeitung abbrechen',
+        width: 660,
+        heigth: 'auto',
+        buttons: {
+            "ja": function() {
+                jQuery('#form_sent').submit();
+                jQuery(this).dialog ("close");
+            },
+            "nein": function() {
+                jQuery('#cancel_dialog input.cancel-aktiv').attr('disabled','true');
+                jQuery(this).dialog ("close");
+            }
+        }
+    })
+    jQuery('.button-cancel').click(function(){
+        jQuery('#cancel_dialog').dialog ('open');
+        jQuery('#cancel_dialog input.cancel-aktiv').removeAttr('disabled');
+    })
+
+    jQuery('#vorschau_wrap').dialog ({
+        position: ['center',35],
+        modal: true,
+        autoOpen: false,
+        title: 'Vorschau',
+        width: 660,
+        heigth: 'auto'
+    })
+    function preview() {
+        jQuery('#vorschau_wrap').load(
+            '!#ausgaben_form_aktion',
+            {
+                'ajax': 'on',
+                'save': 'on'
+            },
+            function() {
+                //alert(jQuery('#vorschau_wrap').height());
+                jQuery("a[rel^='lightbox']").slimbox(
+                                        {
+                                            counterText: "Bild {x} von {y}"
+                                            /* Put custom options here */
+                                        },
+                                        null, function(el) {
+                                            return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+                                        }
+                );
+                jQuery('#vorschau_wrap').dialog ('open');
+            }
+        )
+    }
+
+
+</script>
+<!--##end-->
+</body>
+</html>

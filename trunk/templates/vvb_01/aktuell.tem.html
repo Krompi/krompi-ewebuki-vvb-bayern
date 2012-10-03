@@ -1,0 +1,17 @@
+<!--##begin-->
+                <div class="grid_6">
+                    #(inhalt)
+                </div>
+
+                <div class="grid_3">
+                    <div class="border-all">
+<!--                        <p>Drucken (Platzhalter)<br />empfehlen (Platzhalter)<br />Infos (Platzhalter)<br />usw</p>-->
+                        <p class="sprite sprite-print"><a onclick="window.print();" href="#">Drucken</a></p>
+                        <p class="sprite sprite-mail"><a href="mailto:?subject=Linkempfehlung&body=!#pathvars_webroot!#pathvars_requested">Empfehlen</a></p>
+                        <!--##hide-changed-->
+                        <p class="sprite sprite-edit">erstellt: !{changed}</p>
+                        <!--##show-->
+
+                    </div>
+                </div>
+<!--##end-->

@@ -1,0 +1,210 @@
+<!--$Id: -939795212.modify.tem.html 1723 2010-03-23 12:34:27Z krompi $-->
+<!--##begin-->
+<div class="grid_9">
+    <h1>#(ueberschrift)</h1>
+    <form method="post" action="!#ausgaben_form_aktion" id="eEd" enctype="multipart/form-data">
+        <p>!#ausgaben_form_error</p>
+
+        <div id="file_edit" style="!#ausgaben_style_file_edit;float:left;width:100;">
+            <div class="grid_5 alpha">
+                <div class="boxed space-lr space-tb">
+                    <label class="form-label">
+                        <span>#(ffname)</span>
+                        !#element_ffname
+                    </label>
+                    <label class="form-label">
+                        <span>#(funder)</span>
+                        !#element_funder
+                    </label>
+                    <label class="form-label">
+                        <span>#(fdesc)</span>
+                        !#element_fdesc
+                    </label>
+                    <label class="form-label">
+                        <span>#(fhit)</span>
+                        <!--##hide-fhit_admin-->
+                        !#element_fhit
+                        <!--##show-->
+                        <!--##hide-fhit_dummy-->
+                        <input id="fhit_dummy" class="" type="text" value="!{value}" name="fhit_dummy" />
+                        <!--##show-->
+                    </label>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="grid_3">
+                <div class="boxed space-lr space-tb">
+                    <!--##hide-preview_img-->
+                    <a title="Vorschau klein (small)" href="!{path}!{id}/s/" rel="lightbox[]" style="float:right;padding-bottom:20px;background:#FFFFFF url('/images/default/filefind.png') no-repeat right bottom;">
+                        <img src="!{path}!{id}/s/" alt="" style="float:right;" />
+                    </a>
+                    <a title="Vorschau mittel (middle)" href="!{path}!{id}/m/" rel="lightbox[]" style="display:none;">
+                        <img src="!{path}!{id}/m/" alt="" />
+                    </a>
+                    <a title="Vorschau gro&szlig; (big)" href="!{path}!{id}/b/" rel="lightbox[]" style="display:none;">
+                        <img src="!{path}!{id}/b/" alt="" />
+                    </a>
+                    <a title="Vorschau Original (original)" href="!{path}!{id}/o/" rel="lightbox[]" style="display:none;">
+                        <img src="!{path}!{id}/o/" alt="" />
+                    </a>
+                    <!--##show-->
+                    <!--##hide-preview_def-->
+                    <img src="!{file}" alt="" style="float:right;" />
+                    <!--##show-->
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="grid_8 alpha">
+                <div class="boxed space-lr space-tb">
+                    <!--##hide-upload-->
+                    <label style="clear:left;">#(replace)
+                        #(upa)<br><input type="file" name="upload"><br>#(upb)
+                    </label>
+                    <!--##show-->
+
+                    <!--##hide-owner-->
+                    <p>
+                        #(fowner) <a href="mailto:!{email}">!{name}</a><br />!{error}
+                    </p>
+                    <!--##show-->
+
+                    <!--##hide-all_groups_allowed-->
+                    <p>
+                        #(all_groups_allowed)
+                    </p>
+                    <!--##show-->
+
+                    <!--##hide-show_allowed_groups-->
+                    <p>
+                        #(allowed_groups)
+                        <p>
+                            <!--##loop-avail_groups-->
+                            <b>!{group}:</b>&nbsp;!{desc}<br />
+                            <!--##cont-->
+                        </p>
+                    </p>
+                    <!--##show-->
+
+                    <!--##hide-grant-->
+                    <p>
+                        <h2>Wer soll die Datei bearbeiten k&ouml;nnen?</h2>
+                        <div class="clearer">&nbsp;</div>
+                        <fieldset>
+                        <ul>
+                            <li>
+                                <input name="grant_all" value="0" type="radio"!{radio_grant_me} />&nbsp;nur Sie und folgende ausgew&auml;hlte Gruppen
+                                <ul class="no-style" style="margin:5px 0;">
+                                    <!--##loop-avail_groups-->
+                                    <li style="margin:5px 0 5px 25px;">
+                                        <input name="perm_groups[]" value="!{gid}" type="checkbox"!{check}!{disabled} />
+                                        <div style="float:left;margin-left:5px;"><b>!{group}:</b><br />!{desc}</div>
+                                        <div class="clearer"></div>
+                                    </li>
+                                    <!--##cont-->
+                                </ul>
+                            </li>
+                            <li><input name="grant_all" value="-1" type="radio"!{radio_grant_all} />&nbsp;alle angemeldeten Benutzer</li>
+                        </ul>
+                        </fieldset>
+
+                    </p>
+                    <!--##show-->
+
+                    <!--##hide-references-->
+                    <p>#(references)<br />!#ausgaben_reference</p>
+                    <p>#(ref_comp)<br />!#ausgaben_ref_comp</p>
+                    <p>!#element_fid</p>
+                    <!--##show-->
+
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="grid_8 alpha">
+                <div class="boxed space-lr space-tb">
+                    <input type="hidden" name="form_referer" value="!#ausgaben_form_referer" class="hidden" />
+                    <input type="submit" name="send[]" value="g(send)" class="button" />
+                    <!--##hide-zip-->
+                    <input type="button" name="abort" value="g(extract)" onclick="anzeigen(1);" class="button" />
+                    <!--##show-->
+                    <!--##hide-add-->
+                    <input type="submit" name="continue[]" value="#(continue)" class="button" />
+                    <!--##show-->
+                    <input type="reset" name="reset" value="g(reset)" onclick="resetForm()" class="button" />
+                    <input type="submit" name="abort[]" value="g(abort)" class="button" />
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="clear"></div>
+
+        <!--##hide-zip-->
+        <div id="extract_edit" style="!#ausgaben_style_extract_edit;float:left;width:100;">
+            <div class="grid_8 alpha">
+             #(zip)
+                <div class="boxed space-lr space-tb">
+                    <ul>
+                        <!--##loop-zip-->
+                        <li>!{path}</li>
+                        <!--##cont-->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid_8 alpha">
+                <div class="boxed space-lr space-tb">
+                    <input type="checkbox" name="selection" value="-1" class="first" /><span style="padding:5px 0 0 10px">#(bundle_zip)</span>
+                </div>
+            </div>
+
+            <div class="grid_8 alpha">
+                #(zip_stdval)
+                <div class="boxed space-lr space-tb">
+                    <label class="form-label">
+                        #(fdesc)<textarea class="" name="zip_fdesc" rows="" cols="40"></textarea>
+                    </label>
+                    <label class="form-label">
+                        #(funder)<input class="" type="text" value="" name="zip_funder" />
+                    </label>
+                    <label class="form-label">
+                        #(fhit)<input class="" type="text" value="" name="zip_fhit" />
+                    </label>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="grid_8 alpha">
+                    <div class="boxed space-lr space-tb">
+                    <input type="submit" name="extract[]" value="g(send)" class="button" />
+                    <input type="button" name="abort" value="#(toggle_zip)" onclick="anzeigen(2);" class="button" style="width:auto;" />
+                    <input type="submit" name="abort[]" value="g(abort)" class="button" />
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <p>#(hinweis)</p>
+            <div class="clear"></div>
+        </div>
+        <!--##show-->
+
+    </form>
+
+    <script type="text/javascript">
+        jQuery('.buttonset').buttonset()
+        jQuery('.button').button()
+    </script>
+</div>
+
+
+<script type="text/javascript">
+    function anzeigen(index) {
+        if (index==1) {
+            jQuery('#file_edit').toggle('blind',{},500,function(){jQuery('#extract_edit').toggle('blind',{},'slow')});
+        } else {
+            jQuery('#extract_edit').toggle('blind',{},500,function(){jQuery('#file_edit').toggle('blind',{},'slow')});
+        }
+        
+        return false;
+    }
+</script>
+<!--##end-->

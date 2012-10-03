@@ -1,0 +1,136 @@
+<!--$Id: kontakt.tem.html 24 2011-12-15 15:14:03Z krom $-->
+<!--##begin-->
+        <!--##hide-form-->
+        <form method="post" action="!#ausgaben_form_aktion" id="eEd">
+        <!--##show-->
+            <div class="grid_9">
+                <h1>#(ueberschrift)</h1>
+        <!--##hide-success-->
+                <fieldset class="border-all">
+                    <p>#(success)</p>
+                </fieldset>
+        <!--##show-->
+            </div>
+        <!--##hide-form-->
+            <div class="grid_6">
+                <fieldset class="border-all">
+                    <p>Mit * gekennzeichnete Felder sind Pflichtfelder</p>
+        <!--##show-->
+        <!--##hide-form_error-->
+                <ul>
+                    <!--##loop-form_error-->
+                    <li>!{text}</li>
+                    <!--##cont-->
+                </ul>
+        <!--##show-->
+        <!--##hide-form-->
+                    <p>
+                        <label for="name" class="grid_2">#(name)</label>
+                        !#element_name
+                    </p>
+                    <p>
+                        <label for="e-mail" class="grid_2">#(e-mail)</label>
+                        !#element_e-mail
+                    </p>
+                    <p>
+                        <label for="e-mail" class="grid_2">#(telefon)</label>
+                        !#element_telefon
+                    </p>
+                    <p>
+                        <label for="betreff" class="grid_2">#(betreff)</label>
+                        !#element_betreff
+                    </p>
+                    <p>
+                        <label for="email" class="grid_2">#(mitteilung)</label>
+                        !#element_mitteilung
+                    </p>
+                    <input type="hidden" value="!#ausgaben_last_viewed" name="last_viewed" class="" maxlength="50" id="last_viewed"  readonly="true" />
+        <!--##show-->
+        <!--##hide-captcha-->
+                    <p>
+                        <label for="captcha" class="grid_2"><img title="captcha" alt="captcha" src="!{url}" /></label>
+                        <input type="text" value="" name="captcha" class="grid_3 !{class}" id="captcha" />
+                        <input name="captcha_proof" type="hidden" value="!{proof}" class="hidden" />
+                    </p>
+        <!--##show-->
+        <!--##hide-form-->
+                </fieldset>
+                <fieldset class="border-all">
+                    <div class="grid_2">&nbsp;</div>
+                    <div class="grid_3">
+                        <input type="submit" name="send[]" value="g(send)" class="first" />
+                        <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="next" />
+                    </div>
+                    <input name="form_referer" type="hidden" value="!#ausgaben_form_referer" class="hidden" />
+                    <div class="clearer">&nbsp;</div>
+                </fieldset>
+            </div>
+        </form>
+        <div class="grid_3">
+            <div class="border-all space-lr">
+                #(inhalt)
+            </div>
+        </div>
+        <!--##show-->
+        !#ausgaben_inaccessible
+<!--##end-->
+        !#ausgaben_output
+        !#ausgaben_form_error
+
+<div class="clear"></div>
+<form method="post" action="!#ausgaben_form_aktion" id="eEd">
+    <h1>#(ueberschrift)</h1>
+    <p>#(inhalt)</p>
+    <p>!#ausgaben_form_error</p>
+
+    <!--##hide-success-->
+    <p>
+        #(success)
+    </p>
+    <!--##show-->
+    <!--##hide-form-->
+    <fieldset class="cbra">
+        !#element_betreff
+    </fieldset>
+    <fieldset>
+        <label for="firma">g(firma)</label>
+        !#element_firma
+        <label for="branche">g(branche)</label>
+        !#element_branche
+        <label for="ansprechpartner">g(ansprechpartner)</label>
+        !#element_ansprechpartner
+        <label for="strasse">g(strasse)</label>
+        !#element_strasse
+        <label for="plz">g(plz)</label>
+        !#element_plz
+        <label for="ort">g(ort)</label>
+        !#element_ort
+        <label for="telefon">g(telefon)</label>
+        !#element_telefon
+        <label for="fax">g(fax)</label>
+        !#element_fax
+        <label for="e-mail">g(e-mail)</label>
+        !#element_e-mail
+        <label for="mitteilung">g(mitteilung)</label>
+        !#element_mitteilung
+        <label for="last_viewed">g(last_viewed)</label>
+        <input type="text" value="!#ausgaben_last_viewed" name="last_viewed" class="" maxlength="50" id="last_viewed"  readonly="true" />
+        <!--##show-->
+        <!--##hide-captcha-->
+        <label for="captcha"><img title="captcha" alt="captcha" src="!{url}" /></label>
+        <input type="text" value="" name="captcha" class="" id="captcha" />
+        <input name="captcha_proof" type="hidden" value="!{proof}" class="hidden" />
+        <!--##show-->
+        <!--##hide-form-->
+        <p>#(zusatz)</p>
+        <input name="form_referer" type="hidden" value="!#ausgaben_form_referer" class="hidden" />
+        <div class="clearer">&nbsp;</div>
+        <input type="submit" name="send[]" value="g(send)" class="first" />
+        <input type="reset" name="reset" value="g(reset)" class="next" />
+        <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="next" />
+        <div class="clearer">&nbsp;</div>
+    </fieldset>
+        <!--##show-->
+    <p>!#ausgaben_output</p>
+    <p>!#ausgaben_inaccessible</p>
+</form>
