@@ -1,0 +1,110 @@
+<!--$Id: login.tem.html 30 2012-04-18 17:32:59Z krompi $-->
+<!--##begin-->
+
+<div class="grid_9">
+    <h1>Administrationsbereich</h1>
+</div>
+
+<!--##hide-login-->
+<div class="grid_7">
+    <form method="post" action="/auth/admin/bloged/add.html">
+        <input type="submit" name="blog" value="Neuer Eintrag">
+        <input type="hidden" value="/aktuell" name="link">
+        <input type="hidden" value="/aktuell" name="kategorie">
+    </form>
+    <table class="adm-blog-list" cellspacing="0">
+        <thead>
+            <tr>
+                <th style="width:60%">Titel</th>
+                <th style="width:20%">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--##loop-blog_list-->
+            <tr>
+                <td>
+                    <a href="!{link_wiz_edit}"><b>!{titel}</b></a>
+                    <div class="adm-blog-list-aktion">!{aktion}</div>
+                </td>
+                <td>!{datum}<br >!{status}</td>
+            </tr>
+            <!--##cont-->
+        </tbody>
+    </table>
+</div>
+<div id="preview"></div>
+<script type="text/javascript">
+    $('.adm-blog-list td').hover(
+        function() {
+            $(this).find('.adm-blog-list-aktion').show();
+        },
+        function() {
+            $(this).find('.adm-blog-list-aktion').hide();
+        }
+    )
+</script>
+<!--##show-->
+
+
+<!--##hide-authLogin-->
+<div class="">
+    <form method="post" action="!#ausgaben_auth_url">
+        <div class="grid_5 prefix_1">
+            <div class="box border-all ui-corner-all">
+                <h3>#(ueberschrift)</h3>
+                <div class="space-lr">
+                    <input type="hidden" name="form_referer" value="!#ausgaben_form_referer" />
+                    <p>
+                        <label for="user" style="width:100%;">Benutzername</label>
+                        <input type="text" name="user" id="user" style="width:100%;" style="" />
+                    </p>
+                    <p>
+                        <label for="pass" style="width:100%;">Passwort</label>
+                        <input type="password" name="pass" id="pass" style="width:100%;" style="" />
+                    </p>
+                    <p>
+                        <label class="grid_1">&nbsp;</label>
+                        <input type="submit" name="login" style="width:100%;" value="login" />
+                    </p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        </form>
+</div>
+<!--##show-->
+
+<!--##hide-authLogout-->
+<div class="grid_2">
+    <form method="post" action="!#ausgaben_auth_url">
+        <div class="box border-all ui-corner-all">
+            <div class="space-lr">
+                <p>
+                    <input type="submit" name="logout" value="logout" style="width:100%;" />
+                </p>
+<!--##show-->
+
+                <!--##loop-authInPlace-->
+                <a href="!{link}">!{desc}</a><br />
+                <!--##cont-->
+                <br />
+
+                <!--##hide-authTools-->
+                <p>#(desc)<br />
+                <!--##loop-authTools-->
+                <a href="!{url}" title="!{title}">!{label}!{end}</a>
+                <!--##cont-->
+                </p>
+                <!--##show-->
+
+<!--##hide-authLogout-->
+            </div>
+            <div class="clear"></div>
+        </div>
+        </form>
+</div>
+<!--##show-->
+
+
+
+<!--##end-->

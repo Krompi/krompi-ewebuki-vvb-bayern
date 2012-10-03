@@ -1,0 +1,35 @@
+<!--$Id: -2051315182.list.tem.html 15 2011-12-13 09:08:42Z krom $-->
+<!--##begin-->
+
+                <div class="grid_8">
+                    <h1>Archiv der aktuellen Meldungen</h1>
+<!--##hide-inhalt_selector-->
+                    <p class="selektor-info">!#ausgaben_sel_hit von insgesamt !#ausgaben_anzahl Meldungen</p>
+<!--##show-->
+<!--##loop-list-->
+                    <article>
+                        <header class="heading">
+                            <h3>
+                                <span class="meta grid_1 alpha">!{datum}</span>
+                                <a href="!{detaillink}" class="grid_7 omega">!{titel_org}</a>
+                            </h3>
+                            
+                        </header>
+                        <div class="grid_1 alpha" style="overflow:hidden;">
+                            <img src="/file/!{image_img_art}/!{image_img_id}/tn/!{image_img_fname}" alt="!{image_img_under}" class="ui-corner-all" />
+                        </div>
+                        <div class="grid_7 omega">
+                            <p>!{teaser_org}</p>
+                            <p><a href="!{detaillink}">&raquo;mehr</a></p>
+                        </div>
+                        <div class="clear"></div>
+                    </article>
+<!--##cont-->
+<!--##hide-inhalt_selector-->
+                <p class="selektor-trigger">!#ausgaben_inhalt_selector</p>
+<!--##show-->
+                </div>
+
+!#ausgaben_output
+!#ausgaben_inaccessible
+<!--##end-->

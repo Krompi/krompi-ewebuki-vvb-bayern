@@ -1,0 +1,46 @@
+<!--$Id: -939795212.upload.tem.html 789 2007-09-14 12:14:02Z chaot $-->
+<!--##begin-->
+
+<div class="grid_9">
+    <h1>#(ueberschrift)</h1>
+    <form method="post" action="!#ausgaben_form_aktion" enctype="multipart/form-data">
+        <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="">
+            <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                <li class="ui-state-default ui-corner-top">
+                    <a href="list.html">Dateien</a>
+                </li>
+                <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active">
+                    <a>Upload</a>
+                </li>
+            </ul>
+
+            <p>#(file_specs)</p>
+
+            <div class="grid_6">
+                <!--##loop-upload-->
+                <label class="form-label">
+                    <span>#(file)</span>
+                    <input type="file" name="!{name}" />
+                </label>
+                <!--##cont-->
+            </div>
+
+            <div class="grid_6">
+                <input type="hidden" name="form_referer" value="!#ausgaben_form_referer" class="hidden" />
+                <div class="clearer">&nbsp;</div>
+                <input type="submit" name="send[]" value="g(send)" class="button" />
+                <input type="reset" name="reset" value="g(reset)" class="button" />
+                <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="button" />
+                <div class="clearer">&nbsp;</div>
+            </div>
+            
+            <div class="clear"></div>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        jQuery('.buttonset').buttonset()
+        jQuery('.button').button()
+    </script>
+</div>
+<!--##end-->

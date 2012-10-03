@@ -1,0 +1,208 @@
+<!--$Id: -939795212.list.tem.html 1516 2009-01-23 10:05:11Z krompi $-->
+<!--##begin-->
+
+<div class="grid_9">
+    <h1>#(ueberschrift)</h1>
+
+    <form method="get" action="!#ausgaben_form1_aktion" id="">
+        <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="">
+            <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active">
+                    <a>Dateien</a>
+                </li>
+                <li class="ui-state-default ui-corner-top">
+                    <a href="upload.html">Upload</a>
+                </li>
+            </ul>
+
+            <fieldset class="boxed dark-bg ui-corner-all">
+                <div class="grid_2">
+                    <label class="form-label">
+                        <span>#(search)</span>
+                        <input type="text" name="search" value="!#ausgaben_search" class="textfield" />
+                    </label>
+                    <label class="form-label">
+                        <span>#(group)</span>
+                        <select name="filter0" onchange="submit()">
+                            <!--##loop-filter0-->
+                            <option value="!{value}"!{select}>!{label}</option>
+                            <!--##cont-->
+                        </select>
+                    </label>
+                </div>
+                <div class="grid_5">
+                    <div class="buttonset">
+                        <span>anzeigen</span>
+                        <!--##loop-filter_sel-->
+                        <label for="filter_sel_!{value}">!{label}</label>
+                        <input id="filter_sel_!{value}" type="radio" name="filter_sel" value="!{value}"!{check} />
+                        <!--##cont-->
+                    </div>
+                    <div class="buttonset">
+                        <span>Datei-Arten</span>
+                        <!--##loop-mimes-->
+                        <label for="filter_mimes_!{label}">!{label}</label>
+                        <input id="filter_mimes_!{label}" type="checkbox" name="mimes[!{label}]" value="!{label}"!{checked} />
+                        <!--##cont-->
+                    </div>
+                </div>
+                
+                <label class="small">
+                    <input type="submit" class="button" name="send[]" value="g(send)" />
+                </label>
+            </fieldset>
+
+            <!--##hide-empty_search-->
+            <p>#(empty_search)</p>
+            <!--##show-->
+
+            <p class="toolbox">
+
+                <!--##hide-cms-->
+                <span style="display:!{display};float:right;;" id="cms">
+                    &nbsp;<a href="!{link}">g(cmslink)</a>
+                </span>
+                <!--##show-->
+
+                <!--##hide-file-->
+                <span style="display:!{display};float:right;;" id="file">
+                    <a href="!{edit}">#(fileedit)</a>
+                    <a href="!{collect}">#(filecollect)</a>
+                    <a href="!{delete}">#(filedelete)</a>
+                </span>
+                <!--##show-->
+
+                <b>Ansicht: </b>
+                <!--##loop-view-->
+                <a href="!{link}" title="!{title}"><img src="!{icon}" alt="!{title}" /></a>
+                <!--##cont-->
+            <!-- </p> -->
+
+            <!-- <p> -->
+                &nbsp;
+            </p>
+            <p>g(anzahl)!#ausgaben_anzahl</p>
+
+            <!--##hide-list_images-->
+            <div style="clear:both"></div>
+            <ul style="padding: 0;">
+            <!--##show-->
+            <!--##hide-list_ajax-->
+            <!--##loop-list_images-->
+                <li class="thumbs">
+                    <a href="!{ehref}" class="pic"><img src="!{src}" alt="!{alt}" title="!{title} g(edit)" /></a>
+                    <p>
+                        <input type="checkbox" name="sel_pics[!{id}]" value="-1" onclick="session_update(!{id});"!{checked} />
+                        <a rel="lightbox[!{id}]" href="!{ohref_lb}" title="!{title} - Vorschau Original (original)">O</a>
+                        <a rel="lightbox[!{id}]" href="!{bhref_lb}" title="!{title} - Vorschau Gross (big)">B</a>
+                        <a rel="lightbox[!{id}]" href="!{mhref_lb}" title="!{title} - Vorschau Mittel (middle)">M</a>
+                        <a rel="lightbox[!{id}]" href="!{shref_lb}" title="!{title} - Vorschau Klein (small)">S</a>
+                    </p>
+                </li>
+            <!--##cont-->
+            <!--##show-->
+            <!--##hide-list_images-->
+            </ul>
+            <!--##show-->
+
+            <!--##hide-list_other-->
+            <div style="clear:both"></div>
+            <ul style="padding: 0;">
+            <!--##show-->
+            <!--##hide-list_ajax-->
+            <!--##loop-list_other-->
+                <li style="background:!{color};list-style:none;">
+                    <input type="checkbox" name="sel_pics[!{id}]" value="-1" onclick="session_update(!{id});"!{checked} />&nbsp;
+                    <a title="!{title} bearbeiten" href="!{ehref}">
+                        !{title}
+                    </a> [ <a title="Herunterladen (download)" href="!{dhref}">D</a> ]
+                </li>
+            <!--##cont-->
+            <!--##show-->
+            <!--##hide-list_other-->
+            </ul>
+            <!--##show-->
+
+            <!--##hide-list_details_frame-->
+            <div style="clear:both"></div>
+            <table cellpadding="5" style="width:100%;">
+                <thead>
+                    <tr style="background:#A9C0CE;">
+                        <th style="width:5%;"></th>
+                        <th style="width:5%;">ID</th>
+                        <th>Datei-Name</th>
+                        <th style="width:5%;">Typ</th>
+                        <th style="width:5%;">Vorschau</th>
+                        <th style="width:5%;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+            <!--##show-->
+            <!--##hide-list_details_ajax-->
+            <!--##loop-list_files-->
+                    <tr style="background:#EFEFEF;">
+                        <td><input type="checkbox" name="sel_pics[!{id}]" value="-1" onclick="session_update(!{id});"!{checked} /></td>
+                        <td>!{id}</td>
+                        <td>!{title}</td>
+                        <td style="width:5%;">
+                            <img alt="!{kategorie}" title="!{kategorie}" src="!{icon_src}" style="margin:0;float:left;" />
+                        </td>
+                        <td style="white-space:nowrap;">!{aktion}</td>
+                        <td>
+                            <a title="!{title} bearbeiten" href="!{ehref}"><img src="../../images/default/edit.png" style="margin:0;float:left;" /></a>
+                        </td>
+                    </tr>
+            <!--##cont-->
+            <!--##show-->
+            <!--##hide-list_details_frame-->
+                </tbody>
+            </table>
+            <!--##show-->
+
+            <!--##hide-list_symbols_frame-->
+            <div style="clear:both"></div>
+            <ul style="padding: 0;">
+            <!--##show-->
+            <!--##hide-list_symbols_ajax-->
+            <!--##loop-list_files-->
+                <li class="thumbs">
+                    <a href="!{ehref}" class="pic"><img src="!{thumb_src}" alt="!{alt}" title="!{title} g(edit)" /></a>
+                    <p>
+                        <input type="checkbox" name="sel_pics[!{id}]" value="-1" onclick="session_update(!{id});"!{checked} />
+                        !{aktion}
+                    </p>
+                </li>
+
+            <!--##cont-->
+            <!--##show-->
+            <!--##hide-list_symbols_frame-->
+            </ul>
+            <!--##show-->
+
+            <div class="selektor-trigger">!#ausgaben_inhalt_selector</div>
+
+            <div class="clear"></div>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script type="text/javascript">
+    jQuery('.buttonset').buttonset()
+    jQuery('#file a, #cms a, .button').button()
+    function session_update(fileid) {
+        jQuery.ajax({
+            url: './list,,' + fileid + '.html?ajax',
+            success: function( data ) {
+                jQuery('#file').show();
+            },
+            error: function( data ) {
+                jQuery('#file').hide();
+            }
+        })
+    }
+</script>
+
+<!--##end-->

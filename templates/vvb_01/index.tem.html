@@ -1,0 +1,58 @@
+<!--##begin-->
+                <div class="grid_6">
+                    #(inhalt)
+
+                    <!--##loop-news-->
+                    <article>
+                        <header class="heading">
+                            <h2><a href="!{detail}">!{titel}</a></h2>
+                            <p class="meta">!{datum}</p>
+                        </header>
+                        <div class="grid_2 alpha" style="overflow:hidden;">
+                            <a href="!{detail}" title="zum Artikel springen"><img src="!{img_src}" alt="!{img_under}" class="ui-corner-all" /></a>
+                        </div>
+                        <div class="grid_4 omega">
+                            <p>!{teaser}</p>
+                            <p><a href="!{detail}" title="zum Artikel springen">&raquo;mehr</a></p>
+                        </div>
+                        <div class="clear"></div>
+                    </article>
+                    <!--##cont-->
+
+                    <!--##loop-1list-->
+                    <article>
+                        <header class="heading">
+                            <h2><a href="!{detaillink}">!{titel_org}</a></h2>
+                            <p class="meta">!{datum}</p>
+                        </header>
+                        <div class="grid_2 alpha" style="overflow:hidden;">
+                            <a href="!{detaillink}" title="zum Artikel springen"><img src="/file/!{image_img_art}/!{image_img_id}/!{image_img_size}/!{image_img_fname}" alt="!{image_img_under}" class="ui-corner-all" /></a>
+                        </div>
+                        <div class="grid_4 omega">
+                            <p>!{teaser_org}</p>
+                            <p><a href="!{detaillink}" title="zum Artikel springen">&raquo;mehr</a></p>
+                        </div>
+                        <div class="clear"></div>
+                    </article>
+                    <!--##cont-->
+
+                    <p style="text-align: right;"><a href="!#pathvars_virtual/aktuell.html">&raquo; mehr Neuigkeiten im Archiv</a></p>
+
+                </div>
+
+                <div class="grid_3">
+                    <!--##hide-submenu-->
+                    <div class="sub_menu box border-all ui-corner-all">
+                        <h3>Unterpunkte</h3>
+                        <h4>!#ausgaben_pagetitle</h4>
+                        <ul>
+                            <!--##loop-level2-->
+                            <li class="!{class}"><a href="!{link}">!{item}</a></li>
+                            <!--##cont-->
+                        </ul>
+                    </div>
+                    <!--##show-->
+                    #(margin)
+                    #{margin}
+                </div>
+<!--##end-->
