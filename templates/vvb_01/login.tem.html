@@ -15,18 +15,20 @@
     <table class="adm-blog-list" cellspacing="0">
         <thead>
             <tr>
-                <th style="width:60%">Titel</th>
+                <th style="width:10%">Datum</th>
+                <th style="width:50%">Titel</th>
                 <th style="width:20%">Status</th>
             </tr>
         </thead>
         <tbody>
             <!--##loop-blog_list-->
             <tr>
+                <td>!{datum}</td>
                 <td>
                     <a href="!{link_wiz_edit}"><b>!{titel}</b></a>
                     <div class="adm-blog-list-aktion">!{aktion}</div>
                 </td>
-                <td>!{datum}<br >!{status}</td>
+                <td><i title="zuletz geändert: !{changed}">!{changed}</i><br /><b>!{status}</b></td>
             </tr>
             <!--##cont-->
         </tbody>

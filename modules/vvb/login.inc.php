@@ -152,6 +152,11 @@
                     } else {
                         $dataloop["blog_list"][$counter]["datum"] = "---";
                     }
+                    
+                    // changed-Datum
+                    if ( strtotime($data["changed"]) ) {
+                        $dataloop["blog_list"][$counter]["changed"] = date("d.m.Y",strtotime($data["changed"]));
+                    }
 
                     // detail-link
                     preg_match("/\.([0-9]+)$/",$data["tname"],$blog_id);
