@@ -50,7 +50,7 @@
     // Ortsbeauftragter
     if ( preg_match("/^va([0-9]{2})/", $_SESSION["username"], $match) ) {
         $vvb_recht = array(
-            "right" => "show",
+            "right" => array("show"),
             "where" => $cfg["mitglieder"]["db"]["mitglieder"]["va"]."=".$match[1]
         );
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Ortsbeauftragter".$debugging["char"];
@@ -59,7 +59,7 @@
     // Bezirkssprecher
     if ( preg_match("/^bezirk_[a-z]{0,4}/", $_SESSION["username"]) ) {
         $vvb_recht = array(
-            "right" => "show",
+            "right" => array("show"),
             "where" => $cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]."=".$match[1]
         );
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Bezirkssprecher".$debugging["char"];
@@ -68,7 +68,7 @@
     // Schatzmeister
     if ( $_SESSION["username"] == "schatzmeister" ) {
         $vvb_recht = array(
-            "right" => "show",
+            "right" => array("show","import"),
         );
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Schatzmeister".$debugging["char"];
     }
@@ -82,10 +82,12 @@
                AND uid=".$_SESSION["uid"];
     if ( $db->num_rows($db->query($sql)) > 0 ) {
         $vvb_recht = array(
-            "right" => "show",
+            "right" => array("show"),
         );
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Vorstand".$debugging["char"];
     }
+    
+    if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   -".print_r($vvb_recht,true).$debugging["char"];
     
     
 
