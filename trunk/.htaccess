@@ -1,5 +1,5 @@
 # don't forget to load mod_rewrite in apache-config!
-# $Id: .htaccess 15 2011-12-13 09:08:42Z krom $
+# $Id$
 <IfModule mod_rewrite.c>
   RewriteEngine On
   #RewriteBase /
