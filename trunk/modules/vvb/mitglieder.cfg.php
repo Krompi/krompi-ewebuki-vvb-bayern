@@ -68,8 +68,32 @@
                                        "va" => "VA",
                                     "order" => "sort, label",
                                     "rows"  => 4,
+                                      ),
+                       ),
+       "csv_fields" => array(
+           // csv-feld  =>  db-feld
+                         "Mitglieds_Nr"     => "Mitglieds_Nr",
+                         "Anrede"           => "Anrede",
+                         "Vorname"          => "Vorname",
+                         "Nachname"         => "Nachname",
+                         "Straße"           => "Strasse",
+                         "Plz"              => "Plz",
+                         "Ort"              => "Ort",
+                         "Abteilung_1"      => "Eingruppierung",
+                         "Geburtsdatum"     => "Geburtsdatum",
+                         "Bezirk"           => "Bezirk",
+                         "Berufsgruppe"     => "VA",
+                         "Sonstiges_1"      => "Sonstiges_1",
                      ),
-              ),
+         "csv_crypt" => array(
+           // csv-feld  =>  db-feld
+                         "Straße"           => "Strasse",
+                         "Plz"              => "Plz",
+                         "Ort"              => "Ort",
+                         "Abteilung_1"      => "Eingruppierung",
+                         "Geburtsdatum"     => "Geburtsdatum",
+                         "Sonstiges_1"      => "Sonstiges_1",
+                     ),
             "right" => "",
     );
 

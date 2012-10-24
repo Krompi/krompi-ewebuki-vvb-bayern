@@ -16,22 +16,34 @@
                 <div class="grid_6">
                     #(inhalt)
                     
-                    <form>
+                    <form enctype="multipart/form-data" method="POST">
                         <fieldset>
                             <legend>Mitgliedsdaten importieren</legend>
                             <p>
-                                <label>#(num_col)</label>
-                                <input type="text" name="num_col" value="!#ausgaben_num_col" class="small" />
+                                <label class="grid_2">CSV-Datei</label>
+                                <input type="file" name="cvs" />
                             </p>
                             <p>
-                                <label>#(num_row)</label>
-                                <input type="text" name="num_row" value="!#ausgaben_num_row" class="small" />
+                                <label class="grid_2">Trennzeichen</label>
+                                <select name="field_separator" style="width: 50px;">
+                                    <!--##loop-field_separator-->
+                                    <option value="!{label}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
                             </p>
                             <p>
-                                <label>&nbsp;</label>
-                                <input type="submit" name="refresh[]" value="#(refresh)" class="button" />
+                                <label class="grid_2">Texttrenner</label>
+                                <select name="text_separator" style="width: 50px;">
+                                    <!--##loop-text_separator-->
+                                    <option value="!{label}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
                             </p>
                         </fieldset>
+                        
+                        <div class="box">
+                            <button type="submit" name="send[]" value="Abschicken" class="button">Abschicken</button>
+                        </div>
                     </form>
 
                 </div>
