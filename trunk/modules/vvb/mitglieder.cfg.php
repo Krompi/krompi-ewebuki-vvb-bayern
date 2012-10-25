@@ -56,7 +56,7 @@
                      "edit" => array(""),
                    "delete" => array(""),
                   "details" => array(""),
-                   "import" => array(""),
+                   "import" => array("crypt"),
               #"edit,shared" => array("shared1", "shared2"),
               #"edit,global" => array("global1", "global2"),
                        ),
@@ -70,29 +70,59 @@
                                     "rows"  => 4,
                                       ),
                        ),
-       "csv_fields" => array(
-           // csv-feld  =>  db-feld
-                         "Mitglieds_Nr"     => "Mitglieds_Nr",
-                         "Anrede"           => "Anrede",
-                         "Vorname"          => "Vorname",
-                         "Nachname"         => "Nachname",
-                         "Straße"           => "Strasse",
-                         "Plz"              => "Plz",
-                         "Ort"              => "Ort",
-                         "Abteilung_1"      => "Eingruppierung",
-                         "Geburtsdatum"     => "Geburtsdatum",
-                         "Bezirk"           => "Bezirk",
-                         "Berufsgruppe"     => "VA",
-                         "Sonstiges_1"      => "Sonstiges_1",
-                     ),
-         "csv_crypt" => array(
-           // csv-feld  =>  db-feld
-                         "Straße"           => "Strasse",
-                         "Plz"              => "Plz",
-                         "Ort"              => "Ort",
-                         "Abteilung_1"      => "Eingruppierung",
-                         "Geburtsdatum"     => "Geburtsdatum",
-                         "Sonstiges_1"      => "Sonstiges_1",
+      "csv_fields" => array(
+                         "Mitglieds_Nr"     => array(
+                                                    "db"    => "Mitglieds_Nr",
+                                                    "crypt" => FALSE,
+                                               ),
+                         "Anrede"     => array(
+                                                    "db"    => "Anrede",
+                                                    "crypt" => FALSE,
+                                               ),
+                         "Vorname"     => array(
+                                                    "db"    => "Vorname",
+                                                    "crypt" => FALSE,
+                                               ),
+                         "Nachname"     => array(
+                                                    "db"    => "Nachname",
+                                                    "crypt" => FALSE,
+                                               ),
+                         "Straße"     => array(
+                                                    "db"    => "Strasse",
+                                                    "crypt" => TRUE,
+                                               ),
+                         "Plz"     => array(
+                                                    "db"    => "Plz",
+                                                    "crypt" => TRUE,
+                                               ),
+                         "Ort"     => array(
+                                                    "db"    => "Ort",
+                                                    "crypt" => TRUE,
+                                               ),
+                         "Abteilung_1"     => array(
+                                                    "db"    => "Eingruppierung",
+                                                    "crypt" => TRUE,
+                                               ),
+                         "Geburtsdatum"     => array(
+                                                    "db"    => "Geburtsdatum",
+                                                    "crypt" => TRUE,
+                                               ),
+                         "Bezirk"     => array(
+                                                    "db"    => "Bezirk",
+                                                    "crypt" => FALSE,
+                                               ),
+                         "Abteilung_1"     => array(
+                                                    "db"    => "Eingruppierung",
+                                                    "crypt" => TRUE,
+                                               ),
+                         "Berufsgruppe"     => array(
+                                                    "db"    => "VA",
+                                                    "crypt" => FALSE,
+                                               ),
+                         "Sonstiges_1"     => array(
+                                                    "db"    => "Sonstiges_1",
+                                                    "crypt" => TRUE,
+                                               ),
                      ),
             "right" => "",
     );

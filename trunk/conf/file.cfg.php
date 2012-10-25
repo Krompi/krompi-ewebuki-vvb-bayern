@@ -97,7 +97,7 @@
                         "m" => "196:147",
                         "s" => "150",
                        "tn" => "85",
-                      "max" => "", # leer bedeutet, orginal bleibt erhalten
+                      "max" => "1024", # leer bedeutet, orginal bleibt erhalten
                        ),
              "base" => array(
                   "maindir" => $pathvars["fileroot"]."file/",

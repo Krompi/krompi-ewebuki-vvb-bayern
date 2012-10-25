@@ -43,16 +43,27 @@
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+//echo print_r($db->show_columns("auth_member"),true);
+//
+//echo "--".array_search("uid", $db->show_columns("auth_member"));
+//
+//foreach ( $db->show_columns("auth_member") as $field_info ) {
+//    echo $field_info["Field"]." --> ".$field_info["Type"]."\n";
+//
+//    foreach ( $cfg["mitglieder"]["csv_fields"] as $csv_field => $value ) {
+//        if ( $field_info["Field"] == $value[""] )
+//    }
+//
+//}
+
+
+
+
+
+
     if ( in_array("import",$vvb_recht["right"]) ) {
 
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "[ ** ".$script["name"]." ** ]".$debugging["char"];
@@ -75,7 +86,7 @@
             );
         }
         // =====================================================================
-        
+
 
         // Dropdown Text Separator
         // =====================================================================
@@ -95,67 +106,73 @@
             );
         }
         // =====================================================================
-        
-        
+
+
         // Hochgeladene CSV-Datei abarbeiten
         // =====================================================================
         if ( count($_FILES) > 0 ) {
             if (($handle = fopen($_FILES["cvs"]["tmp_name"], "r")) !== FALSE) {
                 $i = 0;
                 $field_indizes = array();
+                $sql_array = array();
                 // Zeilenweise einlesen
                 while (($data = fgetcsv($handle, 2000, $_POST["field_separator"], $_POST["text_separator"])) !== FALSE) {
-                    
+
                     if ( $i == 0 ) {
                         // Zeile mit Spalten-Ueberschriften einlesen
                         // -----------------------------------------------------
-                        
+
                         foreach ( $data as $key=>$field ) {
-                            // es sollen nur die in der Config bestimmten 
+                            // es sollen nur die in der Config bestimmten
                             // Spalten geholt werden
                             if ( $cfg["mitglieder"]["csv_fields"][$field] != "" ) {
                                 $field_indizes[$key] = $field;
                             }
                         }
-                        
+
                         // -----------------------------------------------------
                     } else {
                         // Daten einlesen und SQL vorbereiten
                         // -----------------------------------------------------
-                        
-                        $sql_array = array();
+
 
                         foreach ( $field_indizes as $key=>$field_name ) {
-                            
+
                             // DB-Spalten namen
-                            $sql_array[$i]["field"][] = $cfg["mitglieder"]["csv_fields"][$field_name];
-                            
+                            $sql_array[$i]["field"][] = $cfg["mitglieder"]["csv_fields"][$field_name]["db"];
+
                             // DB-Eintraege
-                            if ( $cfg["mitglieder"]["csv_crypt"][$field_name] != "" ) {
+                            if ( $cfg["mitglieder"]["csv_fields"][$field_name]["crypt"] == TRUE ) {
                                 // manche eintraege sollen verschluesselt werden
-                                $sql_array[$i]["value"][] = mcrypt_encrypt(
-                                                                MCRYPT_RIJNDAEL_256, 
-                                                                $specialvars["crypt_salt"], 
-                                                                $data[$key], 
-                                                                MCRYPT_MODE_ECB
-                                                            );
+                                $sql_array[$i]["value"][] = vvb_encrypt( $data[$key] );
                             } else {
                                 $sql_array[$i]["value"][] = $data[$key];
                             }
-                        }       
-                        
+                        }
+
                         // -----------------------------------------------------
                     }
                     $i++;
-                    
-                    
+
+
                 }
-                fclose($handle);       
+                fclose($handle);
 
             }
         }
+echo print_r($sql_array,true);
 
-        
+        // SQL zusammenbauen
+        if ( count($sql_array) > 0 ) {
+            foreach ( $sql_array as $value ) {
+                $buffer = array();
+                foreach ( $value["field"] as $key=>$field ) {
+//                    $buffer
+                }
+            }
+        }
+
+
         // navigation erstellen
         $ausgaben["link_new"] = $cfg["leer"]["basis"]."/add.html";
 
@@ -181,7 +198,7 @@
 
         // +++
         // page basics
-        
+
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "[ ++ ".$script["name"]." ++ ]".$debugging["char"];
 
     } else {

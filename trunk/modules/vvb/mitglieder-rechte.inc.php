@@ -45,8 +45,8 @@
 
     if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "[ ** ".$script["name"]." ** ]".$debugging["char"];
 
-    echo print_r($_SESSION,true);
-    
+//    echo print_r($_SESSION,true);
+
     // Ortsbeauftragter
     if ( preg_match("/^va([0-9]{2})/", $_SESSION["username"], $match) ) {
         $vvb_recht = array(
@@ -55,7 +55,7 @@
         );
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Ortsbeauftragter".$debugging["char"];
     }
-    
+
     // Bezirkssprecher
     if ( preg_match("/^bezirk_[a-z]{0,4}/", $_SESSION["username"]) ) {
         $vvb_recht = array(
@@ -64,7 +64,7 @@
         );
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Bezirkssprecher".$debugging["char"];
     }
-    
+
     // Schatzmeister
     if ( $_SESSION["username"] == "schatzmeister" ) {
         $vvb_recht = array(
@@ -72,13 +72,13 @@
         );
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Schatzmeister".$debugging["char"];
     }
-    
+
     // Vorstand
-    $sql = "SELECT * 
+    $sql = "SELECT *
               FROM auth_member as member
               JOIN auth_group as gruppe
                 ON (member.gid=gruppe.gid)
-             WHERE ggroup='vorstand' 
+             WHERE ggroup='vorstand'
                AND uid=".$_SESSION["uid"];
     if ( $db->num_rows($db->query($sql)) > 0 ) {
         $vvb_recht = array(
@@ -86,10 +86,10 @@
         );
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Vorstand".$debugging["char"];
     }
-    
+
     if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   -".print_r($vvb_recht,true).$debugging["char"];
-    
-    
+
+
 
     if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "[ ++ ".$script["name"]." ++ ]".$debugging["char"];
 
