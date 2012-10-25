@@ -254,7 +254,7 @@
                                    "b" => "big",
                                    "o" => "original",
                         ),
-                   "max_num" => 5
+                   "max_num" => 4
                 ),
 
          "tab_edit" => array(

@@ -104,9 +104,9 @@
                           FROM site_text
                          WHERE tname like '".eCRC($url).".%"."'
                            AND status<>0
-                           AND SUBSTRING(content,POSITION('[".$cfg["bloged"]["blogs"][$url]["category"]."]' IN content),POSITION('[/".$cfg["bloged"]["blogs"][$url]["category"]."]' IN content)-POSITION('[".$cfg["bloged"]["blogs"][$url]["category"]."]' IN content)) ='[".$cfg["bloged"]["blogs"][$url]["category"]."]".$url."'
+                 --          AND SUBSTRING(content,POSITION('[".$cfg["bloged"]["blogs"][$url]["category"]."]' IN content),POSITION('[/".$cfg["bloged"]["blogs"][$url]["category"]."]' IN content)-POSITION('[".$cfg["bloged"]["blogs"][$url]["category"]."]' IN content)) ='[".$cfg["bloged"]["blogs"][$url]["category"]."]".$url."'
                          GROUP by tname, version
-                      ORDER BY date DESC, tname desc, version desc";
+                      ORDER BY changed DESC, tname desc, version desc";
                 if ( $debugging["sql_enable"] ) $debugging["ausgabe"] .= " * sql: ".$sql.$debugging["char"];
 
 //echo $where."\n";
@@ -152,7 +152,7 @@
                     } else {
                         $dataloop["blog_list"][$counter]["datum"] = "---";
                     }
-                    
+
                     // changed-Datum
                     if ( strtotime($data["changed"]) ) {
                         $dataloop["blog_list"][$counter]["changed"] = date("d.m.Y",strtotime($data["changed"]));
