@@ -46,19 +46,6 @@
 
 
 
-//echo print_r($db->show_columns("auth_member"),true);
-//
-//echo "--".array_search("uid", $db->show_columns("auth_member"));
-//
-//foreach ( $db->show_columns("auth_member") as $field_info ) {
-//    echo $field_info["Field"]." --> ".$field_info["Type"]."\n";
-//
-//    foreach ( $cfg["mitglieder"]["csv_fields"] as $csv_field => $value ) {
-//        if ( $field_info["Field"] == $value[""] )
-//    }
-//
-//}
-
 
 
 
@@ -112,6 +99,29 @@
         // =====================================================================
         if ( count($_FILES) > 0 ) {
             if (($handle = fopen($_FILES["cvs"]["tmp_name"], "r")) !== FALSE) {
+                
+                // Datenbank-Felder durchgehene und den Typ in die 
+                // zu importierenden Felder einfuegen
+                foreach ( $db->show_columns($cfg["mitglieder"]["db"]["mitglieder"]["entries"]) as $field_info ) {
+
+                    foreach ( $cfg["mitglieder"]["csv_fields"] as $csv_field => $value ) {
+
+                        if ( $field_info["Field"] == $value["db"] ) {
+                            if ( strstr($field_info["Type"],"int") ) {
+                                $cfg["mitglieder"]["csv_fields"][$csv_field]["type"] = "int";
+                            } else {
+                                // standard ist text
+                                $cfg["mitglieder"]["csv_fields"][$csv_field]["type"] = "text";
+                            }
+                            break;
+                        }
+                    }
+                }
+                
+                define("PASSPHRASE", $specialvars["crypt_salt"]);
+                $Encrypt = new Encryption();
+
+                
                 $i = 0;
                 $field_indizes = array();
                 $sql_array = array();
@@ -139,16 +149,32 @@
                         foreach ( $field_indizes as $key=>$field_name ) {
 
                             // DB-Spalten namen
-                            $sql_array[$i]["field"][] = $cfg["mitglieder"]["csv_fields"][$field_name]["db"];
+                            $sql_array[$i]["field"][$key] = $cfg["mitglieder"]["csv_fields"][$field_name]["db"];
 
                             // DB-Eintraege
                             if ( $cfg["mitglieder"]["csv_fields"][$field_name]["crypt"] == TRUE ) {
                                 // manche eintraege sollen verschluesselt werden
-                                $sql_array[$i]["value"][] = vvb_encrypt( $data[$key] );
+                                $sql_array[$i]["value"][$key] = $db->doSlashes($Encrypt->encode( $data[$key] ));
+                            } else {    
+                                $sql_array[$i]["value"][$key] = $db->doSlashes($data[$key]);
+                            }
+//                            $sql_array[$i]["value"][$key] = $db->doSlashes($data[$key]);
+                            if ( $cfg["mitglieder"]["csv_fields"][$field_name]["type"] == "text" ) {
+                                $sql_array[$i]["value"][$key] = "'".$sql_array[$i]["value"][$key]."'";
                             } else {
-                                $sql_array[$i]["value"][] = $data[$key];
+                                
                             }
                         }
+                        
+                        
+                        // TODO: Amtzuweisung
+                        // TODO: Aussenstellenzuweisug
+                        
+                        
+                        
+                        
+                        
+                        
 
                         // -----------------------------------------------------
                     }
@@ -160,17 +186,41 @@
 
             }
         }
-echo print_r($sql_array,true);
 
         // SQL zusammenbauen
         if ( count($sql_array) > 0 ) {
+
+            
+            
+            // TODO: Sicherung der akuellen Eintraege in eine Tabelle db_mitglieder_log
+            
+            
+            
+            
+            $sql = "DELETE FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].";";
+            $result  = $db -> query($sql);
+            if ( !$result ) echo  $db -> error("FEHLER");
+            
             foreach ( $sql_array as $value ) {
-                $buffer = array();
-                foreach ( $value["field"] as $key=>$field ) {
-//                    $buffer
-                }
+                $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]." 
+                                               (".implode(",
+                                                ",$value["field"]).")
+                                        VALUES (".implode(",
+                                                ",$value["value"]).");";
+echo "$sql\n";
+                $result  = $db -> query($sql);
+                if ( !$result ) echo  $db -> error("FEHLER");
             }
+            
+            
+            
+            
+            
+            
         }
+
+
+        
 
 
         // navigation erstellen

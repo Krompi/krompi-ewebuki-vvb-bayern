@@ -52,6 +52,7 @@
                         "b" => "#ffffff",
                        ),
          "function" => array(
+                     "list" => array("crypt"),
                       "add" => array(""),
                      "edit" => array(""),
                    "delete" => array(""),
@@ -92,7 +93,7 @@
                                                     "crypt" => TRUE,
                                                ),
                          "Plz"     => array(
-                                                    "db"    => "Plz",
+                                                    "db"    => "PLZ",
                                                     "crypt" => TRUE,
                                                ),
                          "Ort"     => array(
