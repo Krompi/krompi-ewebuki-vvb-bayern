@@ -13,14 +13,10 @@
                     #{margin}
                 </div>
 
-                <div class="grid_6">
+                <div class="grid_8">
                     #(inhalt)
                     
-                    <!--##hide-error-->
-                    !{text}
-                    <!--##show-->
-                    
-                    <form enctype="multipart/form-data" method="POST">
+                    <form enctype="multipart/form-data" method="POST" style="display: none;">
                         <fieldset>
                             <legend>Mitgliedsdaten importieren</legend>
                             <p>
@@ -49,6 +45,32 @@
                             <button type="submit" name="send[]" value="Abschicken" class="button">Abschicken</button>
                         </div>
                     </form>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;">Nr</th>
+                                <th>Nachname</th>
+                                <th>Vorname</th>
+                                <th>Eingruppierung</th>
+                                <th>Bezirk</th>
+                                <th>VA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--##loop-list-->
+                            <tr>
+                                <td>!{Mitglieds_Nr}</td>
+                                <td>!{Vorname}</td>
+                                <td>!{Nachname}</td>
+                                <td>!{Eingruppierung}</td>
+                                <td>!{Bezirk}</td>
+                                <td style="white-space: nowrap;">!{VA_text}</td>
+                            </tr>
+                            <!--##cont-->
+                        </tbody>
+                    </table>
+                    
 
                 </div>
 
