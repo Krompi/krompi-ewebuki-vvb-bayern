@@ -68,7 +68,19 @@
                                    "bezirk" => "Bezirk",
                                        "va" => "VA",
                                     "order" => "sort, label",
-                                    "rows"  => 4,
+                                    "rows"  => 25,
+                                      ),
+                       "import_log" => array(
+                                  "entries" => "db_mitglieder_log",
+                                     "time" => "timestamp",
+                                  "content" => "content",
+                                      ),
+                       "aemter"     => array(
+                                  "entries" => "db_aemter",
+                                      "akz" => "kennzahl",
+                                      "typ" => "typ",
+                                     "name" => "name",
+                                   "parent" => "parent",
                                       ),
                        ),
       "csv_fields" => array(
@@ -112,10 +124,6 @@
                                                     "db"    => "Bezirk",
                                                     "crypt" => FALSE,
                                                ),
-                         "Abteilung_1"     => array(
-                                                    "db"    => "Eingruppierung",
-                                                    "crypt" => TRUE,
-                                               ),
                          "Berufsgruppe"     => array(
                                                     "db"    => "VA",
                                                     "crypt" => FALSE,
@@ -124,7 +132,27 @@
                                                     "db"    => "Sonstiges_1",
                                                     "crypt" => TRUE,
                                                ),
+                         "Aussenstelle"    => array(
+                                                    "db"    => "Aussenstelle",
+                                                    "crypt" => FALSE,
+                                               ),
+                         "VA_text"         => array(
+                                                    "db"    => "VA_text",
+                                                    "crypt" => FALSE,
+                                               ),
                      ),
+         "kataloge" => array(
+                         "bezirke"         => array(
+                                                   "ufr" => "Unterfranken",
+                                                   "mfr" => "Mittelfranken",
+                                                   "ofr" => "Oberfranken",
+                                                   "sch" => "Schwaben",
+                                                   "obb" => "Oberbayern",
+                                                   "opf" => "Oberpfalz",
+                                                   "nb"  => "Niederbayern",
+                                              )
+                     ),
+       "import_log" => FALSE,
             "right" => "",
     );
 

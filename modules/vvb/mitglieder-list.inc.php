@@ -47,16 +47,17 @@
 
         // funktions bereich
         // ***
-                
+               
+        // Verschluesselung vorbereiten
+        // ---------------------------------------------------------------------
         define("PASSPHRASE", $specialvars["crypt_salt"]);
         $Encrypt = new Encryption();
+        // ---------------------------------------------------------------------
+        
         
 
-        /* z.B. db query */
-
         $sql = "SELECT *
-                  FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
-                 WHERE 1=1";
+                  FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"];
         if ( $debugging["sql_enable"] ) $debugging["ausgabe"] .= "sql: ".$sql.$debugging["char"];
 
         // seiten umschalter
@@ -79,12 +80,18 @@
             
             foreach ( $cfg["mitglieder"]["csv_fields"] as $field_info ) {
                 if ( $field_info["crypt"] == TRUE ) {
-//echo "hallo\n";
                     $dataloop["list"][$index][$field_info["db"]] = $Encrypt->decode($data[$field_info["db"]]);
                 } else {
                     $dataloop["list"][$index][$field_info["db"]] = $data[$field_info["db"]];
                 }
+                
+                // Daten veredeln
+                if ( $field_info["db"] == "Bezirk" ) {
+                    $dataloop["list"][$index][$field_info["db"]] = $cfg["mitglieder"]["kataloge"]["bezirke"][$data[$field_info["db"]]];
+                }
             }
+            
+            
 
             // wie im einfachen modul k�nnten nur die marken !{0}, !{1} befuellt werden
             #$dataloop["list"][$data["id"]][0] = $data["field1"];
@@ -116,7 +123,7 @@
 
         // was anzeigen
         $cfg["mitglieder"]["path"] = str_replace($pathvars["virtual"],"",$cfg["mitglieder"]["basis"]);
-        $mapping["main"] = eCRC($cfg["mitglieder"]["path"]).".list";
+        $mapping["main"] = "mitglieder-list";
         #$mapping["navi"] = "leer";
 
         // unzugaengliche #(marken) sichtbar machen
