@@ -89,7 +89,7 @@
                 "sel"   => $sel,
             );
         }
-        ksort($dataloop["dienststelle"]);
+        if (is_array($dataloop["dienststelle"])) ksort($dataloop["dienststelle"]);
         // ---------------------------------------------------------------------
         
         
@@ -119,7 +119,7 @@
                 "sel"   => $sel,
             );
         }
-        ksort($dataloop["eingruppierung"]);
+        if (is_array($dataloop["eingruppierung"])) ksort($dataloop["eingruppierung"]);
         // ---------------------------------------------------------------------
         
         
