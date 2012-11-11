@@ -200,7 +200,7 @@
                         foreach ( $data as $key=>$field ) {
                             // es sollen nur die in der Config bestimmten
                             // Spalten geholt werden
-                            if ( $_POST["encoding"] != "UTF-8" ) $field = iconv($_POST["encoding"], "UTF-8", $field);  
+                            if ( $_POST["encoding"] != $cfg["mitglieder"]["encoding"] ) $field = iconv($_POST["encoding"], $cfg["mitglieder"]["encoding"], $field);  
                             if ( $cfg["mitglieder"]["csv_fields"][$field] != "" ) {
                                 $field_indizes[$key] = $field;
                                     
@@ -215,7 +215,7 @@
                         foreach ( $field_indizes as $key=>$field_name ) {
                             
                             
-                            if ( $_POST["encoding"] != "UTF-8" ) $data[$key] = iconv($_POST["encoding"], "UTF-8", $data[$key]);    
+                            if ( $_POST["encoding"] != $cfg["mitglieder"]["encoding"] ) $data[$key] = iconv($_POST["encoding"], $cfg["mitglieder"]["encoding"], $data[$key]);    
 
                             // DB-Spalten namen
                             $sql_array[$i]["field"][$key] = $cfg["mitglieder"]["csv_fields"][$field_name]["db"];
@@ -223,13 +223,13 @@
                             // DB-Eintraege
                             if ( $cfg["mitglieder"]["csv_fields"][$field_name]["crypt"] == TRUE ) {
                                 // manche eintraege sollen verschluesselt werden
-                                $sql_array[$i]["value"][$key] = $db->doSlashes($Encrypt->encode( $data[$key] ));
+                                $sql_array[$i]["value"][$key] = addslashes($Encrypt->encode( $data[$key] ));
                             } else {    
-                                $sql_array[$i]["value"][$key] = $db->doSlashes($data[$key]);
+                                $sql_array[$i]["value"][$key] = addslashes($data[$key]);
                             }
-//                            $sql_array[$i]["value"][$key] = $db->doSlashes($data[$key]);
+//                            $sql_array[$i]["value"][$key] = addslashes($data[$key]);
                             if ( $cfg["mitglieder"]["csv_fields"][$field_name]["type"] == "text" ) {
-                                $sql_array[$i]["value"][$key] = "'".$db->doSlashes($sql_array[$i]["value"][$key])."'";
+                                $sql_array[$i]["value"][$key] = "'".addslashes($sql_array[$i]["value"][$key])."'";
                             } elseif ( $cfg["mitglieder"]["csv_fields"][$field_name]["type"] == "int" ) {
                                 $sql_array[$i]["value"][$key] = (integer)$sql_array[$i]["value"][$key];
                             } else {

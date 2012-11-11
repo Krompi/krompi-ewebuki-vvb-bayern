@@ -46,9 +46,10 @@
     if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "[ ** ".$script["name"]." ** ]".$debugging["char"];
 
 //    echo print_r($_SESSION,true);
-    $_SESSION["username"] = "schatzmeister";
+//    $_SESSION["username"] = "schatzmeister";
 //    $_SESSION["username"] = "va64";
 //    $_SESSION["username"] = "bezirk_sch";
+    $vvb_recht = array("right" => array());
 
     // Ortsbeauftragter
     if ( preg_match("/^va([0-9]{2})/", $_SESSION["username"], $match) ) {

@@ -177,7 +177,7 @@
                                         ".$cfg["mitglieder"]["db"]["import_log"]["count"].",
                                         ".$cfg["mitglieder"]["db"]["import_log"]["active"].")
                                 VALUES ('".$log_date."',
-                                        '".$db->doSlashes(serialize($member_data))."',
+                                        '".addslashes(serialize($member_data))."',
                                         ".count($member_data).",
                                         -1)";
                     $result  = $db -> query($sql);

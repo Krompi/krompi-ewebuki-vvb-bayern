@@ -158,6 +158,7 @@
                                               )
                      ),
        "import_log" => TRUE,
+         "encoding" => "iso-8859-15",
             "right" => "",
     );
 
