@@ -1,0 +1,123 @@
+@import "screen";
+@import "grid";
+@import "jquery-ui";
+@import "slimbox2";
+
+
+// OWN MIXINS
+@mixin clearfix {
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+        visibility: hidden;
+        line-height: 0;
+        height: 0;
+    }
+}
+
+
+
+// Liste fuer das Mitglieds-Log
+// =============================================================================
+
+// VARIABLES
+$border-radius     : 4px;
+$edit-box-width    : 150px;
+$color-border      : #647687;
+$color-delete      : #fa6800;
+$bg-button-label   : #BDC8CD;
+$bg-button-delete  : #DD3300;
+$bg-button-insert  : #2BA040;
+$bg-button-confirm : #9AD6F3;
+
+
+.list-editable {
+    list-style: none;
+    margin: 1em 0;
+    padding: 0;
+
+    li {
+        border: 1px solid $color-border;
+        margin: 3px 0;
+        padding: 0 ($edit-box-width+10px) 0 30px;
+        position: relative;
+        min-height: 60px;
+        @include clearfix;
+        .list-label {
+            display: inline-block;
+            padding: 5px 0;
+            line-height: 25px;
+        }
+        .edit-box {
+            transition: all 0.3s ease-in;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            font-weight: bold;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            border-left: 1px solid $color-border;
+            .edit-button-wrap {
+                border-bottom: 1px solid $color-border;
+                height: 50%;
+                span {
+                    border-bottom: 1px solid $color-border;
+                    display: block;
+                    position: absolute;
+                    width: 100%;
+                    height: 50%;
+                    text-align: center;
+                    line-height: 30px;
+                    cursor: pointer;
+
+                    &.edit-label {
+                        background: $bg-button-label;
+                        z-index: 10;
+                    }
+
+                    &.insert {
+                        background: $bg-button-insert;
+                        color: #ffffff;
+                    }
+
+                    &.delete {
+                        background: $bg-button-delete;
+                        color: #ffffff;
+                    }
+
+                    &.edit-confirm {
+                        background: $bg-button-confirm;
+                        color: #666666;
+                        z-index: 5;
+                    }
+
+                }
+                &:last-child {
+                    span {
+                        border-width: 0;
+                    }
+                }
+            }
+        }
+        &:hover {
+            .edit-box {
+                opacity:1;
+                width: $edit-box-width;
+            }
+        }
+        &.active {
+            background: #CAE6F4;
+            
+            &:hover {
+                .edit-box {
+                    opacity:0;
+                    width: 0;
+                }
+            }
+        }
+    }
+}
+// =============================================================================

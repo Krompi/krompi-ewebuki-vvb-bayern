@@ -126,6 +126,135 @@
             }
         }
     }
+    
+    
+    if ( in_array("sql_insert", $cfg["mitglieder"]["function"][$environment["kategorie"]]) ) {
+        
+        function insert_member_data($member_data, $timestamp = FALSE) {
+            global $db, $cfg;
+            
+            $error = "";
+            
+            // SQL in log-tabelle speichern
+            // -----------------------------------------------------------------
+            if ( $cfg["mitglieder"]["import_log"] == TRUE ) {
+                
+                // TODO: evtl. log-speicherung wieder aus Funktion rausnehmen
+                
+                
+                $log_date = date("U");
+                if ( $timestamp != FALSE ) {
+                    
+                    // gibt es einen Datensatz mit diesem Timestamp
+                    $sql = "SELECT * 
+                              FROM ".$cfg["mitglieder"]["db"]["import_log"]["entries"]." 
+                             WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$timestamp."";
+                    $result  = $db -> query($sql);
+                    if ( $db->num_rows($result) > 0 ) {
+                        // Daten holen
+                        $data = $db -> fetch_array($result,1);
+                        $member_data = unserialize($data[$cfg["mitglieder"]["db"]["import_log"]["content"]]);
+                        // Log auf aktive schalten
+                        $sql = "UPDATE ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
+                                   SET ".$cfg["mitglieder"]["db"]["import_log"]["active"]."=-1,
+                                       ".$cfg["mitglieder"]["db"]["import_log"]["count"]."=".count($member_data)."
+                                 WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$timestamp;
+//echo $sql."\n";
+                        $result  = $db -> query($sql);
+                        // alle anderen auf inaktive schalten
+                        $sql = "UPDATE ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
+                                   SET ".$cfg["mitglieder"]["db"]["import_log"]["active"]."=0
+                                 WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."<>".$timestamp;
+//echo $sql."\n";
+                        $result  = $db -> query($sql);
+                    }
+                } else {
+                    
+                    // neuen Datensatz einfuegen
+                    $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
+                                        (".$cfg["mitglieder"]["db"]["import_log"]["time"].",
+                                        ".$cfg["mitglieder"]["db"]["import_log"]["content"].",
+                                        ".$cfg["mitglieder"]["db"]["import_log"]["count"].",
+                                        ".$cfg["mitglieder"]["db"]["import_log"]["active"].")
+                                VALUES ('".$log_date."',
+                                        '".$db->doSlashes(serialize($member_data))."',
+                                        ".count($member_data).",
+                                        -1)";
+                    $result  = $db -> query($sql);
+                    if ( !$result ) {
+                        $error = $db -> error("FEHLER");
+                    } else {
+                        $sql = "UPDATE ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
+                                   SET ".$cfg["mitglieder"]["db"]["import_log"]["active"]."=0
+                                 WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."<>".$log_date;
+                        $result  = $db -> query($sql);
+                    }
+                    
+                }
+                
+            }
+//            // -----------------------------------------------------------------
+//echo print_r($member_data,true);
+//exit;
+            
+            
+            // Daten einfuegen
+            // -----------------------------------------------------------------
+            if ( $error == "" ) {
+                $start = array_sum(explode(' ', microtime()));
+                $sql_tmp_array = array();
+
+                // Transaktion vorbereiten
+                $sql = "BEGIN;";
+                $sql_tmp_array[] = "BEGIN;";
+                $result  = $db -> query($sql);
+
+                // Tabelle loeschen
+                $sql = "DELETE FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].";";
+                $sql_tmp_array[] = "DELETE FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].";";
+                $result  = $db -> query($sql);
+                if ( !$result ) {
+                    $error = $db -> error("FEHLER");
+                }
+
+                if ( $error == "" ) {
+                    // Neue Daten einfuegen
+                    foreach ( $member_data as $value ) {
+                        $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]." 
+                                                    (".implode(",
+                                                        ",$value["field"]).")
+                                                VALUES (".implode(",
+                                                        ",$value["value"]).");";
+                        $sql_tmp_array[] = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]." 
+                                                    (".implode(",
+                                                        ",$value["field"]).")
+                                                VALUES (".implode(",
+                                                        ",$value["value"]).");";
+                        $result  = $db -> query($sql);
+                        if ( !$result ) {
+                            $error = $db -> error("FEHLER");
+                            break;
+                        }
+                    }
+                }
+
+                // Transaktion durchfuehren
+                if ( $error == "" ) {
+                    $sql = "COMMIT;";
+                    $sql_tmp_array[] = "COMMIT;";
+                    $result  = $db -> query($sql);
+                }
+//echo implode("\n",$sql_tmp_array)."\n";
+                $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
+                if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * Infos in DB geschrieben in           ".$exec_time." Sekunden".$debugging["char"];
+            }
+            // -----------------------------------------------------------------
+            
+            return $error;
+            
+        }
+        
+    }
 
     ### platz fuer weitere funktionen ###
 

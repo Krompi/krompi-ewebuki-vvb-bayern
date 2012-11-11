@@ -55,18 +55,132 @@
         // ---------------------------------------------------------------------
         
         
+        // WHERE-Abfrage vorbereiten
+        // ---------------------------------------------------------------------
+        $where_array = array();
+        $where = "";
+        // ---------------------------------------------------------------------
+        
+        
+        // DROPDOWN: Dienststellen
+        // ---------------------------------------------------------------------
+        $sql = "SELECT DISTINCT ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"].",
+                                ".$cfg["mitglieder"]["db"]["mitglieder"]["va"]."
+                           FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"];
+        if ( $vvb_recht["where"] != "" ) {
+            $sql .= "
+                          WHERE ".$vvb_recht["where"];
+        }
+        $result = $db -> query($sql);
+        while ( $data = $db -> fetch_array($result,1) ) {
+            
+            if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] == "" )      continue;
+            if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]] == "" ) continue;
+            
+            if ( $_GET["dienststelle"] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] ) {
+                $sel = "selected=\"true\"";
+                $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."'";
+            } else {
+                $sel = "";
+            }
+            $dataloop["dienststelle"][$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]]] = array(
+                "label" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]],
+                "value" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]],
+                "sel"   => $sel,
+            );
+        }
+        ksort($dataloop["dienststelle"]);
+        // ---------------------------------------------------------------------
+        
+        
+        // DROPDOWN: Eingruppierung
+        // ---------------------------------------------------------------------
+        $sql = "SELECT DISTINCT ".$cfg["mitglieder"]["db"]["mitglieder"]["gruppe"]."
+                           FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"];
+        if ( $vvb_recht["where"] != "" ) {
+            $sql .= "
+                          WHERE ".$vvb_recht["where"];
+        }
+        $result = $db -> query($sql);
+        while ( $data = $db -> fetch_array($result,1) ) {
+            
+            $gruppe = $Encrypt->decode($data[$cfg["mitglieder"]["db"]["mitglieder"]["gruppe"]]);
+            
+            if ( $gruppe == "" ) continue;
+            if ( $_GET["eingruppierung"] == $gruppe ) {
+                $sel = "selected=\"true\"";
+                $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["gruppe"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["gruppe"]]."'";
+            } else {
+                $sel = "";
+            }
+            $dataloop["eingruppierung"][$gruppe] = array(
+                "label" => $gruppe,
+                "value" => $gruppe,
+                "sel"   => $sel,
+            );
+        }
+        ksort($dataloop["eingruppierung"]);
+        // ---------------------------------------------------------------------
+        
+        
+        // DROPDOWN: Eingruppierung
+        // ---------------------------------------------------------------------
+        foreach ( $cfg["mitglieder"]["kataloge"]["bezirke"] as $key=>$value ) {
+            if ( $_GET["bezirk"] == $key ) {
+                $sel = "selected=\"true\"";
+                $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]."='".$key."'";
+            } else {
+                $sel = "";
+            }
+            $dataloop["bezirk"][$key] = array(
+                "label" => $value,
+                "value" => $key,
+                "sel"   => $sel,
+            );
+        }
+        ksort($dataloop["bezirk"]);
+        // ---------------------------------------------------------------------
+        
+        
+        // WHERE-Abfrage zusammenbauen
+        // ---------------------------------------------------------------------
+        if ( $vvb_recht["where"] != "" ) {
+            $where_array[] = $vvb_recht["where"];
+        }
+        if ( count($where_array) > 0 ) {
+            $where = "
+                 WHERE ".implode(" 
+                   AND ",$where_array);
+        }
+        // ---------------------------------------------------------------------
+      
+        
+        // Sortierunge
+        // ---------------------------------------------------------------------
+        $order = $cfg["mitglieder"]["db"]["mitglieder"]["order"];
+        // ---------------------------------------------------------------------
+        
 
         $sql = "SELECT *
-                  FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"];
+                  FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].
+                       $where."
+              ORDER BY ".$order;
         if ( $debugging["sql_enable"] ) $debugging["ausgabe"] .= "sql: ".$sql.$debugging["char"];
 
         // seiten umschalter
         $inhalt_selector = inhalt_selector( $sql, $environment["parameter"][1], $cfg["mitglieder"]["db"]["mitglieder"]["rows"], $parameter, 1, 3, $getvalues );
         $ausgaben["inhalt_selector"] = $inhalt_selector[0]."<br />";
-        $sql = $inhalt_selector[1];
+        if ( $environment["parameter"][1] != "csv" ) $sql = $inhalt_selector[1];
         $ausgaben["anzahl"] = $inhalt_selector[2];
 
         $result = $db -> query($sql);
+        $arr_ind = 1; 
+        
+        if ( $environment["parameter"][1] == "csv" ) {
+            $csv_array = array();
+        }
+        
+        
         while ( $data = $db -> fetch_array($result,1) ) {
 
             // platz fuer vorbereitungen hier z.B.tabellen farben wechseln
@@ -89,8 +203,12 @@
                 if ( $field_info["db"] == "Bezirk" ) {
                     $dataloop["list"][$index][$field_info["db"]] = $cfg["mitglieder"]["kataloge"]["bezirke"][$data[$field_info["db"]]];
                 }
+                
+                if ( $environment["parameter"][1] == "csv" ) {
+                    $csv_array[$index][] = $dataloop["list"][$index][$field_info["db"]];
+                }
+                
             }
-            
             
 
             // wie im einfachen modul k�nnten nur die marken !{0}, !{1} befuellt werden
@@ -98,6 +216,25 @@
             #$dataloop["list"][$data["id"]][1] = $data["field2"];
 
             // der uebersicht halber fuellt das erweiterte modul aber einzeln benannte marken
+        }
+        
+        
+        if ( $environment["parameter"][1] == "csv" ) {
+            
+            $array = arraY();
+            foreach ( $cfg["mitglieder"]["csv_fields"] as $field_info ) {
+                $array[] = $field_info["db"];
+            }
+            array_unshift($csv_array,$array);
+            
+            foreach ($csv_array as $key => $fields) {
+                $csv_array[$key] = trim(implode(";",$fields)."\n");
+            }
+            
+            header('Content-type: text/csv');
+            header('Content-Disposition: attachment; filename="vvb_mitglied_export_'.date("y-m-d").'"');
+            echo implode("\n",$csv_array);
+            exit;
         }
         // +++
         // funktions bereich
@@ -117,6 +254,8 @@
 
         // navigation erstellen
         $ausgaben["link_new"] = $cfg["mitglieder"]["basis"]."/add.html";
+//echo "<pre>".print_r($_SERVER,true)."</pre>";
+        $ausgaben["link_csv"] = $cfg["mitglieder"]["basis"]."/list,csv.html?".$_SERVER["QUERY_STRING"];
 
         // hidden values
         #$ausgaben["form_hidden"] .= "";
