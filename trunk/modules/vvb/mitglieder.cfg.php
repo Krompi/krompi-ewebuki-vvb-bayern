@@ -57,7 +57,8 @@
                      "edit" => array(""),
                    "delete" => array(""),
                   "details" => array(""),
-                   "import" => array("crypt"),
+                   "import" => array("crypt","sql_insert"),
+               "import-log" => array("crypt","sql_insert"),
               #"edit,shared" => array("shared1", "shared2"),
               #"edit,global" => array("global1", "global2"),
                        ),
@@ -66,14 +67,18 @@
                                   "entries" => "db_mitglieder",
                                       "key" => "Mitglieds_Nr",
                                    "bezirk" => "Bezirk",
+                                   "gruppe" => "Eingruppierung",
                                        "va" => "VA",
-                                    "order" => "sort, label",
+                                  "va_text" => "VA_text",
+                                    "order" => "VA_text, Nachname, Vorname",
                                     "rows"  => 25,
                                       ),
                        "import_log" => array(
                                   "entries" => "db_mitglieder_log",
                                      "time" => "timestamp",
                                   "content" => "content",
+                                    "count" => "count",
+                                   "active" => "active",
                                       ),
                        "aemter"     => array(
                                   "entries" => "db_aemter",
@@ -152,7 +157,7 @@
                                                    "nb"  => "Niederbayern",
                                               )
                      ),
-       "import_log" => FALSE,
+       "import_log" => TRUE,
             "right" => "",
     );
 

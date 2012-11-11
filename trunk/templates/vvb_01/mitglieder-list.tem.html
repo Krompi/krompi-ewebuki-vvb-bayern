@@ -16,34 +16,49 @@
                 <div class="grid_8">
                     #(inhalt)
                     
-                    <form enctype="multipart/form-data" method="POST" style="display: none;">
+                    <form method="GET" style="">
                         <fieldset>
-                            <legend>Mitgliedsdaten importieren</legend>
+                            <legend>Ergebnis filtern</legend>
                             <p>
-                                <label class="grid_2">CSV-Datei</label>
-                                <input type="file" name="cvs" />
-                            </p>
-                            <p>
-                                <label class="grid_2">Trennzeichen</label>
-                                <select name="field_separator" style="width: 50px;">
-                                    <!--##loop-field_separator-->
-                                    <option value="!{label}"!{sel}>!{label}</option>
+                                <label class="grid_2">Eingruppierung</label>
+                                <select name="eingruppierung" class="grid_2">
+                                    <option >bitte w&auml;hlen</option>
+                                    <!--##loop-eingruppierung-->
+                                    <option value="!{value}"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
                             </p>
                             <p>
-                                <label class="grid_2">Texttrenner</label>
-                                <select name="text_separator" style="width: 50px;">
-                                    <!--##loop-text_separator-->
-                                    <option value="!{label}"!{sel}>!{label}</option>
+                                <label class="grid_2">Bezirk</label>
+                                <select name="bezirk" class="grid_2">
+                                    <option >bitte w&auml;hlen</option>
+                                    <!--##loop-bezirk-->
+                                    <option value="!{value}"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
                             </p>
+                            <p>
+                                <label class="grid_2">Dienststelle</label>
+                                <select name="dienststelle" class="grid_2">
+                                    <option >bitte w&auml;hlen</option>
+                                    <!--##loop-dienststelle-->
+                                    <option value="!{value}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
+                            </p>
+                            <p>
+                                <label class="grid_2">&nbsp;</label>
+                                <button type="submit" name="send[]" value="Abschicken" class="button grid_2">Abschicken</button>
+                            </p>
+                            
                         </fieldset>
                         
-                        <div class="box">
-                            <button type="submit" name="send[]" value="Abschicken" class="button">Abschicken</button>
-                        </div>
+                        <fieldset>
+                            <legend>Daten exportieren</legend>
+                        
+                            <a href="!#ausgaben_link_csv" target="_blank">CSV</a>
+                        </fieldset>
+                        
                     </form>
                     
                     <table>
@@ -70,6 +85,10 @@
                             <!--##cont-->
                         </tbody>
                     </table>
+                    
+                    <p>
+                        !#ausgaben_inhalt_selector
+                    </p>
                     
 
                 </div>

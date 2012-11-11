@@ -1,0 +1,110 @@
+<!--##begin-->
+                <div class="grid_2">
+                    <!--##hide-submenu-->
+                    <div class="sub_menu border-all">
+                        <ul>
+                            <!--##loop-level2-->
+                            <li class="!{class}"><a href="!{link}">!{item}</a></li>
+                            <!--##cont-->
+                        </ul>
+                    </div>
+                    <!--##show-->
+                    #(margin)
+                    #{margin}
+                </div>
+
+                <div class="grid_6">
+                    #(inhalt)
+                    
+                    <ul class="list-editable sortable" style="width: 100%;">
+                        <!--##loop-log_list-->
+                        <li class="!{class}">
+                            <span class="list-label">
+                                <b>importiert am !{datum} um !{zeit}</b><br />
+                                !{count} Mitglieder
+                            </span>
+                            <div class="edit-box">
+                                <div class="edit-button-wrap">
+                                <span class="edit-label insert">einlesen</span>
+                                <span class="edit-confirm insert-confirm" data-date="!{stamp}">bestätigen</span>
+                                </div>
+                                <div class="edit-button-wrap">
+                                <span class="edit-label delete">löschen</span>
+                                <span class="edit-confirm delete-confirm" data-date="!{stamp}">bestätigen?</span>
+                                </div>
+                            </div>
+                        </li>
+                        <!--##cont-->
+                    </ul>
+                    
+                    
+                </div>
+
+                <script type="text/javascript">
+                    // Bestaetigen-Buttonn anzeigen
+                    jQuery('.list-editable .edit-box .edit-label').click(function(){
+                        jQuery(this).animate(
+                            {'width': '0'},
+                            function(){
+                                jQuery(this).hide()
+                            }
+                        );
+                    })
+                    // aktivierungs-button druecken
+                    jQuery('.list-editable .edit-box .insert-confirm').click(function(){
+
+                        var li_element = jQuery(this);
+
+                        jQuery.ajax(
+                            '!#pathvars_requested',
+                            {
+                                type: 'POST',
+                                data: {
+                                    'ajax': 'insert-data',
+                                    'data': jQuery(this).attr('data-date')
+                                },
+                                success: function() { 
+                                    jQuery('.list-editable li').removeClass('active');
+                                    li_element.closest('li').addClass('active');
+                                },
+                                error: function() { 
+                                    alert('Fehler beim Datenimport');
+                                }
+                            }
+                        )
+
+                    })
+                    // loeschen-button druecken
+                    jQuery('.list-editable .edit-box .delete-confirm').click(function(){
+
+                        var li_element = jQuery(this);
+
+                        jQuery.ajax(
+                            '!#pathvars_requested',
+                            {
+                                type: 'POST',
+                                data: {
+                                    'ajax': 'delete-data',
+                                    'data': jQuery(this).attr('data-date')
+                                },
+                                success: function() { 
+                                    li_element.closest('li').remove();
+                                },
+                                error: function() { 
+                                    alert('Fehler beim Löschen des eintrages');
+                                }
+                            }
+                        )
+
+                    })
+
+                    jQuery('.list-editable .edit-button-wrap').hover(
+                        function(){
+                        },
+                        function(){
+                            jQuery(this).find('.edit-label').show().animate({'width': '100%'});
+                        }
+                    )
+                </script>
+
+<!--##end-->

@@ -17,10 +17,20 @@
                     #(inhalt)
                     
                     <!--##hide-error-->
-                    !{text}
+                    <p class="error">!{text}</p>
                     <!--##show-->
                     
                     <form enctype="multipart/form-data" method="POST">
+                    
+                        <!--##hide-success-->
+                        <fieldset>
+                            <h3>Import erfolgreich!</h3>
+                            <p>
+                                Es wurden !{count} Datensätze importiert.
+                            </p>
+                        </fieldset>
+                        <!--##show-->
+                    
                         <fieldset>
                             <legend>Mitgliedsdaten importieren</legend>
                             <p>
@@ -39,6 +49,14 @@
                                 <label class="grid_2">Texttrenner</label>
                                 <select name="text_separator" style="width: 50px;">
                                     <!--##loop-text_separator-->
+                                    <option value="!{label}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
+                            </p>
+                            <p>
+                                <label class="grid_2">Zeichensatz</label>
+                                <select name="encoding" style="width: 150px;">
+                                    <!--##loop-encoding-->
                                     <option value="!{label}"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>

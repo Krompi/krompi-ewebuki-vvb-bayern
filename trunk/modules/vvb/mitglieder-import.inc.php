@@ -90,6 +90,26 @@
         // =====================================================================
 
 
+        // Dropdown Encodig
+        // =====================================================================
+        $array_encoding = array("ISO-8859-15","WIN-1252","UTF-8");
+        $i = 0;
+        foreach ( $array_encoding as $encoding ) {
+            $selected = "";
+            if ( $_POST["encoding"] != "" ) {
+                if ( $_POST["encoding"] == $encoding ) $selected = " selected=\"true\"";
+            } elseif ( $i == 0 ) {
+                $selected = " selected=\"true\"";
+            }
+            $i++;
+            $dataloop["encoding"][] = array(
+                "label" => $encoding,
+                "sel"   => $selected
+            );
+        }
+        // =====================================================================
+
+
         // Hochgeladene CSV-Datei abarbeiten
         // =====================================================================
         if ( count($_FILES) > 0 ) {
@@ -113,11 +133,19 @@
                 if ( $debugging["sql_enable"] ) $debugging["ausgabe"] .= "   - sql: ".$sql.$debugging["char"];
                 $result = $db -> query($sql);
                 while ( $data = $db -> fetch_array($result,1) ) {
-                    if ( $data[$cfg["mitglieder"]["db"]["aemter"]["parent"]]  != "") {
-                        $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["parent"]]]." - Au&szlig;enstelle ".$data[$cfg["mitglieder"]["db"]["aemter"]["name"]]."";
-                        $array_aemter_parent[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = $data[$cfg["mitglieder"]["db"]["aemter"]["parent"]];
+                    if ( $data[$cfg["mitglieder"]["db"]["aemter"]["typ"]]  == "StMF" ) {
+                        // StMF
+                        $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = "StMF";
+                    } elseif ( $data[$cfg["mitglieder"]["db"]["aemter"]["typ"]]  == "LVG" ) {
+                        // LVG-Abteilungen
+                        $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = $data[$cfg["mitglieder"]["db"]["aemter"]["name"]];
                     } else {
-                        $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = "VA ".$data[$cfg["mitglieder"]["db"]["aemter"]["name"]];
+                        if ( $data[$cfg["mitglieder"]["db"]["aemter"]["parent"]]  != "") {
+                            $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["parent"]]]." - Au&szlig;enstelle ".$data[$cfg["mitglieder"]["db"]["aemter"]["name"]]."";
+                            $array_aemter_parent[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = $data[$cfg["mitglieder"]["db"]["aemter"]["parent"]];
+                        } else {
+                            $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = "VA ".$data[$cfg["mitglieder"]["db"]["aemter"]["name"]];
+                        }
                     }
                 }
                 $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
@@ -172,18 +200,22 @@
                         foreach ( $data as $key=>$field ) {
                             // es sollen nur die in der Config bestimmten
                             // Spalten geholt werden
+                            if ( $_POST["encoding"] != "UTF-8" ) $field = iconv($_POST["encoding"], "UTF-8", $field);  
                             if ( $cfg["mitglieder"]["csv_fields"][$field] != "" ) {
                                 $field_indizes[$key] = $field;
-                            }
+                                    
+                            } 
                         }
 
                         // -----------------------------------------------------
                     } else {
                         // Daten einlesen und SQL vorbereiten
                         // -----------------------------------------------------
-
-
+                        
                         foreach ( $field_indizes as $key=>$field_name ) {
+                            
+                            
+                            if ( $_POST["encoding"] != "UTF-8" ) $data[$key] = iconv($_POST["encoding"], "UTF-8", $data[$key]);    
 
                             // DB-Spalten namen
                             $sql_array[$i]["field"][$key] = $cfg["mitglieder"]["csv_fields"][$field_name]["db"];
@@ -197,7 +229,9 @@
                             }
 //                            $sql_array[$i]["value"][$key] = $db->doSlashes($data[$key]);
                             if ( $cfg["mitglieder"]["csv_fields"][$field_name]["type"] == "text" ) {
-                                $sql_array[$i]["value"][$key] = "'".$sql_array[$i]["value"][$key]."'";
+                                $sql_array[$i]["value"][$key] = "'".$db->doSlashes($sql_array[$i]["value"][$key])."'";
+                            } elseif ( $cfg["mitglieder"]["csv_fields"][$field_name]["type"] == "int" ) {
+                                $sql_array[$i]["value"][$key] = (integer)$sql_array[$i]["value"][$key];
                             } else {
                                 
                             }
@@ -206,7 +240,7 @@
                         // amtskennzahl suchen
                         $field_amt = array_search( "Berufsgruppe", $field_indizes);
                         // amtskennzahl wird in Form gebracht
-                        $akz = str_pad($data[$field_amt], 2, "0", 0);
+                        $akz = $data[$field_amt];
                         
                         // ist es eine aussenstelle
                         if ( $array_aemter_parent[$akz] != "" ) {
@@ -235,79 +269,17 @@
         }
 
         
-
-        
-        
-        
-        
-        
         
         // SQL zusammenbauen
         if ( count($sql_array) > 0 ) {
+            
             // Fehlermanagement
-            $error = "";
-            
-            
-            // SQL in log-tabelle speichern
-            // -----------------------------------------------------------------
-            if ( $cfg["mitglieder"]["import_log"] == TRUE ) {
-                $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
-                                    (".$cfg["mitglieder"]["db"]["import_log"]["time"].",
-                                    ".$cfg["mitglieder"]["db"]["import_log"]["content"].")
-                            VALUES ('".date("U")."',
-                                    '".$db->doSlashes(serialize($sql_array))."')";
-                $result  = $db -> query($sql);
-                if ( !$result ) {
-                    $error = $db -> error("FEHLER");
-                }
-            }
-            // -----------------------------------------------------------------
-            
-            
-            // Daten einfuegen
-            // -----------------------------------------------------------------
-            if ( $error == "" ) {
-                $start = array_sum(explode(' ', microtime()));
-
-                // Transaktion vorbereiten
-                $sql = "BEGIN;";
-                $result  = $db -> query($sql);
-
-                // Tabelle loeschen
-                $sql = "DELETE FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].";";
-                $result  = $db -> query($sql);
-                if ( !$result ) {
-                    $error = $db -> error("FEHLER");
-                }
-
-                if ( $error == "" ) {
-                    // Neue Daten einfuegen
-                    foreach ( $sql_array as $value ) {
-                        $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]." 
-                                                    (".implode(",
-                                                        ",$value["field"]).")
-                                                VALUES (".implode(",
-                                                        ",$value["value"]).");";
-                        $result  = $db -> query($sql);
-                        if ( !$result ) {
-                            $error = $db -> error("FEHLER");
-                            break;
-                        }
-                    }
-                }
-
-                // Transaktion durchfuehren
-                if ( $error == "" ) {
-                    $sql = "COMMIT;";
-                    $result  = $db -> query($sql);
-                }
-                $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
-                if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * Infos in DB geschrieben in           ".$exec_time." Sekunden".$debugging["char"];
-            }
-            // -----------------------------------------------------------------
+            $error = insert_member_data($sql_array);
             
             if ( $error != "" ) {
                 $hidedata["error"]["text"] = $error;
+            } else {
+                $hidedata["success"]["count"] = count($sql_array);
             }
             
         }
