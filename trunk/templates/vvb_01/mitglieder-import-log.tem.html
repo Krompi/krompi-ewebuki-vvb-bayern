@@ -1,19 +1,15 @@
 <!--##begin-->
-                <div class="grid_2">
-                    <!--##hide-submenu-->
-                    <div class="sub_menu border-all">
-                        <ul>
-                            <!--##loop-level2-->
-                            <li class="!{class}"><a href="!{link}">!{item}</a></li>
-                            <!--##cont-->
-                        </ul>
-                    </div>
+                <div class="grid_8">
+                    <h1>Übersicht der Mitglieder-Importe</h1>
+                    
+                    <!--##hide-right_import-->
+                    <p style="text-align: right;">
+                        <!--##loop-mitglieder_links-->
+                        | <a href="!{link}">!{label}</a>
+                        <!--##cont-->
+                    </p>
                     <!--##show-->
-                    #(margin)
-                    #{margin}
-                </div>
-
-                <div class="grid_6">
+                    
                     #(inhalt)
                     
                     <ul class="list-editable sortable" style="width: 100%;">

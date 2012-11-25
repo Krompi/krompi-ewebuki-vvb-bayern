@@ -1,19 +1,15 @@
 <!--##begin-->
-                <div class="grid_2">
-                    <!--##hide-submenu-->
-                    <div class="sub_menu border-all">
-                        <ul>
-                            <!--##loop-level2-->
-                            <li class="!{class}"><a href="!{link}">!{item}</a></li>
-                            <!--##cont-->
-                        </ul>
-                    </div>
+                <div class="grid_8">
+                    <h1>Mitglieder-Import</h1>
+                    
+                    <!--##hide-right_import-->
+                    <p style="text-align: right;">
+                        <!--##loop-mitglieder_links-->
+                        | <a href="!{link}">!{label}</a>
+                        <!--##cont-->
+                    </p>
                     <!--##show-->
-                    #(margin)
-                    #{margin}
-                </div>
-
-                <div class="grid_6">
+                    
                     #(inhalt)
                     
                     <!--##hide-error-->
@@ -36,30 +32,6 @@
                             <p>
                                 <label class="grid_2">CSV-Datei</label>
                                 <input type="file" name="cvs" />
-                            </p>
-                            <p>
-                                <label class="grid_2">Trennzeichen</label>
-                                <select name="field_separator" style="width: 50px;">
-                                    <!--##loop-field_separator-->
-                                    <option value="!{label}"!{sel}>!{label}</option>
-                                    <!--##cont-->
-                                </select>
-                            </p>
-                            <p>
-                                <label class="grid_2">Texttrenner</label>
-                                <select name="text_separator" style="width: 50px;">
-                                    <!--##loop-text_separator-->
-                                    <option value="!{label}"!{sel}>!{label}</option>
-                                    <!--##cont-->
-                                </select>
-                            </p>
-                            <p>
-                                <label class="grid_2">Zeichensatz</label>
-                                <select name="encoding" style="width: 150px;">
-                                    <!--##loop-encoding-->
-                                    <option value="!{label}"!{sel}>!{label}</option>
-                                    <!--##cont-->
-                                </select>
                             </p>
                         </fieldset>
                         

@@ -53,6 +53,30 @@
         define("PASSPHRASE", $specialvars["crypt_salt"]);
         $Encrypt = new Encryption();
         // ---------------------------------------------------------------------
+
+        
+        // Berechtigung
+        // ---------------------------------------------------------------------
+        if ( $vvb_recht["group"] == "schatz" ) {
+            $hidedata["right_import"] = array();
+            // Import
+            $dataloop["mitglieder_links"][] = array(
+                "link"  => $cfg["mitglieder"]["basis"]."/import.html",
+                "label" => "Import",
+            );
+            // Log
+            $dataloop["mitglieder_links"][] = array(
+                "link"  => $cfg["mitglieder"]["basis"]."/import-log.html",
+                "label" => "Import-Log",
+            );  
+        } elseif ( $vvb_recht["group"] == "vorstand" ) {
+            $hidedata["right_vorstand"] = array();
+        } elseif ( $vvb_recht["group"] == "ort" ) {
+            $hidedata["right_ort"] = array();
+        } elseif ( $vvb_recht["group"] == "bezirk" ) {
+            $hidedata["right_bezirk"] = array();
+        }
+        // ---------------------------------------------------------------------
         
         
         // WHERE-Abfrage vorbereiten

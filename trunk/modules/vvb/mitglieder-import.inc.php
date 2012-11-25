@@ -50,6 +50,25 @@
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= $debugging["char"]."[ <b>** ".$script["name"]." **</b> ]".$debugging["char"];
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * ".$debugging["char"];
 
+        
+        // Mitglied-Import-Berechtigung
+        // ---------------------------------------------------------------------
+        if (in_array("import", $vvb_recht["right"]) ) {
+            $hidedata["right_import"] = array();
+            // Import
+            $dataloop["mitglieder_links"][] = array(
+                "link"  => $cfg["mitglieder"]["basis"]."/list.html",
+                "label" => "Liste",
+            );
+            // Log
+            $dataloop["mitglieder_links"][] = array(
+                "link"  => $cfg["mitglieder"]["basis"]."/import-log.html",
+                "label" => "Import-Log",
+            );  
+        }
+        // ---------------------------------------------------------------------
+        
+
         // Dropdown Field Separator
         // =====================================================================
         $array_field_sep = array(";",",");
@@ -113,6 +132,27 @@
         // Hochgeladene CSV-Datei abarbeiten
         // =====================================================================
         if ( count($_FILES) > 0 ) {
+           
+//echo "<pre>";
+            // Feld- und Text-Trenner rausfinden
+            // -----------------------------------------------------------------
+            if (($handle = fopen($_FILES["cvs"]["tmp_name"], "r")) !== FALSE) {
+                $line = fgets($handle,1024);
+
+                // Feld-Trenner
+                if ( count(explode(",",$line)) > 1 ) $field_separator = ",";
+                if ( count(explode(";",$line)) > 1 ) $field_separator = ";";
+
+                // Text-Trenner
+                $text_separator = " ";
+                if (substr( trim($line) , 0, 1) == "\"" ) $text_separator = "\"";
+                if (substr( trim($line) , 0, 1) == "'" ) $text_separator = "'";
+
+                fclose($handle);
+            }
+            // -----------------------------------------------------------------
+                    
+            
             if (($handle = fopen($_FILES["cvs"]["tmp_name"], "r")) !== FALSE) {
                 // Datenimport starten
                 $start_file_import = array_sum(explode(' ', microtime()));
@@ -131,6 +171,7 @@
                         FROM ".$cfg["mitglieder"]["db"]["aemter"]["entries"]."
                     ORDER BY ".$cfg["mitglieder"]["db"]["aemter"]["parent"];
                 if ( $debugging["sql_enable"] ) $debugging["ausgabe"] .= "   - sql: ".$sql.$debugging["char"];
+                
                 $result = $db -> query($sql);
                 while ( $data = $db -> fetch_array($result,1) ) {
                     if ( $data[$cfg["mitglieder"]["db"]["aemter"]["typ"]]  == "StMF" ) {
@@ -141,13 +182,16 @@
                         $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = $data[$cfg["mitglieder"]["db"]["aemter"]["name"]];
                     } else {
                         if ( $data[$cfg["mitglieder"]["db"]["aemter"]["parent"]]  != "") {
+                            // aemter
                             $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["parent"]]]." - Au&szlig;enstelle ".$data[$cfg["mitglieder"]["db"]["aemter"]["name"]]."";
+                            // zuordnung hauptamt-aussenstelle
                             $array_aemter_parent[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = $data[$cfg["mitglieder"]["db"]["aemter"]["parent"]];
                         } else {
                             $array_aemter[$data[$cfg["mitglieder"]["db"]["aemter"]["akz"]]] = "VA ".$data[$cfg["mitglieder"]["db"]["aemter"]["name"]];
                         }
                     }
                 }
+                if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  *  Dienststellen-Array: ".print_r($array_aemter,true).$debugging["char"];
                 $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * Aemterinfos gepuffert in             ".$exec_time." Sekunden".$debugging["char"];
                 // -------------------------------------------------------------
@@ -174,13 +218,17 @@
                         }
                     }
                 }
+                if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  *  Feldtypen-Array: ".print_r($db_field_types,true).$debugging["char"];
                 $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].": Feldtypen geholt in   ".$exec_time." Sekunden".$debugging["char"];
                 // -------------------------------------------------------------
                 
                 
+                // verschlüsseleung vorbereiten
+                // -------------------------------------------------------------
                 define("PASSPHRASE", $specialvars["crypt_salt"]);
                 $Encrypt = new Encryption();
+                // -------------------------------------------------------------
 
                 
                 $i = 0;
@@ -191,43 +239,48 @@
                 // Zeilenweise einlesen
                 // -------------------------------------------------------------
                 $start = array_sum(explode(' ', microtime()));
-                while (($data = fgetcsv($handle, 2000, $_POST["field_separator"], $_POST["text_separator"])) !== FALSE) {
+                
+                
+                while (($data = fgetcsv($handle, 2000, $field_separator, $text_separator)) !== FALSE) {
 
                     if ( $i == 0 ) {
                         // Zeile mit Spalten-Ueberschriften einlesen
                         // -----------------------------------------------------
-
                         foreach ( $data as $key=>$field ) {
-                            // es sollen nur die in der Config bestimmten
-                            // Spalten geholt werden
-                            if ( $_POST["encoding"] != $cfg["mitglieder"]["encoding"] ) $field = iconv($_POST["encoding"], $cfg["mitglieder"]["encoding"], $field);  
+                            // zeichensatz-konvertierung
+                            mb_convert_variables("UTF-8", "ISO-8859-15,Windows-1251Windows-1252", $field);
+                            // es sollen nur die in der Config bestimmten Spalten geholt werden
                             if ( $cfg["mitglieder"]["csv_fields"][$field] != "" ) {
+                                // array schreiben
                                 $field_indizes[$key] = $field;
                                     
                             } 
                         }
-
-                        // -----------------------------------------------------
-                    } else {
-                        // Daten einlesen und SQL vorbereiten
+                        if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  *  zu holende Spalten: ".print_r($field_indizes,true).$debugging["char"];
                         // -----------------------------------------------------
                         
+                    } else {
+//} elseif ( (int)$data["0"] == "1165" || (int)$data["0"] == "747" || (int)$data["0"] == "1138" ) {
+
+                        // Daten einlesen und SQL vorbereiten
+                        // -----------------------------------------------------
                         foreach ( $field_indizes as $key=>$field_name ) {
                             
+                            // zeichensatz-konvertierung
+                            mb_convert_variables("UTF-8", "ISO-8859-15,Windows-1251Windows-1252", $data[$key]);
                             
-                            if ( $_POST["encoding"] != $cfg["mitglieder"]["encoding"] ) $data[$key] = iconv($_POST["encoding"], $cfg["mitglieder"]["encoding"], $data[$key]);    
-
                             // DB-Spalten namen
                             $sql_array[$i]["field"][$key] = $cfg["mitglieder"]["csv_fields"][$field_name]["db"];
 
-                            // DB-Eintraege
+                            // manche eintraege sollen verschluesselt werden
                             if ( $cfg["mitglieder"]["csv_fields"][$field_name]["crypt"] == TRUE ) {
                                 // manche eintraege sollen verschluesselt werden
                                 $sql_array[$i]["value"][$key] = addslashes($Encrypt->encode( $data[$key] ));
                             } else {    
                                 $sql_array[$i]["value"][$key] = addslashes($data[$key]);
                             }
-//                            $sql_array[$i]["value"][$key] = addslashes($data[$key]);
+                            
+                            // ausgabe an Dateityp anpassen
                             if ( $cfg["mitglieder"]["csv_fields"][$field_name]["type"] == "text" ) {
                                 $sql_array[$i]["value"][$key] = "'".addslashes($sql_array[$i]["value"][$key])."'";
                             } elseif ( $cfg["mitglieder"]["csv_fields"][$field_name]["type"] == "int" ) {
@@ -239,8 +292,12 @@
                         
                         // amtskennzahl suchen
                         $field_amt = array_search( "Berufsgruppe", $field_indizes);
+//echo print_r($field_indizes,true);
+//echo "field_amt: ".$field_amt."\n";
                         // amtskennzahl wird in Form gebracht
-                        $akz = $data[$field_amt];
+                        $akz = (int)$data[$field_amt];
+//echo $akz."\n";
+//echo $array_aemter[$akz]."\n";
                         
                         // ist es eine aussenstelle
                         if ( $array_aemter_parent[$akz] != "" ) {
@@ -267,14 +324,18 @@
 
             }
         }
+//echo print_r($sql_array,true);
+//echo "<pre>";
+//exit;
 
         
         
         // SQL zusammenbauen
         if ( count($sql_array) > 0 ) {
             
-            // Fehlermanagement
+            // Daten einlesen und Fehlermanagement
             $error = insert_member_data($sql_array);
+//exit;
             
             if ( $error != "" ) {
                 $hidedata["error"]["text"] = $error;
@@ -283,6 +344,7 @@
             }
             
         }
+//echo "</pre>";
 
 
         

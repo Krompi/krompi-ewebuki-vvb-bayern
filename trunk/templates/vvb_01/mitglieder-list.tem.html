@@ -1,21 +1,18 @@
 <!--##begin-->
-                <div class="grid_2">
-                    <!--##hide-submenu-->
-                    <div class="sub_menu border-all">
-                        <ul>
-                            <!--##loop-level2-->
-                            <li class="!{class}"><a href="!{link}">!{item}</a></li>
-                            <!--##cont-->
-                        </ul>
-                    </div>
-                    <!--##show-->
-                    #(margin)
-                    #{margin}
-                </div>
-
                 <div class="grid_8">
+                    <h1>Mitglieder-Liste</h1>
+                    
+                    <!--##hide-right_import-->
+                    <p style="text-align: right;">
+                        <!--##loop-mitglieder_links-->
+                        | <a href="!{link}">!{label}</a>
+                        <!--##cont-->
+                    </p>
+                    <!--##show-->
+                    
                     #(inhalt)
                     
+                    <!--##hide-right_import-->
                     <form method="GET" style="">
                         <fieldset>
                             <legend>Ergebnis filtern</legend>
@@ -60,13 +57,127 @@
                         </fieldset>
                         
                     </form>
+                    <!--##show-->
+                    
+                    <!--##hide-right_vorstand-->
+                    <form method="GET" style="">
+                        <fieldset>
+                            <legend>Ergebnis filtern</legend>
+                            <p>
+                                <label class="grid_2">Eingruppierung</label>
+                                <select name="eingruppierung" class="grid_2">
+                                    <option >bitte w&auml;hlen</option>
+                                    <!--##loop-eingruppierung-->
+                                    <option value="!{value}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
+                            </p>
+                            <p>
+                                <label class="grid_2">Bezirk</label>
+                                <select name="bezirk" class="grid_2">
+                                    <option >bitte w&auml;hlen</option>
+                                    <!--##loop-bezirk-->
+                                    <option value="!{value}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
+                            </p>
+                            <p>
+                                <label class="grid_2">Dienststelle</label>
+                                <select name="dienststelle" class="grid_2">
+                                    <option >bitte w&auml;hlen</option>
+                                    <!--##loop-dienststelle-->
+                                    <option value="!{value}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
+                            </p>
+                            <p>
+                                <label class="grid_2">&nbsp;</label>
+                                <button type="submit" name="send[]" value="Abschicken" class="button grid_2">Abschicken</button>
+                            </p>
+                            
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend>Daten exportieren</legend>
+                        
+                            <a href="!#ausgaben_link_csv" target="_blank">CSV</a>
+                        </fieldset>
+                        
+                    </form>
+                    <!--##show-->
+                    
+                    <!--##hide-right_bezirk-->
+                    <form method="GET" style="">
+                        <fieldset>
+                            <legend>Ergebnis filtern</legend>
+                            <p>
+                                <label class="grid_2">Eingruppierung</label>
+                                <select name="eingruppierung" class="grid_2">
+                                    <option >bitte w&auml;hlen</option>
+                                    <!--##loop-eingruppierung-->
+                                    <option value="!{value}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
+                            </p>
+                            <p>
+                                <label class="grid_2">Dienststelle</label>
+                                <select name="dienststelle" class="grid_2">
+                                    <option >bitte w&auml;hlen</option>
+                                    <!--##loop-dienststelle-->
+                                    <option value="!{value}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
+                            </p>
+                            <p>
+                                <label class="grid_2">&nbsp;</label>
+                                <button type="submit" name="send[]" value="Abschicken" class="button grid_2">Abschicken</button>
+                            </p>
+                            
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend>Daten exportieren</legend>
+                        
+                            <a href="!#ausgaben_link_csv" target="_blank">CSV</a>
+                        </fieldset>
+                        
+                    </form>
+                    <!--##show-->
+                    
+                    <!--##hide-right_ort-->
+                    <form method="GET" style="">
+                        <fieldset>
+                            <legend>Ergebnis filtern</legend>
+                            <p>
+                                <label class="grid_2">Eingruppierung</label>
+                                <select name="eingruppierung" class="grid_2">
+                                    <option >bitte w&auml;hlen</option>
+                                    <!--##loop-eingruppierung-->
+                                    <option value="!{value}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
+                            </p>
+                            <p>
+                                <label class="grid_2">&nbsp;</label>
+                                <button type="submit" name="send[]" value="Abschicken" class="button grid_2">Abschicken</button>
+                            </p>
+                            
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend>Daten exportieren</legend>
+                        
+                            <a href="!#ausgaben_link_csv" target="_blank">CSV</a>
+                        </fieldset>
+                        
+                    </form>
+                    <!--##show-->
                     
                     <table>
                         <thead>
                             <tr>
                                 <th style="width: 30px;">Nr</th>
-                                <th>Nachname</th>
-                                <th>Vorname</th>
+                                <th>Nachname, Vorname, Adresse</th>
                                 <th>Eingruppierung</th>
                                 <th>Bezirk</th>
                                 <th>VA</th>
@@ -76,8 +187,10 @@
                             <!--##loop-list-->
                             <tr>
                                 <td>!{Mitglieds_Nr}</td>
-                                <td>!{Vorname}</td>
-                                <td>!{Nachname}</td>
+                                <td style="white-space: nowrap;">
+                                    !{Nachname}, !{Vorname}<br />
+                                    !{Strasse}, !{PLZ} !{Ort}
+                                </td>
                                 <td>!{Eingruppierung}</td>
                                 <td>!{Bezirk}</td>
                                 <td style="white-space: nowrap;">!{VA_text}</td>
