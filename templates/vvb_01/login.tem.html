@@ -5,8 +5,54 @@
     <h1>Administrationsbereich</h1>
 </div>
 
+<!--##hide-authLogout-->
+<div class="grid_2" style="float:right;">
+    <form method="post" action="!#ausgaben_auth_url">
+        <div class="box border-all ui-corner-all">
+            <div class="space-lr">
+                <p>
+                    <input type="submit" name="logout" value="logout" style="width:100%;" />
+                </p>
+<!--##show-->
+
+                <!--##loop-authInPlace-->
+                <a href="!{link}">!{desc}</a><br />
+                <!--##cont-->
+                <br />
+
+                <!--##hide-authTools-->
+                <p>#(desc)<br />
+                <!--##loop-authTools-->
+                <a href="!{url}" title="!{title}">!{label}!{end}</a>
+                <!--##cont-->
+                </p>
+                <!--##show-->
+
+<!--##hide-authLogout-->
+            </div>
+            <div class="clear"></div>
+        </div>
+        </form>
+</div>
+<!--##show-->
+
+<!--##hide-show_mitglieder-->
+<div class="grid_7">
+    <h2>Mitglieder-Daten</h2>
+    <p>Sie haben Zugriff auf Daten von !{count} Mitgliedern.</p>
+    <p>
+        <a href="!{link_list}">Liste</a>
+        | <a href="!{link_csv}">CSV-Export</a>
+        <!--##loop-memb_import_rights-->
+        | <a href="!{link}">!{label}</a>
+        <!--##cont-->
+    </p>
+</div>
+<!--##show-->
+
 <!--##hide-login-->
 <div class="grid_7">
+    <h2>Artikel</h2>
     <form method="post" action="/auth/admin/bloged/add.html">
         <input type="submit" name="blog" value="Neuer Eintrag">
         <input type="hidden" value="/aktuell" name="link">
@@ -71,37 +117,6 @@
                     <div class="clear"></div>
                 </div>
             </div>
-        </div>
-        </form>
-</div>
-<!--##show-->
-
-<!--##hide-authLogout-->
-<div class="grid_2">
-    <form method="post" action="!#ausgaben_auth_url">
-        <div class="box border-all ui-corner-all">
-            <div class="space-lr">
-                <p>
-                    <input type="submit" name="logout" value="logout" style="width:100%;" />
-                </p>
-<!--##show-->
-
-                <!--##loop-authInPlace-->
-                <a href="!{link}">!{desc}</a><br />
-                <!--##cont-->
-                <br />
-
-                <!--##hide-authTools-->
-                <p>#(desc)<br />
-                <!--##loop-authTools-->
-                <a href="!{url}" title="!{title}">!{label}!{end}</a>
-                <!--##cont-->
-                </p>
-                <!--##show-->
-
-<!--##hide-authLogout-->
-            </div>
-            <div class="clear"></div>
         </div>
         </form>
 </div>

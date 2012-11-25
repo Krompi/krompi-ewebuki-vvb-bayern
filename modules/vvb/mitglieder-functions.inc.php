@@ -141,7 +141,8 @@
                 
                 // TODO: evtl. log-speicherung wieder aus Funktion rausnehmen
                 
-                
+             
+//echo print_r($member_data,true);   
                 $log_date = date("U");
                 if ( $timestamp != FALSE ) {
                     
@@ -149,17 +150,23 @@
                     $sql = "SELECT * 
                               FROM ".$cfg["mitglieder"]["db"]["import_log"]["entries"]." 
                              WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$timestamp."";
+//echo $sql."\n";
                     $result  = $db -> query($sql);
                     if ( $db->num_rows($result) > 0 ) {
+//echo "<pre>";
                         // Daten holen
                         $data = $db -> fetch_array($result,1);
+//echo print_r($data,true);
                         $member_data = unserialize($data[$cfg["mitglieder"]["db"]["import_log"]["content"]]);
+//echo print_r(($data[$cfg["mitglieder"]["db"]["import_log"]["content"]]),true)."\n";
                         // Log auf aktive schalten
                         $sql = "UPDATE ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
                                    SET ".$cfg["mitglieder"]["db"]["import_log"]["active"]."=-1,
                                        ".$cfg["mitglieder"]["db"]["import_log"]["count"]."=".count($member_data)."
                                  WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$timestamp;
 //echo $sql."\n";
+//echo print_r($member_data,true);
+//exit;
                         $result  = $db -> query($sql);
                         // alle anderen auf inaktive schalten
                         $sql = "UPDATE ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
@@ -169,6 +176,7 @@
                         $result  = $db -> query($sql);
                     }
                 } else {
+//exit;
                     
                     // neuen Datensatz einfuegen
                     $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."

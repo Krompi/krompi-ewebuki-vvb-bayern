@@ -47,8 +47,9 @@
 
     if ( in_array("import",$vvb_recht["right"]) ) {
         
-        if ( $_POST["ajax"] == "insert-data" ) {
-            $error = insert_member_data(array(), $_POST["data"]);
+        $parameter = array_merge($_POST,$_GET);
+        if ( $parameter["ajax"] == "insert-data" ) {
+            $error = insert_member_data(array(), $parameter["data"]);
             if ( $error != "" ) {
                 header("HTTP/1.0 404 Not Found");
             } else {
@@ -78,6 +79,24 @@
 
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= $debugging["char"]."[ <b>** ".$script["name"]." **</b> ]".$debugging["char"];
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * ".$debugging["char"];
+
+        
+        // Mitglied-Import-Berechtigung
+        // ---------------------------------------------------------------------
+        if (in_array("import", $vvb_recht["right"]) ) {
+            $hidedata["right_import"] = array();
+            // Import
+            $dataloop["mitglieder_links"][] = array(
+                "link"  => $cfg["mitglieder"]["basis"]."/list.html",
+                "label" => "Liste",
+            );
+            // Log
+            $dataloop["mitglieder_links"][] = array(
+                "link"  => $cfg["mitglieder"]["basis"]."/import-log.html",
+                "label" => "Import-Log",
+            );  
+        }
+        // ---------------------------------------------------------------------
         
         // Daten holen
         $sql = "SELECT * 

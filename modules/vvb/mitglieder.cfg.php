@@ -145,6 +145,10 @@
                                                     "db"    => "VA_text",
                                                     "crypt" => FALSE,
                                                ),
+                         "Eintritt"        => array(
+                                                    "db"    => "Eintritt",
+                                                    "crypt" => TRUE,
+                                               ),
                      ),
          "kataloge" => array(
                          "bezirke"         => array(
