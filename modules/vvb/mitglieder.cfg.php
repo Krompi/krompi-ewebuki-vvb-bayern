@@ -165,6 +165,8 @@
          "encoding" => "iso-8859-15",
             "right" => "",
     );
+    
+    $ausgaben["cfg_basis"] = $cfg["mitglieder"]["basis"];
 
     // * tipp: fuer das einfache modul muss der wert $cfg["basis"] natuerlich
     // "/my" lauten. es funktioniert im beispiel nur ohne aenderung, da das

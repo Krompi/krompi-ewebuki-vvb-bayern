@@ -4,16 +4,16 @@
                     
                     <!--##hide-right_import-->
                     <p style="text-align: right;">
-                        <!--##loop-mitglieder_links-->
-                        | <a href="!{link}">!{label}</a>
-                        <!--##cont-->
+                          <b>Liste</b>
+                        | <a href="!#ausgaben_cfg_basis/import.html">Import</a>
+                        | <a href="!#ausgaben_cfg_basis/import-log.html">Import-Log</a>
                     </p>
                     <!--##show-->
                     
                     #(inhalt)
                     
                     <!--##hide-right_import-->
-                    <form method="GET" style="">
+                    <form method="GET" action="!#ausgaben_form_aktion">
                         <fieldset>
                             <legend>Ergebnis filtern</legend>
                             <p>
@@ -180,7 +180,7 @@
                                 <th>Nachname, Vorname, Adresse</th>
                                 <th>Eingruppierung</th>
                                 <th>Bezirk</th>
-                                <th>VA</th>
+                                <th>Dienststelle</th>
                             </tr>
                         </thead>
                         <tbody>

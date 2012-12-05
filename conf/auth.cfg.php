@@ -94,9 +94,9 @@
                   "prived" => array("list", "disabled"),
                  "leveled" => array("list", "disabled"),
                   "usered" => array("list", "admin"),
-                  "menued" => array("list", "view"),
+                  "menued" => array("list", "admin"),
                   "fileed" => array("list", "edit"),
-                  "passed" => array("modify", "edit"),
+                  "passed" => array("modify", "view"),
                   "bloged" => array("list", "disabled"),
              # "" = jeder; "ein wert" = nur dieses recht; "recht1;recht2" = beide rechte
                        ),

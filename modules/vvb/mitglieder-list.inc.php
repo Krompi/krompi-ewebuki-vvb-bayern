@@ -289,6 +289,9 @@
 //echo "<pre>".print_r($_SERVER,true)."</pre>";
         $ausgaben["link_csv"] = $cfg["mitglieder"]["basis"]."/list,csv.html?".$_SERVER["QUERY_STRING"];
 
+        $ausgaben["form_aktion"] = $cfg["mitglieder"]["basis"]."/list.html";
+        $ausgaben["form_break"] = $cfg["leer"]["basis"]."/list.html";
+
         // hidden values
         #$ausgaben["form_hidden"] .= "";
 
