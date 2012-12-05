@@ -248,7 +248,7 @@
                         // -----------------------------------------------------
                         foreach ( $data as $key=>$field ) {
                             // zeichensatz-konvertierung
-                            mb_convert_variables("UTF-8", "ISO-8859-15,Windows-1251Windows-1252", $field);
+                            mb_convert_variables("UTF-8", "ISO-8859-15,Windows-1251,Windows-1252", $field);
                             // es sollen nur die in der Config bestimmten Spalten geholt werden
                             if ( $cfg["mitglieder"]["csv_fields"][$field] != "" ) {
                                 // array schreiben
@@ -267,7 +267,7 @@
                         foreach ( $field_indizes as $key=>$field_name ) {
                             
                             // zeichensatz-konvertierung
-                            mb_convert_variables("UTF-8", "ISO-8859-15,Windows-1251Windows-1252", $data[$key]);
+                            mb_convert_variables("UTF-8", "ISO-8859-15,Windows-1251,Windows-1252", $data[$key]);
                             
                             // DB-Spalten namen
                             $sql_array[$i]["field"][$key] = $cfg["mitglieder"]["csv_fields"][$field_name]["db"];

@@ -91,15 +91,19 @@
 //                                 "/usr/share/fonts/truetype/ttf-bitstream-vera/VeraMoBI.ttf",
 //                                 "/usr/share/fonts/truetype/ttf-bitstream-vera/VeraMoBd.ttf",
                                  // path for suse
-                                 "/usr/share/fonts/truetype/VeraMono.ttf",
-                                 "/usr/share/fonts/truetype/VeraMoIt.ttf",
-                                 "/usr/share/fonts/truetype/VeraMoBI.ttf",
-                                 "/usr/share/fonts/truetype/VeraMoBd.ttf",
+//                                 "/usr/share/fonts/truetype/VeraMono.ttf",
+//                                 "/usr/share/fonts/truetype/VeraMoIt.ttf",
+//                                 "/usr/share/fonts/truetype/VeraMoBI.ttf",
+//                                 "/usr/share/fonts/truetype/VeraMoBd.ttf",
 //                                 // or local path
 //                                 "/usr/local/share/fonts/VeraMono.ttf",
 //                                 "/usr/local/share/fonts/VeraMoIt.ttf",
 //                                 "/usr/local/share/fonts/VeraMoBI.ttf",
 //                                 "/usr/local/share/fonts/VeraMoBd.ttf",
+                                 "/srv/www/htdocs/vvb/vvb.ext/modules/vvb/fonts/VeraMono.ttf",
+                                 "/srv/www/htdocs/vvb/vvb.ext/modules/vvb/fonts/VeraMoIt.ttf",
+                                 "/srv/www/htdocs/vvb/vvb.ext/modules/vvb/fonts/VeraMoBI.ttf",
+                                 "/srv/www/htdocs/vvb/vvb.ext/modules/vvb/fonts/VeraMoBd.ttf",
                              ),
                )
     );
