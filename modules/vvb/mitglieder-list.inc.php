@@ -192,7 +192,7 @@
         if ( $debugging["sql_enable"] ) $debugging["ausgabe"] .= "sql: ".$sql.$debugging["char"];
 
         // seiten umschalter
-        $inhalt_selector = inhalt_selector( $sql, $environment["parameter"][1], $cfg["mitglieder"]["db"]["mitglieder"]["rows"], $parameter, 1, 3, $getvalues );
+        $inhalt_selector = inhalt_selector( $sql, $environment["parameter"][1], $cfg["mitglieder"]["db"]["mitglieder"]["rows"], $parameter, 1, 3, $_SERVER["QUERY_STRING"] );
         $ausgaben["inhalt_selector"] = $inhalt_selector[0]."<br />";
         if ( $environment["parameter"][1] != "csv" ) $sql = $inhalt_selector[1];
         $ausgaben["anzahl"] = $inhalt_selector[2];
@@ -227,9 +227,17 @@
                 if ( $field_info["db"] == "Bezirk" ) {
                     $dataloop["list"][$index][$field_info["db"]] = $cfg["mitglieder"]["kataloge"]["bezirke"][$data[$field_info["db"]]];
                 }
+                if (function_exists("mb_convert_variables") && $specialvars["output_encoding"] != "" ) {
+                    mb_convert_variables($specialvars["output_encoding"], "UTF-8,ISO-8859-15,ISO-8859-1,Windows-1251,Windows-1252", $dataloop["list"][$index][$field_info["db"]]);
+                }
                 
                 if ( $environment["parameter"][1] == "csv" ) {
-                    $csv_array[$index][] = $dataloop["list"][$index][$field_info["db"]];
+//                    $csv_array[$index][] = $dataloop["list"][$index][$field_info["db"]];
+                    $csv_array[$index][] = html_entity_decode ( 
+                                                $dataloop["list"][$index][$field_info["db"]], 
+                                                ENT_COMPAT | ENT_HTML401 , 
+                                                $specialvars["output_encoding"] 
+                                            );
                 }
                 
             }

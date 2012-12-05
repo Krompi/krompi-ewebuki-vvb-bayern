@@ -178,14 +178,6 @@ if ( $_SESSION["uid"] != "" ) {
     // addon: changed
     include $pathvars["moduleroot"]."addon/changed.cfg.php";
     include $pathvars["moduleroot"]."addon/changed.inc.php";
-
-    // addon: kontakt
-    if (  ( $environment["ebene"] == "" && $environment["kategorie"] == "kontakt" )
-       || ( $environment["ebene"] == "/kontakt" ))
-    {
-        include $pathvars["moduleroot"]."addon/kontakt.cfg.php";
-        include $pathvars["moduleroot"]."addon/kontakt-ctrl.inc.php";
-    }
     
 
     // Mitglieder-Ausgabe
@@ -199,6 +191,14 @@ if ( $_SESSION["uid"] != "" ) {
     
     
 }
+
+    // addon: kontakt
+    if (  ( $environment["ebene"] == "" && $environment["kategorie"] == "kontakt" )
+       || ( $environment["ebene"] == "/kontakt" ))
+    {
+        include $pathvars["moduleroot"]."addon/kontakt.cfg.php";
+        include $pathvars["moduleroot"]."addon/kontakt-ctrl.inc.php";
+    }
 
 #    // addon: search
 #    if (  ( $environment["ebene"] == "" && $environment["kategorie"] == "search" )
