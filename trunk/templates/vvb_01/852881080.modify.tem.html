@@ -1,0 +1,52 @@
+<!--$Id: 852881080.modify.tem.html 789 2007-09-14 12:14:02Z chaot $-->
+<!--##begin-->
+                <div class="grid_8">
+                    <h1>#(ueberschrift)</h1>
+                    
+                    #(inhalt)
+                    <p>!#ausgaben_form_error</p>
+                    
+                    <form method="post" action="!#ausgaben_form_aktion">
+                        <fieldset>
+                            
+                            <p>
+                                <label class="grid_2">#(oldpass)</label>
+                                !#element_oldpass
+                            </p>
+                            
+                            <p>
+                                <label class="grid_2">#(newpass)</label>
+                                !#element_newpass
+                            </p>
+                            
+                            <p>
+                                <label class="grid_2">#(chkpass)</label>
+                                !#element_chkpass
+                            </p>
+                            
+                            <p>
+                                <label class="grid_2">&nbsp;</label>
+                                <button type="submit" name="send[]" value="Abschicken" class="button grid_2 alpha">Abschicken</button>
+                                <input name="form_referer" type="hidden" value="!#ausgaben_form_referer" class="hidden" />
+                            </p>
+                            
+                        </fieldset>
+                        
+                    </form>
+                </div>
+<!--##end-->
+                        
+
+<form method="post" action="!#ausgaben_form_aktion" id="eEd">
+    <h1>#(ueberschrift)</h1>
+    <p>#(inhalt)</p>
+    <p>!#ausgaben_form_error</p>
+    <fieldset>
+        <input type="submit" name="send" value="g(send)" class="first" />
+        <input type="reset" name="reset" value="g(reset)" class="next" />
+        <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="next" />
+        <div class="clearer">&nbsp;</div>
+    </fieldset>
+    <p>!#ausgaben_output</p>
+    <p>!#ausgaben_inaccessible</p>
+</form>

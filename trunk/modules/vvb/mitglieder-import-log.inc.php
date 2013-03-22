@@ -367,7 +367,7 @@
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "[ <b>++ ".$script["name"]." ++</b> ]".$debugging["char"].$debugging["char"];
 
     } else {
-        header("Location: ".$pathvars["virtual"]."/");
+        header("Location: ".$pathvars["virtual"]."/admin.html");
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

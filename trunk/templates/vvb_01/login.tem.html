@@ -8,7 +8,7 @@
 <!--##hide-authLogout-->
 <div class="grid_2" style="float:right;">
     <form method="post" action="!#ausgaben_auth_url">
-        <div class="box border-all ui-corner-all">
+        <div class="box border-all">
             <div class="space-lr">
                 <p>
                     <input type="submit" name="logout" value="logout" style="width:100%;" />
@@ -37,7 +37,7 @@
 <!--##show-->
 
 <!--##hide-show_mitglieder-->
-<div class="grid_7">
+<div class="grid_7 border-all omega" style="margin-bottom: 1em;padding: 0 15px 15px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;">
     <h2>Mitglieder-Daten</h2>
     <p>Sie haben Zugriff auf Daten von !{count} Mitgliedern.</p>
     <p>
@@ -50,9 +50,10 @@
 </div>
 <!--##show-->
 
-<!--##hide-login-->
-<div class="grid_7">
+<!--##hide-show_artikel-->
+<div class="grid_7 border-all omega" style="margin-bottom: 1em;padding: 0 15px 15px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;">
     <h2>Artikel</h2>
+    <p>!{anzahl} Artikel sind in Bearbeitung. <a href="admin/artikel.html">zur Übersicht aller Artikel</a></p>
     <form method="post" action="/auth/admin/bloged/add.html">
         <input type="submit" name="blog" value="Neuer Eintrag">
         <input type="hidden" value="/aktuell" name="link">
