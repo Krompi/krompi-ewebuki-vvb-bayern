@@ -1,0 +1,116 @@
+<!--$Id$-->
+<!--##begin-->
+
+                <!--##hide-authLogout-->
+                <div class="grid_1" style="float:right;">
+                    <form method="post" action="!#ausgaben_auth_url">
+                        <div class="box border-all ui-corner-all">
+                            <div class="space-lr">
+                                <p>
+                                    <input type="submit" name="logout" value="logout" style="width:100%;" />
+                                </p>
+                <!--##show-->
+
+                                <!--##loop-authInPlace-->
+                                <a href="!{link}">!{desc}</a><br />
+                                <!--##cont-->
+                                <br />
+
+                                <!--##hide-authTools-->
+                                <p>#(desc)<br />
+                                <!--##loop-authTools-->
+                                <a href="!{url}" title="!{title}">!{label}!{end}</a>
+                                <!--##cont-->
+                                </p>
+                                <!--##show-->
+
+                <!--##hide-authLogout-->
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        </form>
+                </div>
+                <!--##show-->
+
+                <div class="grid_8">
+                    <h1>Artikel-Übersicht</h1>
+                    
+                    <form method="post" action="/auth/admin/bloged/add.html">
+                        <input type="submit" name="blog" value="Neuer Eintrag">
+                        <input type="hidden" value="/aktuell" name="link">
+                        <input type="hidden" value="/aktuell" name="kategorie">
+                    </form>
+                    <table class="adm-blog-list" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th style="width:10%">Datum</th>
+                                <th style="width:50%">Titel</th>
+                                <th style="width:20%">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--##loop-blog_list-->
+                            <tr>
+                                <td>!{datum}</td>
+                                <td>
+                                    <a href="!{link_wiz_edit}"><b>!{titel}</b></a>
+                                    <div class="adm-blog-list-aktion">!{aktion}</div>
+                                </td>
+                                <td><i title="zuletz geändert: !{changed}">!{changed}</i><br /><b>!{status}</b></td>
+                            </tr>
+                            <!--##cont-->
+                        </tbody>
+                    </table>
+                    <div id="preview"></div>
+                    <script type="text/javascript">
+                        jQuery(function() {
+                            jQuery('.adm-blog-list td').hover(
+                                function() {
+                                    jQuery(this).find('.adm-blog-list-aktion').show();
+                                },
+                                function() {
+                                    jQuery(this).find('.adm-blog-list-aktion').hide();
+                                }
+                            )
+                        })
+                    </script>
+
+                </div>
+
+<div class="grid_9">
+    <h1>Artikel</h1>
+</div>
+
+
+
+<!--##hide-authLogin-->
+<div class="">
+    <form method="post" action="!#ausgaben_auth_url">
+        <div class="grid_5 prefix_1">
+            <div class="box border-all ui-corner-all">
+                <h3>#(ueberschrift)</h3>
+                <div class="space-lr">
+                    <input type="hidden" name="form_referer" value="!#ausgaben_form_referer" />
+                    <p>
+                        <label for="user" style="width:100%;">Benutzername</label>
+                        <input type="text" name="user" id="user" style="width:100%;" style="" />
+                    </p>
+                    <p>
+                        <label for="pass" style="width:100%;">Passwort</label>
+                        <input type="password" name="pass" id="pass" style="width:100%;" style="" />
+                    </p>
+                    <p>
+                        <label class="grid_1">&nbsp;</label>
+                        <input type="submit" name="login" style="width:100%;" value="login" />
+                    </p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        </form>
+</div>
+<!--##show-->
+
+
+
+<!--##end-->

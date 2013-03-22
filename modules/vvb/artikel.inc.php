@@ -85,63 +85,9 @@
             $hidedata["login"] = array();
             
             
-            
-        
-            // Mitglieder-Verwaltung
-            // =================================================================
-            include $pathvars["moduleroot"]."vvb/mitglieder.cfg.php";
-            include $pathvars["moduleroot"]."vvb/mitglieder-rechte.inc.php"; # erweitertes modul
-            if ( count($vvb_recht["right"]) > 0 ) {
-
-                // WHERE-Abfrage zusammenbauen
-                if ( $vvb_recht["where"] != "" ) {
-                    $where_array[] = $vvb_recht["where"];
-                }
-                $where = "";
-                if ( count($where_array) > 0 ) {
-                    $where = "
-                        WHERE ".implode(" 
-                        AND ",$where_array);
-                }
-
-                // SQL zusammenbauen
-                $sql = "SELECT *
-                        FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].
-                            $where;
-
-                // Mitglieder-Bereich anzeigen
-                $result = $db -> query($sql);
-                $hidedata["show_mitglieder"] = array(
-                    "count"     => $db->num_rows($result),
-                    "link_list" => $cfg["mitglieder"]["basis"]."/list.html",
-                    "link_csv"  => $cfg["mitglieder"]["basis"]."/list,csv.html"
-                );
-
-                // Mitglied-Import-Berechtigung
-                if (in_array("import", $vvb_recht["right"]) ) {
-                    // Import
-                    $dataloop["memb_import_rights"][] = array(
-                        "link"  => $cfg["mitglieder"]["basis"]."/import.html",
-                        "label" => "Import",
-                    );
-                    // Log
-                    $dataloop["memb_import_rights"][] = array(
-                        "link"  => $cfg["mitglieder"]["basis"]."/import-log.html",
-                        "label" => "Import-Log",
-                    );
-                }
-
-            }
-            // =================================================================
-            
-            
-            
             // Artikel
             // =================================================================
             foreach ( $cfg["bloged"]["blogs"] as $url=>$attributs ) {
-                include $pathvars["moduleroot"]."wizard/wizard.cfg.php";
-                if ( priv_check($url,$cfg["wizard"]["right"]["edit"]) ) $hidedata["show_artikel"] = array();
-                
                 $dataloop["blog_list"] = array();
 //echo $name."\n";
                 $cat_len = strlen($cfg["bloged"]["blogs"][$url]["category"])+2;
@@ -163,7 +109,7 @@
                                max(version) as max_version
                           FROM site_text
                          WHERE tname like '".eCRC($url).".%"."'
-                           AND status=-1
+                           AND status<>0
                  --          AND SUBSTRING(content,POSITION('[".$cfg["bloged"]["blogs"][$url]["category"]."]' IN content),POSITION('[/".$cfg["bloged"]["blogs"][$url]["category"]."]' IN content)-POSITION('[".$cfg["bloged"]["blogs"][$url]["category"]."]' IN content)) ='[".$cfg["bloged"]["blogs"][$url]["category"]."]".$url."'
                          GROUP by tname, version
                       ORDER BY changed DESC, tname desc, version desc";
@@ -259,8 +205,6 @@
                     $dataloop["blog_list"][$counter]["aktion"] = implode(" | ",$aktion_array);
 
                 }
-                
-                if ( isset($hidedata["show_artikel"]) ) $hidedata["show_artikel"]["anzahl"] = count($dataloop["blog_list"]);
             }
             // =================================================================
             
@@ -292,7 +236,7 @@
         #$ausgaben["form_hidden"] .= "";
 
         // was anzeigen
-        $mapping["main"] = "login";
+        $mapping["main"] = "admin-artikel";
         #$mapping["navi"] = "leer";
 
         // unzugaengliche #(marken) sichtbar machen

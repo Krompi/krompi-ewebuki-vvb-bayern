@@ -1,6 +1,42 @@
 <!--##begin-->
+
+                <!--##hide-authLogout-->
+                <div class="grid_1" style="float:right;">
+                    <form method="post" action="!#ausgaben_auth_url">
+                        <div class="box border-all ">
+                            <div class="space-lr">
+                                <p>
+                                    <input type="submit" name="logout" value="logout" style="width:100%;" />
+                                </p>
+                <!--##show-->
+
+                                <!--##loop-authInPlace-->
+                                <a href="!{link}">!{desc}</a><br />
+                                <!--##cont-->
+                                <br />
+
+                                <!--##hide-authTools-->
+                                <p>#(desc)<br />
+                                <!--##loop-authTools-->
+                                <a href="!{url}" title="!{title}">!{label}!{end}</a>
+                                <!--##cont-->
+                                </p>
+                                <!--##show-->
+
+                <!--##hide-authLogout-->
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        </form>
+                </div>
+                <!--##show-->
+                
                 <div class="grid_8">
                     <h1>Mitglieder-Liste</h1>
+                </div>
+
+
+                <div class="grid_8">
                     
                     <!--##hide-right_import-->
                     <p style="text-align: right;">
@@ -42,6 +78,10 @@
                                     <option value="!{value}"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
+                            </p>
+                            <p>
+                                <label class="grid_2">Nachname</label>
+                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_2" />
                             </p>
                             <p>
                                 <label class="grid_2">&nbsp;</label>
@@ -91,6 +131,10 @@
                                 </select>
                             </p>
                             <p>
+                                <label class="grid_2">Nachname</label>
+                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_2" />
+                            </p>
+                            <p>
                                 <label class="grid_2">&nbsp;</label>
                                 <button type="submit" name="send[]" value="Abschicken" class="button grid_2">Abschicken</button>
                             </p>
@@ -129,6 +173,10 @@
                                 </select>
                             </p>
                             <p>
+                                <label class="grid_2">Nachname</label>
+                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_2" />
+                            </p>
+                            <p>
                                 <label class="grid_2">&nbsp;</label>
                                 <button type="submit" name="send[]" value="Abschicken" class="button grid_2">Abschicken</button>
                             </p>
@@ -156,6 +204,10 @@
                                     <option value="!{value}"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
+                            </p>
+                            <p>
+                                <label class="grid_2">Nachname</label>
+                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_2" />
                             </p>
                             <p>
                                 <label class="grid_2">&nbsp;</label>

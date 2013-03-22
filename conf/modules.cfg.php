@@ -178,19 +178,26 @@ if ( $_SESSION["uid"] != "" ) {
     // addon: changed
     include $pathvars["moduleroot"]."addon/changed.cfg.php";
     include $pathvars["moduleroot"]."addon/changed.inc.php";
+}
     
 
+echo "hallo1";
     // Mitglieder-Ausgabe
     if ( strstr($environment["ebene"]."/".$environment["kategorie"],"/admin/mitglieder") )
     {
+echo "hallo2";
 //if ( $_POST["ajax"] == "" ) echo "<pre>";
         include $pathvars["moduleroot"]."vvb/mitglieder.cfg.php";
         include $pathvars["moduleroot"]."vvb/mitglieder-ctrl.inc.php"; # erweitertes modul
 //if ( $_POST["ajax"] == "" ) echo "</pre>";
     }
+    // Mitglieder-Ausgabe
+    if ( strstr($environment["ebene"]."/".$environment["kategorie"],"/admin/artikel") )
+    {
+        include $pathvars["moduleroot"]."vvb/artikel.inc.php";
+    }
     
     
-}
 
     // addon: kontakt
     if (  ( $environment["ebene"] == "" && $environment["kategorie"] == "kontakt" )

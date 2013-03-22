@@ -47,6 +47,8 @@
 
         // funktions bereich
         // ***
+        
+        if ( count($vvb_recht["right"]) == 0 ) header("Location: /admin.html");
                
         // Verschluesselung vorbereiten
         // ---------------------------------------------------------------------
@@ -95,6 +97,7 @@
             $sql .= "
                           WHERE ".$vvb_recht["where"];
         }
+echo "<pre>".print_r($sql,true)."</pre>";
         $result = $db -> query($sql);
         while ( $data = $db -> fetch_array($result,1) ) {
             
@@ -163,6 +166,19 @@
             );
         }
         ksort($dataloop["bezirk"]);
+        // ---------------------------------------------------------------------
+        
+        // Nachnamen-Suche
+        // ---------------------------------------------------------------------
+echo "<pre>";
+echo $_GET["name"]."\n";
+        $get_name = trim(preg_replace("/^[^a-zA-Z]$/", "", $_GET["name"]));
+echo $get_name."\n";
+        $ausgaben["mitglied_name"] = htmlentities($get_name);
+        if ( $get_name != "" ) {
+            $where_array[] = "Nachname LIKE '".$get_name."%'";
+        }
+echo "</pre>";
         // ---------------------------------------------------------------------
         
         
