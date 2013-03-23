@@ -44,6 +44,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "[ ** ".$script["name"]." ** ]".$debugging["char"];
+    
+    
+    if ( $_SESSION["uid"] == "" ) {
+        header("Location: /admin.html");
+        exit;
+    }
 
 //    echo print_r($_SESSION,true);
 //    $_SESSION["username"] = "schatzmeister";
@@ -85,12 +91,27 @@
               FROM auth_member as member
               JOIN auth_group as gruppe
                 ON (member.gid=gruppe.gid)
-             WHERE ggroup='vorstand'
+             WHERE ggroup IN ('vorstand','recht')
                AND uid=".$_SESSION["uid"];
     if ( $db->num_rows($db->query($sql)) > 0 ) {
         $vvb_recht = array(
             "group" => "vorstand",
             "right" => array("show"),
+        );
+        if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Vorstand".$debugging["char"];
+    }
+
+    // Vorsitzende
+    $sql = "SELECT *
+              FROM auth_member as member
+              JOIN auth_group as gruppe
+                ON (member.gid=gruppe.gid)
+             WHERE ggroup='vorsitz'
+               AND uid=".$_SESSION["uid"];
+    if ( $db->num_rows($db->query($sql)) > 0 ) {
+        $vvb_recht = array(
+            "group" => "vorstand",
+            "right" => array("show","import"),
         );
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Vorstand".$debugging["char"];
     }
