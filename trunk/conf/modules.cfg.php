@@ -181,11 +181,9 @@ if ( $_SESSION["uid"] != "" ) {
 }
     
 
-echo "hallo1";
     // Mitglieder-Ausgabe
     if ( strstr($environment["ebene"]."/".$environment["kategorie"],"/admin/mitglieder") )
     {
-echo "hallo2";
 //if ( $_POST["ajax"] == "" ) echo "<pre>";
         include $pathvars["moduleroot"]."vvb/mitglieder.cfg.php";
         include $pathvars["moduleroot"]."vvb/mitglieder-ctrl.inc.php"; # erweitertes modul

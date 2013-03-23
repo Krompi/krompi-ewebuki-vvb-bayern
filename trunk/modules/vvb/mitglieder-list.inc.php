@@ -48,7 +48,10 @@
         // funktions bereich
         // ***
         
-        if ( count($vvb_recht["right"]) == 0 ) header("Location: /admin.html");
+        if ( count($vvb_recht["right"]) == 0 ) {
+            header("Location: /admin.html");
+            exit;
+        }
                
         // Verschluesselung vorbereiten
         // ---------------------------------------------------------------------
@@ -91,13 +94,13 @@
         // DROPDOWN: Dienststellen
         // ---------------------------------------------------------------------
         $sql = "SELECT DISTINCT ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"].",
+                                ".$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"].",
                                 ".$cfg["mitglieder"]["db"]["mitglieder"]["va"]."
                            FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"];
         if ( $vvb_recht["where"] != "" ) {
             $sql .= "
                           WHERE ".$vvb_recht["where"];
         }
-echo "<pre>".print_r($sql,true)."</pre>";
         $result = $db -> query($sql);
         while ( $data = $db -> fetch_array($result,1) ) {
             
@@ -113,6 +116,7 @@ echo "<pre>".print_r($sql,true)."</pre>";
             $dataloop["dienststelle"][$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]]] = array(
                 "label" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]],
                 "value" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]],
+                "class" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]],
                 "sel"   => $sel,
             );
         }
@@ -170,15 +174,11 @@ echo "<pre>".print_r($sql,true)."</pre>";
         
         // Nachnamen-Suche
         // ---------------------------------------------------------------------
-echo "<pre>";
-echo $_GET["name"]."\n";
         $get_name = trim(preg_replace("/^[^a-zA-Z]$/", "", $_GET["name"]));
-echo $get_name."\n";
         $ausgaben["mitglied_name"] = htmlentities($get_name);
         if ( $get_name != "" ) {
             $where_array[] = "Nachname LIKE '".$get_name."%'";
         }
-echo "</pre>";
         // ---------------------------------------------------------------------
         
         

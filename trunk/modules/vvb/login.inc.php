@@ -43,6 +43,168 @@
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  
+    if ( $_GET["import"] == "ort" ) {
+        $file = "/srv/www/htdocs/vvb/website/file/new/aemter-edited.csv";
+        
+        function passwort($length = 8) {
+            $array_con = array("w","r","t","z","p","s","d","f","g","h","k","x","b","n","m");
+            $array_vok = array("a","e","i","o","u");
+            $l = 0;$pass = "";
+            while ($l < $length) {
+                $pass .= $array_con[array_rand($array_con)];
+                $pass .= $array_vok[array_rand($array_vok)];
+                $l = $l + 2;
+            }
+            if ( $crypted ) {
+                $SALT = substr($pass,0,2);
+                crypt($pass,$SALT);
+            } else {
+               return $pass;
+            }
+        }
+        
+        function crypt_pass($pass) {
+            // neues passwort verschluesseln ( mysql = ecncrypt() )
+            mt_srand((double)microtime()*1000000);
+            $a=mt_rand(1,128);
+            $b=mt_rand(1,128);
+            $mysalt = chr($a).chr($b);
+            return crypt($pass, $mysalt);
+        }
+        
+//  header("Content-type: text/html");      
+        
+echo "<pre>";
+        if (file_exists($file) ) {
+            
+            $sql_array  = array();
+            $user_pass = array();
+            
+            // Ortsbeauftragte
+            // =================================================================
+            
+            // Datenbank bereinigen
+            $sql = "DELETE FROM auth_user WHERE username LIKE 'va%'";
+            $result = $db -> query($sql);
+            
+            $fd = fopen($file, "r");
+            while (!feof($fd)) {
+                $line = trim(fgets($fd,1024));
+                if ($line=="") continue;
+                
+                $info = explode(",",$line);
+                
+                $username = "va".str_pad($info[0], 2, "0", STR_PAD_LEFT);
+                if ( $info[2] == "LVG" ) {
+                    $vorname  = "LVG";
+                    $nachname = $info[1];
+                } elseif ( $info[2] == "StMF" ) {
+                    $vorname  = "Ministerium";
+                    $nachname = "Finanzen";
+                } elseif ( $info[2] == "VA" ) {
+                    $vorname  = "Vermessungsamt";
+                    $nachname = $info[1];
+                } elseif ( $info[2] == "ASt" ) {
+                    $vorname  = "Außenstelle";
+                    $nachname = $info[1];
+                }
+                
+                $sql = "INSERT INTO auth_user (nachname,vorname,username) VALUES ('".$nachname."','".$vorname."','".$username."');";
+                $result = $db -> query($sql);
+                
+                // Passwort festlegen
+                $user_pass[$username] = passwort();
+                
+            }
+
+            foreach ( $user_pass as $username=>$pass ) {
+
+                // neues passwort verschluesseln ( mysql = ecncrypt() )
+                mt_srand((double)microtime()*1000000);
+                $a=mt_rand(1,128);
+                $b=mt_rand(1,128);
+                $mysalt = chr($a).chr($b);
+                $pass_crypt = crypt($pass, $mysalt);
+
+                // da ich das passwort erstellt habe, klappt magic_quotes_gpc nicht
+                $pass_crypt = addslashes($pass_crypt);
+                    
+                    
+                $sql = "UPDATE auth_user
+                           SET pass = '".$pass_crypt."'
+                         WHERE username = '".$username."'";
+                $result = $db -> query($sql);
+                
+                echo $username." ".$pass."\n";
+                    
+            }
+            // =================================================================
+            
+            
+            // Bezirkssprecher
+            // =================================================================
+            $bezirke = array(
+                        "ofr" => "Oberfranken",
+                        "mfr" => "Mittelfranken",
+                        "opf" => "Oberpfalz",
+                        "ufr" => "Unterfranken",
+                        "sch" => "Schwaben",
+                        "obb" => "Oberbayern",
+                        "nb"  => "Niederbayern"
+            );
+            
+            // Datenbank bereinigen
+            $sql = "DELETE FROM auth_user WHERE username LIKE 'bezirk_%'";
+            $result = $db -> query($sql);
+            $user_pass = array();
+            
+            foreach ( $bezirke as $bezirk=>$label ) {
+                
+                
+                $username = "bezirk_".$bezirk;
+                $vorname  = "Bezirkssprecher";
+                $nachname = $label;
+                
+                $sql = "INSERT INTO auth_user (nachname,vorname,username) VALUES ('".$nachname."','".$vorname."','".$username."');";
+                $result = $db -> query($sql);
+                
+                // Passwort festlegen
+                $user_pass[$username] = passwort();
+                
+            }
+
+            foreach ( $user_pass as $username=>$pass ) {
+
+                // neues passwort verschluesseln ( mysql = ecncrypt() )
+                mt_srand((double)microtime()*1000000);
+                $a=mt_rand(1,128);
+                $b=mt_rand(1,128);
+                $mysalt = chr($a).chr($b);
+                $pass_crypt = crypt($pass, $mysalt);
+
+                // da ich das passwort erstellt habe, klappt magic_quotes_gpc nicht
+                $pass_crypt = addslashes($pass_crypt);
+                    
+                    
+                $sql = "UPDATE auth_user
+                           SET pass = '".$pass_crypt."'
+                         WHERE username = '".$username."'";
+                $result = $db -> query($sql);
+                
+                echo $username." ".$pass."\n";
+                    
+            }
+            // =================================================================
+
+            
+        }
+      
+echo "</pre>";
+      
+        exit;
+    }
+  
 //    if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "[ ** ".$script["name"]." ** ]".$debugging["char"];
 
     if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= str_pad("", strlen($script["name"])+10, " *").$debugging["char"]." * ".$script["name"].$debugging["char"]." *".$debugging["char"];
@@ -199,6 +361,9 @@
                         $dataloop["blog_list"][$counter]["titel"] = $heading[1];
                     } else {
                         $dataloop["blog_list"][$counter]["titel"] = "---";
+                    }
+                    if (function_exists("mb_convert_variables") && $specialvars["output_encoding"] != "" ) {
+                        mb_convert_variables($specialvars["output_encoding"], "UTF-8,ISO-8859-15,ISO-8859-1,Windows-1251,Windows-1252", $dataloop["blog_list"][$counter]["titel"]);
                     }
 
                     // datum rausfinden

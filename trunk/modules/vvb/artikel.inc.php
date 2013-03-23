@@ -146,6 +146,9 @@
                     } else {
                         $dataloop["blog_list"][$counter]["titel"] = "---";
                     }
+                    if (function_exists("mb_convert_variables") && $specialvars["output_encoding"] != "" ) {
+                        mb_convert_variables($specialvars["output_encoding"], "UTF-8,ISO-8859-15,ISO-8859-1,Windows-1251,Windows-1252", $dataloop["blog_list"][$counter]["titel"]);
+                    }
 
                     // datum rausfinden
                     preg_match("/\[".addcslashes($cfg["bloged"]["blogs"][$url]["sort"][0],"/")."\](.*)\[\/".$cfg["bloged"]["blogs"][$url]["sort"][0]."\]/U",$data["content"],$sort);

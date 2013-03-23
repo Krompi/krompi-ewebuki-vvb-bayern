@@ -49,7 +49,7 @@
                     #(inhalt)
                     
                     <!--##hide-right_import-->
-                    <form method="GET" action="!#ausgaben_form_aktion">
+                    <form method="GET" action="!#ausgaben_form_aktion" class="right_import">
                         <fieldset>
                             <legend>Ergebnis filtern</legend>
                             <p>
@@ -63,7 +63,7 @@
                             </p>
                             <p>
                                 <label class="grid_2">Bezirk</label>
-                                <select name="bezirk" class="grid_2">
+                                <select name="bezirk" id="filter_bezirk" class="grid_2">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-bezirk-->
                                     <option value="!{value}"!{sel}>!{label}</option>
@@ -72,10 +72,10 @@
                             </p>
                             <p>
                                 <label class="grid_2">Dienststelle</label>
-                                <select name="dienststelle" class="grid_2">
+                                <select name="dienststelle" id="filter_aemter" class="grid_2">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-dienststelle-->
-                                    <option value="!{value}"!{sel}>!{label}</option>
+                                    <option value="!{value}" class="!{class}"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
                             </p>
@@ -95,12 +95,26 @@
                         
                             <a href="!#ausgaben_link_csv" target="_blank">CSV</a>
                         </fieldset>
+                        
+                        <script>
+                            function filter_aemter() {
+                                if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
+                                    jQuery('#filter_aemter option:selected').attr('selected',false);
+                                    jQuery('#filter_aemter option[value]').show()
+                                                                   .not('.' + jQuery('#filter_bezirk').val()).hide();
+                                }
+                            }
+                            jQuery(function(){
+                                filter_aemter();
+                                jQuery('#filter_bezirk').change(filter_aemter);
+                            })
+                        </script>
                         
                     </form>
                     <!--##show-->
                     
                     <!--##hide-right_vorstand-->
-                    <form method="GET" style="">
+                    <form method="GET" style="" class="right_vorstand">
                         <fieldset>
                             <legend>Ergebnis filtern</legend>
                             <p>
@@ -114,7 +128,7 @@
                             </p>
                             <p>
                                 <label class="grid_2">Bezirk</label>
-                                <select name="bezirk" class="grid_2">
+                                <select name="bezirk" id="filter_bezirk" class="grid_2">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-bezirk-->
                                     <option value="!{value}"!{sel}>!{label}</option>
@@ -123,10 +137,10 @@
                             </p>
                             <p>
                                 <label class="grid_2">Dienststelle</label>
-                                <select name="dienststelle" class="grid_2">
+                                <select name="dienststelle" id="filter_aemter" class="grid_2">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-dienststelle-->
-                                    <option value="!{value}"!{sel}>!{label}</option>
+                                    <option value="!{value}" class="!{class}"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
                             </p>
@@ -147,11 +161,26 @@
                             <a href="!#ausgaben_link_csv" target="_blank">CSV</a>
                         </fieldset>
                         
+                        <script>
+                            function filter_aemter() {
+                                if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
+                                    jQuery('#filter_aemter option:selected').attr('selected',false);
+                                    jQuery('#filter_aemter option[value]').show()
+                                                                   .not('.' + jQuery('#filter_bezirk').val()).hide();
+                                }
+                            }
+                            jQuery(function(){
+                                filter_aemter();
+                                jQuery('#filter_bezirk').change(filter_aemter);
+                            })
+                        </script>
+                        
+                        
                     </form>
                     <!--##show-->
                     
                     <!--##hide-right_bezirk-->
-                    <form method="GET" style="">
+                    <form method="GET" style="" class="right_bezirk">
                         <fieldset>
                             <legend>Ergebnis filtern</legend>
                             <p>
@@ -193,7 +222,7 @@
                     <!--##show-->
                     
                     <!--##hide-right_ort-->
-                    <form method="GET" style="">
+                    <form method="GET" style="" class="right_ort">
                         <fieldset>
                             <legend>Ergebnis filtern</legend>
                             <p>
