@@ -30,14 +30,14 @@
                         </form>
                 </div>
                 <!--##show-->
-                
+
                 <div class="grid_8">
                     <h1>Mitglieder-Liste</h1>
                 </div>
 
 
                 <div class="grid_8">
-                    
+
                     <!--##hide-right_import-->
                     <p style="text-align: right;">
                           <b>Liste</b>
@@ -45,9 +45,9 @@
                         | <a href="!#ausgaben_cfg_basis/import-log.html">Import-Log</a>
                     </p>
                     <!--##show-->
-                    
+
                     #(inhalt)
-                    
+
                     <!--##hide-right_import-->
                     <form method="GET" action="!#ausgaben_form_aktion" class="right_import">
                         <fieldset>
@@ -87,15 +87,15 @@
                                 <label class="grid_2">&nbsp;</label>
                                 <button type="submit" name="send[]" value="Abschicken" class="button grid_2">Abschicken</button>
                             </p>
-                            
+
                         </fieldset>
-                        
+
                         <fieldset>
                             <legend>Daten exportieren</legend>
-                        
+
                             <a href="!#ausgaben_link_csv" target="_blank">CSV</a>
                         </fieldset>
-                        
+
                         <script>
                             function filter_aemter() {
                                 if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
@@ -109,12 +109,12 @@
                                 jQuery('#filter_bezirk').change(filter_aemter);
                             })
                         </script>
-                        
+
                     </form>
                     <!--##show-->
-                    
+
                     <!--##hide-right_vorstand-->
-                    <form method="GET" style="" class="right_vorstand">
+                    <form method="GET" action="!#ausgaben_form_aktion" style="" class="right_vorstand">
                         <fieldset>
                             <legend>Ergebnis filtern</legend>
                             <p>
@@ -152,15 +152,15 @@
                                 <label class="grid_2">&nbsp;</label>
                                 <button type="submit" name="send[]" value="Abschicken" class="button grid_2">Abschicken</button>
                             </p>
-                            
+
                         </fieldset>
-                        
+
                         <fieldset>
                             <legend>Daten exportieren</legend>
-                        
+
                             <a href="!#ausgaben_link_csv" target="_blank">CSV</a>
                         </fieldset>
-                        
+
                         <script>
                             function filter_aemter() {
                                 if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
@@ -174,13 +174,13 @@
                                 jQuery('#filter_bezirk').change(filter_aemter);
                             })
                         </script>
-                        
-                        
+
+
                     </form>
                     <!--##show-->
-                    
+
                     <!--##hide-right_bezirk-->
-                    <form method="GET" style="" class="right_bezirk">
+                    <form method="GET" action="!#ausgaben_form_aktion" style="" class="right_bezirk">
                         <fieldset>
                             <legend>Ergebnis filtern</legend>
                             <p>
@@ -209,20 +209,20 @@
                                 <label class="grid_2">&nbsp;</label>
                                 <button type="submit" name="send[]" value="Abschicken" class="button grid_2">Abschicken</button>
                             </p>
-                            
+
                         </fieldset>
-                        
+
                         <fieldset>
                             <legend>Daten exportieren</legend>
-                        
+
                             <a href="!#ausgaben_link_csv" target="_blank">CSV</a>
                         </fieldset>
-                        
+
                     </form>
                     <!--##show-->
-                    
+
                     <!--##hide-right_ort-->
-                    <form method="GET" style="" class="right_ort">
+                    <form method="GET" action="!#ausgaben_form_aktion" style="" class="right_ort">
                         <fieldset>
                             <legend>Ergebnis filtern</legend>
                             <p>
@@ -242,18 +242,18 @@
                                 <label class="grid_2">&nbsp;</label>
                                 <button type="submit" name="send[]" value="Abschicken" class="button grid_2">Abschicken</button>
                             </p>
-                            
+
                         </fieldset>
-                        
+
                         <fieldset>
                             <legend>Daten exportieren</legend>
-                        
+
                             <a href="!#ausgaben_link_csv" target="_blank">CSV</a>
                         </fieldset>
-                        
+
                     </form>
                     <!--##show-->
-                    
+
                     <table>
                         <thead>
                             <tr>
@@ -279,11 +279,11 @@
                             <!--##cont-->
                         </tbody>
                     </table>
-                    
+
                     <p>
                         !#ausgaben_inhalt_selector
                     </p>
-                    
+
 
                 </div>
 
