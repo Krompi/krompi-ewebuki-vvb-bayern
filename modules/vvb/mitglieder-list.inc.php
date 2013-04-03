@@ -47,19 +47,19 @@
 
         // funktions bereich
         // ***
-        
+
         if ( count($vvb_recht["right"]) == 0 ) {
             header("Location: /admin.html");
             exit;
         }
-               
+
         // Verschluesselung vorbereiten
         // ---------------------------------------------------------------------
         define("PASSPHRASE", $specialvars["crypt_salt"]);
         $Encrypt = new Encryption();
         // ---------------------------------------------------------------------
 
-        
+
         // Berechtigung
         // ---------------------------------------------------------------------
         if ( $vvb_recht["group"] == "schatz" ) {
@@ -73,7 +73,7 @@
             $dataloop["mitglieder_links"][] = array(
                 "link"  => $cfg["mitglieder"]["basis"]."/import-log.html",
                 "label" => "Import-Log",
-            );  
+            );
         } elseif ( $vvb_recht["group"] == "vorstand" ) {
             $hidedata["right_vorstand"] = array();
         } elseif ( $vvb_recht["group"] == "ort" ) {
@@ -82,20 +82,21 @@
             $hidedata["right_bezirk"] = array();
         }
         // ---------------------------------------------------------------------
-        
-        
+
+
         // WHERE-Abfrage vorbereiten
         // ---------------------------------------------------------------------
         $where_array = array();
         $where = "";
         // ---------------------------------------------------------------------
-        
-        
+
+
         // DROPDOWN: Dienststellen
         // ---------------------------------------------------------------------
         $sql = "SELECT DISTINCT ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"].",
                                 ".$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"].",
-                                ".$cfg["mitglieder"]["db"]["mitglieder"]["va"]."
+                                ".$cfg["mitglieder"]["db"]["mitglieder"]["va"].",
+                                ".$cfg["mitglieder"]["db"]["mitglieder"]["ast"]."
                            FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"];
         if ( $vvb_recht["where"] != "" ) {
             $sql .= "
@@ -103,27 +104,40 @@
         }
         $result = $db -> query($sql);
         while ( $data = $db -> fetch_array($result,1) ) {
-            
+
             if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] == "" )      continue;
             if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]] == "" ) continue;
-            
-            if ( $_GET["dienststelle"] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] ) {
+
+            $value = $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."-".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]];
+
+            if ( $_GET["dienststelle"] == $value ) {
                 $sel = "selected=\"true\"";
+                $dst = explode("-",$value);
                 $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."'";
+                if ( $dst[1] != 0 ) {
+                    $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["ast"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]]."'";
+                }
             } else {
                 $sel = "";
             }
+
+            if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]] == 0 ) {
+                $value = $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]];
+            } else {
+                $value = $data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]];
+            }
+
             $dataloop["dienststelle"][$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]]] = array(
                 "label" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]],
-                "value" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]],
+                "value" => $value,
                 "class" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]],
                 "sel"   => $sel,
             );
         }
         if (is_array($dataloop["dienststelle"])) ksort($dataloop["dienststelle"]);
         // ---------------------------------------------------------------------
-        
-        
+
+
         // DROPDOWN: Eingruppierung
         // ---------------------------------------------------------------------
         $sql = "SELECT DISTINCT ".$cfg["mitglieder"]["db"]["mitglieder"]["gruppe"]."
@@ -134,9 +148,9 @@
         }
         $result = $db -> query($sql);
         while ( $data = $db -> fetch_array($result,1) ) {
-            
+
             $gruppe = $Encrypt->decode($data[$cfg["mitglieder"]["db"]["mitglieder"]["gruppe"]]);
-            
+
             if ( $gruppe == "" ) continue;
             if ( $_GET["eingruppierung"] == $gruppe ) {
                 $sel = "selected=\"true\"";
@@ -152,9 +166,9 @@
         }
         if (is_array($dataloop["eingruppierung"])) ksort($dataloop["eingruppierung"]);
         // ---------------------------------------------------------------------
-        
-        
-        // DROPDOWN: Eingruppierung
+
+
+        // DROPDOWN: Bezirke
         // ---------------------------------------------------------------------
         foreach ( $cfg["mitglieder"]["kataloge"]["bezirke"] as $key=>$value ) {
             if ( $_GET["bezirk"] == $key ) {
@@ -171,7 +185,7 @@
         }
         ksort($dataloop["bezirk"]);
         // ---------------------------------------------------------------------
-        
+
         // Nachnamen-Suche
         // ---------------------------------------------------------------------
         $get_name = trim(preg_replace("/^[^a-zA-Z]$/", "", $_GET["name"]));
@@ -180,8 +194,8 @@
             $where_array[] = "Nachname LIKE '".$get_name."%'";
         }
         // ---------------------------------------------------------------------
-        
-        
+
+
         // WHERE-Abfrage zusammenbauen
         // ---------------------------------------------------------------------
         if ( $vvb_recht["where"] != "" ) {
@@ -189,17 +203,17 @@
         }
         if ( count($where_array) > 0 ) {
             $where = "
-                 WHERE ".implode(" 
+                 WHERE ".implode("
                    AND ",$where_array);
         }
         // ---------------------------------------------------------------------
-      
-        
+
+
         // Sortierunge
         // ---------------------------------------------------------------------
         $order = $cfg["mitglieder"]["db"]["mitglieder"]["order"];
         // ---------------------------------------------------------------------
-        
+
 
         $sql = "SELECT *
                   FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].
@@ -214,13 +228,13 @@
         $ausgaben["anzahl"] = $inhalt_selector[2];
 
         $result = $db -> query($sql);
-        $arr_ind = 1; 
-        
+        $arr_ind = 1;
+
         if ( $environment["parameter"][1] == "csv" ) {
             $csv_array = array();
         }
-        
-        
+
+//echo "<pre>";
         while ( $data = $db -> fetch_array($result,1) ) {
 
             // platz fuer vorbereitungen hier z.B.tabellen farben wechseln
@@ -229,16 +243,16 @@
             } else {
                 $cfg["mitglieder"]["color"]["set"] = $cfg["mitglieder"]["color"]["a"];
             }
-            
+
             $index = $data[$cfg["mitglieder"]["db"]["mitglieder"]["key"]];
-            
+
             foreach ( $cfg["mitglieder"]["csv_fields"] as $field_info ) {
                 if ( $field_info["crypt"] == TRUE ) {
                     $dataloop["list"][$index][$field_info["db"]] = $Encrypt->decode($data[$field_info["db"]]);
                 } else {
                     $dataloop["list"][$index][$field_info["db"]] = $data[$field_info["db"]];
                 }
-                
+
                 // Daten veredeln
                 if ( $field_info["db"] == "Bezirk" ) {
                     $dataloop["list"][$index][$field_info["db"]] = $cfg["mitglieder"]["kataloge"]["bezirke"][$data[$field_info["db"]]];
@@ -246,18 +260,18 @@
                 if (function_exists("mb_convert_variables") && $specialvars["output_encoding"] != "" ) {
                     mb_convert_variables($specialvars["output_encoding"], "UTF-8,ISO-8859-15,ISO-8859-1,Windows-1251,Windows-1252", $dataloop["list"][$index][$field_info["db"]]);
                 }
-                
+
                 if ( $environment["parameter"][1] == "csv" ) {
 //                    $csv_array[$index][] = $dataloop["list"][$index][$field_info["db"]];
-                    $csv_array[$index][] = html_entity_decode ( 
-                                                $dataloop["list"][$index][$field_info["db"]], 
-                                                ENT_COMPAT | ENT_HTML401 , 
-                                                $specialvars["output_encoding"] 
+                    $csv_array[$index][] = html_entity_decode (
+                                                $dataloop["list"][$index][$field_info["db"]],
+                                                ENT_COMPAT | ENT_HTML401 ,
+                                                $specialvars["output_encoding"]
                                             );
                 }
-                
+
             }
-            
+
 
             // wie im einfachen modul k�nnten nur die marken !{0}, !{1} befuellt werden
             #$dataloop["list"][$data["id"]][0] = $data["field1"];
@@ -265,20 +279,20 @@
 
             // der uebersicht halber fuellt das erweiterte modul aber einzeln benannte marken
         }
-        
-        
+
+
         if ( $environment["parameter"][1] == "csv" ) {
-            
+
             $array = arraY();
             foreach ( $cfg["mitglieder"]["csv_fields"] as $field_info ) {
                 $array[] = $field_info["db"];
             }
             array_unshift($csv_array,$array);
-            
+
             foreach ($csv_array as $key => $fields) {
                 $csv_array[$key] = trim(implode(";",$fields)."\n");
             }
-            
+
             header('Content-type: text/csv');
             header('Content-Disposition: attachment; filename="vvb_mitglied_export_'.date("y-m-d").'"');
             echo implode("\n",$csv_array);

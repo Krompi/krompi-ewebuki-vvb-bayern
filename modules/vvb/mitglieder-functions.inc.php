@@ -83,8 +83,8 @@
              }
 
          }
-         
-         
+
+
          // http://fluuux.de/2012/07/datensatze-verschlusselt-in-datenbank-speichern/
          class Encryption {
             var $skey = PASSPHRASE;
@@ -126,29 +126,29 @@
             }
         }
     }
-    
-    
+
+
     if ( in_array("sql_insert", $cfg["mitglieder"]["function"][$environment["kategorie"]]) ) {
-        
+
         function insert_member_data($member_data, $timestamp = FALSE) {
             global $db, $cfg;
-            
+
             $error = "";
-            
+
             // SQL in log-tabelle speichern
             // -----------------------------------------------------------------
             if ( $cfg["mitglieder"]["import_log"] == TRUE ) {
-                
+
                 // TODO: evtl. log-speicherung wieder aus Funktion rausnehmen
-                
-             
-//echo print_r($member_data,true);   
+
+
+//echo print_r($member_data,true);
                 $log_date = date("U");
                 if ( $timestamp != FALSE ) {
-                    
+
                     // gibt es einen Datensatz mit diesem Timestamp
-                    $sql = "SELECT * 
-                              FROM ".$cfg["mitglieder"]["db"]["import_log"]["entries"]." 
+                    $sql = "SELECT *
+                              FROM ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
                              WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$timestamp."";
 //echo $sql."\n";
                     $result  = $db -> query($sql);
@@ -165,7 +165,7 @@
                                        ".$cfg["mitglieder"]["db"]["import_log"]["count"]."=".count($member_data)."
                                  WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$timestamp;
 //echo $sql."\n";
-//echo print_r($member_data,true);
+//echo "--".print_r($member_data,true);
 //exit;
                         $result  = $db -> query($sql);
                         // alle anderen auf inaktive schalten
@@ -176,8 +176,7 @@
                         $result  = $db -> query($sql);
                     }
                 } else {
-//exit;
-                    
+
                     // neuen Datensatz einfuegen
                     $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
                                         (".$cfg["mitglieder"]["db"]["import_log"]["time"].",
@@ -185,9 +184,16 @@
                                         ".$cfg["mitglieder"]["db"]["import_log"]["count"].",
                                         ".$cfg["mitglieder"]["db"]["import_log"]["active"].")
                                 VALUES ('".$log_date."',
-                                        '".addslashes(serialize($member_data))."',
+                                        '".addcslashes(serialize($member_data),"'")."',
                                         ".count($member_data).",
                                         -1)";
+//echo "<pre>";
+//echo print_r($member_data,true);
+//echo print_r(serialize($member_data),true)."\n";
+//echo print_r(addcslashes(serialize($member_data),"'"),true)."\n";
+//echo $sql."\n";
+//echo "</pre>";
+//exit;
                     $result  = $db -> query($sql);
                     if ( !$result ) {
                         $error = $db -> error("FEHLER");
@@ -197,15 +203,15 @@
                                  WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."<>".$log_date;
                         $result  = $db -> query($sql);
                     }
-                    
+
                 }
-                
+
             }
 //            // -----------------------------------------------------------------
 //echo print_r($member_data,true);
 //exit;
-            
-            
+
+
             // Daten einfuegen
             // -----------------------------------------------------------------
             if ( $error == "" ) {
@@ -228,12 +234,12 @@
                 if ( $error == "" ) {
                     // Neue Daten einfuegen
                     foreach ( $member_data as $value ) {
-                        $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]." 
+                        $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
                                                     (".implode(",
                                                         ",$value["field"]).")
                                                 VALUES (".implode(",
                                                         ",$value["value"]).");";
-                        $sql_tmp_array[] = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]." 
+                        $sql_tmp_array[] = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
                                                     (".implode(",
                                                         ",$value["field"]).")
                                                 VALUES (".implode(",
@@ -257,11 +263,11 @@
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * Infos in DB geschrieben in           ".$exec_time." Sekunden".$debugging["char"];
             }
             // -----------------------------------------------------------------
-            
+
             return $error;
-            
+
         }
-        
+
     }
 
     ### platz fuer weitere funktionen ###
