@@ -64,7 +64,7 @@
                             <p>
                                 <label class="grid_2">Bezirk</label>
                                 <select name="bezirk" id="filter_bezirk" class="grid_2">
-                                    <option >bitte w&auml;hlen</option>
+                                    <option value="">bitte w&auml;hlen</option>
                                     <!--##loop-bezirk-->
                                     <option value="!{value}"!{sel}>!{label}</option>
                                     <!--##cont-->
@@ -73,9 +73,9 @@
                             <p>
                                 <label class="grid_2">Dienststelle</label>
                                 <select name="dienststelle" id="filter_aemter" class="grid_2">
-                                    <option >bitte w&auml;hlen</option>
+                                    <option value="" class="dd-init">bitte w&auml;hlen</option>
                                     <!--##loop-dienststelle-->
-                                    <option value="!{value}" class="!{class}"!{sel}>!{label}</option>
+                                    <option value="!{value}" class="!{class} dd-dienststelle"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
                             </p>
@@ -98,13 +98,20 @@
 
                         <script>
                             function filter_aemter() {
-                                if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
+console.log ( '1: ' + jQuery('#filter_bezirk option:selected').attr('value') );
+if ( jQuery('#filter_bezirk option:selected').hasClass('dd-init') ) console.log ('hallo');
+                                if ( jQuery('#filter_bezirk option:selected').attr('value') != "" ) {
                                     jQuery('#filter_aemter option:selected').attr('selected',false);
-                                    jQuery('#filter_aemter option[value]').show()
+                                    jQuery('#filter_aemter option.dd-dienststelle').show()
                                                                    .not('.' + jQuery('#filter_bezirk').val()).hide();
+console.log ('test1' + jQuery('#filter_bezirk').val());
+                                } else {
+console.log ('test2');
+                                    jQuery('#filter_aemter option[value]').show();
                                 }
                             }
                             jQuery(function(){
+console.log ('test');
                                 filter_aemter();
                                 jQuery('#filter_bezirk').change(filter_aemter);
                             })
@@ -167,9 +174,14 @@
                                     jQuery('#filter_aemter option:selected').attr('selected',false);
                                     jQuery('#filter_aemter option[value]').show()
                                                                    .not('.' + jQuery('#filter_bezirk').val()).hide();
+console.log ('test1');
+                                } else {
+                                    jQuery('#filter_aemter option[value]').show();
+console.log ('test2');
                                 }
                             }
                             jQuery(function(){
+console.log ('test');
                                 filter_aemter();
                                 jQuery('#filter_bezirk').change(filter_aemter);
                             })

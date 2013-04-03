@@ -69,6 +69,7 @@
                                    "bezirk" => "Bezirk",
                                    "gruppe" => "Eingruppierung",
                                        "va" => "VA",
+                                      "ast" => "Aussenstelle",
                                   "va_text" => "VA_text",
                                     "order" => "VA_text, Nachname, Vorname",
                                     "rows"  => 25,
@@ -165,7 +166,7 @@
          "encoding" => "iso-8859-15",
             "right" => "",
     );
-    
+
     $ausgaben["cfg_basis"] = $cfg["mitglieder"]["basis"];
 
     // * tipp: fuer das einfache modul muss der wert $cfg["basis"] natuerlich

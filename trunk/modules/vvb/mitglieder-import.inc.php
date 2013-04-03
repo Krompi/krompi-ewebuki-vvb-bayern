@@ -50,7 +50,7 @@
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= $debugging["char"]."[ <b>** ".$script["name"]." **</b> ]".$debugging["char"];
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * ".$debugging["char"];
 
-        
+
         // Mitglied-Import-Berechtigung
         // ---------------------------------------------------------------------
         if (in_array("import", $vvb_recht["right"]) ) {
@@ -64,10 +64,10 @@
             $dataloop["mitglieder_links"][] = array(
                 "link"  => $cfg["mitglieder"]["basis"]."/import-log.html",
                 "label" => "Import-Log",
-            );  
+            );
         }
         // ---------------------------------------------------------------------
-        
+
 
         // Dropdown Field Separator
         // =====================================================================
@@ -132,7 +132,7 @@
         // Hochgeladene CSV-Datei abarbeiten
         // =====================================================================
         if ( count($_FILES) > 0 ) {
-           
+
 //echo "<pre>";
             // Feld- und Text-Trenner rausfinden
             // -----------------------------------------------------------------
@@ -151,18 +151,18 @@
                 fclose($handle);
             }
             // -----------------------------------------------------------------
-                    
-            
+
+
             if (($handle = fopen($_FILES["cvs"]["tmp_name"], "r")) !== FALSE) {
                 // Datenimport starten
                 $start_file_import = array_sum(explode(' ', microtime()));
-                
-                        
+
+
                 // alle Aemter in Array zwischenspeichern
                 // Ergebnis-Arrays:
                 //      $array_aemter[Amtskennzahl] = Bezeichung
                 //      $array_aemter_parent[Amtskennzahl] = Amtskennzahl_des_Elternamts
-                //      
+                //
                 //      (Amtskennzahl: min. zweistellig mit fuehrender Null
                 // -------------------------------------------------------------
                 $start = array_sum(explode(' ', microtime()));
@@ -171,7 +171,7 @@
                         FROM ".$cfg["mitglieder"]["db"]["aemter"]["entries"]."
                     ORDER BY ".$cfg["mitglieder"]["db"]["aemter"]["parent"];
                 if ( $debugging["sql_enable"] ) $debugging["ausgabe"] .= "   - sql: ".$sql.$debugging["char"];
-                
+
                 $result = $db -> query($sql);
                 while ( $data = $db -> fetch_array($result,1) ) {
                     if ( $data[$cfg["mitglieder"]["db"]["aemter"]["typ"]]  == "StMF" ) {
@@ -195,9 +195,9 @@
                 $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * Aemterinfos gepuffert in             ".$exec_time." Sekunden".$debugging["char"];
                 // -------------------------------------------------------------
-                
-                
-                // Datenbank-Felder durchgehene und den Typ in die 
+
+
+                // Datenbank-Felder durchgehene und den Typ in die
                 // zu importierenden Felder einfuegen
                 // -------------------------------------------------------------
                 $start = array_sum(explode(' ', microtime()));
@@ -222,25 +222,25 @@
                 $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].": Feldtypen geholt in   ".$exec_time." Sekunden".$debugging["char"];
                 // -------------------------------------------------------------
-                
-                
+
+
                 // verschlüsseleung vorbereiten
                 // -------------------------------------------------------------
                 define("PASSPHRASE", $specialvars["crypt_salt"]);
                 $Encrypt = new Encryption();
                 // -------------------------------------------------------------
 
-                
+
                 $i = 0;
                 $field_indizes = array();
                 $sql_array = array();
-                
-                
+
+
                 // Zeilenweise einlesen
                 // -------------------------------------------------------------
                 $start = array_sum(explode(' ', microtime()));
-                
-                
+
+
                 while (($data = fgetcsv($handle, 2000, $field_separator, $text_separator)) !== FALSE) {
 
                     if ( $i == 0 ) {
@@ -253,22 +253,21 @@
                             if ( $cfg["mitglieder"]["csv_fields"][$field] != "" ) {
                                 // array schreiben
                                 $field_indizes[$key] = $field;
-                                    
-                            } 
+
+                            }
                         }
                         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  *  zu holende Spalten: ".print_r($field_indizes,true).$debugging["char"];
                         // -----------------------------------------------------
-                        
+
                     } else {
 //} elseif ( (int)$data["0"] == "1165" || (int)$data["0"] == "747" || (int)$data["0"] == "1138" ) {
 
                         // Daten einlesen und SQL vorbereiten
                         // -----------------------------------------------------
                         foreach ( $field_indizes as $key=>$field_name ) {
-                            
                             // zeichensatz-konvertierung
                             mb_convert_variables("UTF-8", "ISO-8859-15,Windows-1251,Windows-1252", $data[$key]);
-                            
+
                             // DB-Spalten namen
                             $sql_array[$i]["field"][$key] = $cfg["mitglieder"]["csv_fields"][$field_name]["db"];
 
@@ -276,20 +275,20 @@
                             if ( $cfg["mitglieder"]["csv_fields"][$field_name]["crypt"] == TRUE ) {
                                 // manche eintraege sollen verschluesselt werden
                                 $sql_array[$i]["value"][$key] = addslashes($Encrypt->encode( $data[$key] ));
-                            } else {    
+                            } else {
                                 $sql_array[$i]["value"][$key] = addslashes($data[$key]);
                             }
-                            
+
                             // ausgabe an Dateityp anpassen
                             if ( $cfg["mitglieder"]["csv_fields"][$field_name]["type"] == "text" ) {
                                 $sql_array[$i]["value"][$key] = "'".addslashes($sql_array[$i]["value"][$key])."'";
                             } elseif ( $cfg["mitglieder"]["csv_fields"][$field_name]["type"] == "int" ) {
                                 $sql_array[$i]["value"][$key] = (integer)$sql_array[$i]["value"][$key];
                             } else {
-                                
+
                             }
                         }
-                        
+
                         // amtskennzahl suchen
                         $field_amt = array_search( "Berufsgruppe", $field_indizes);
 //echo print_r($field_indizes,true);
@@ -298,7 +297,7 @@
                         $akz = (int)$data[$field_amt];
 //echo $akz."\n";
 //echo $array_aemter[$akz]."\n";
-                        
+
                         // ist es eine aussenstelle
                         if ( $array_aemter_parent[$akz] != "" ) {
                             $sql_array[$i]["value"][$field_amt] = $array_aemter_parent[$akz];
@@ -307,7 +306,7 @@
                         }
                         $sql_array[$i]["field"][120] = "VA_text";
                         $sql_array[$i]["value"][120] = "'".$array_aemter[$akz]."'";
-                        
+
                         // -----------------------------------------------------
                     }
                     $i++;
@@ -316,8 +315,8 @@
                 $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * Mitglieder eingelesen in             ".$exec_time." Sekunden".$debugging["char"];
                 // -------------------------------------------------------------
-                
-                
+
+
                 fclose($handle);
                 $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start_file_import) , 5);
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * <b>CSV eingelesen in                    ".$exec_time." Sekunden</b>".$debugging["char"];
@@ -328,26 +327,26 @@
 //echo "<pre>";
 //exit;
 
-        
-        
+
+
         // SQL zusammenbauen
         if ( count($sql_array) > 0 ) {
-            
+
             // Daten einlesen und Fehlermanagement
             $error = insert_member_data($sql_array);
 //exit;
-            
+
             if ( $error != "" ) {
                 $hidedata["error"]["text"] = $error;
             } else {
                 $hidedata["success"]["count"] = count($sql_array);
             }
-            
+
         }
 //echo "</pre>";
 
 
-        
+
 
 
         // navigation erstellen
