@@ -104,15 +104,14 @@
         }
         $result = $db -> query($sql);
         while ( $data = $db -> fetch_array($result,1) ) {
-
             if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] == "" )      continue;
             if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]] == "" ) continue;
 
             $value = $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."-".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]];
+            $dst = explode("-",$value);
 
-            if ( $_GET["dienststelle"] == $value ) {
+            if (in_array($_GET["dienststelle"], $dst) ) {
                 $sel = "selected=\"true\"";
-                $dst = explode("-",$value);
                 $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."'";
                 if ( $dst[1] != 0 ) {
                     $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["ast"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]]."'";
@@ -213,7 +212,6 @@
         // ---------------------------------------------------------------------
         $order = $cfg["mitglieder"]["db"]["mitglieder"]["order"];
         // ---------------------------------------------------------------------
-
 
         $sql = "SELECT *
                   FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].
