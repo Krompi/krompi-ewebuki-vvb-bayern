@@ -102,20 +102,27 @@
             $sql .= "
                           WHERE ".$vvb_recht["where"];
         }
+//echo "<pre>".print_r($sql)."</pre>";
+//echo "<pre>";
         $result = $db -> query($sql);
         while ( $data = $db -> fetch_array($result,1) ) {
+//echo $_GET["dienststelle"]."::".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."::".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]]."\n";
             if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] == "" )      continue;
             if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]] == "" ) continue;
 
             $value = $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."-".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]];
             $dst = explode("-",$value);
-
-            if (in_array($_GET["dienststelle"], $dst) ) {
+            
+            if ( $_GET["dienststelle"] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]] ) {
+//echo "  Aussenstelle\n";
                 $sel = "selected=\"true\"";
                 $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."'";
-                if ( $dst[1] != 0 ) {
-                    $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["ast"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]]."'";
-                }
+                $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["ast"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]]."'";
+            } elseif ( $_GET["dienststelle"] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] && $data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]] == 0 ) {
+//echo "  hauptamt\n";
+                $sel = "selected=\"true\"";
+                $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."'";
+                $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["ast"]."='0'";
             } else {
                 $sel = "";
             }
@@ -133,6 +140,8 @@
                 "sel"   => $sel,
             );
         }
+//echo "</pre>";
+        
         if (is_array($dataloop["dienststelle"])) ksort($dataloop["dienststelle"]);
         // ---------------------------------------------------------------------
 
