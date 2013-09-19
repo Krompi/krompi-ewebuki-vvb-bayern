@@ -42,10 +42,9 @@
     URL: http://www.chaos.de
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   
-    if ( $_GET["import"] == "ort" ) {
-        $file = "/srv/www/htdocs/vvb/website/file/new/aemter-edited.csv";
+    if ( $_GET["import"] == "ort" && $_SESSION["username"] == "ewebuki" ) {
+        $file = $pathvars["fileroot"]."file/new/aemter-edited.csv";
         
         function passwort($length = 8) {
             $array_con = array("w","r","t","z","p","s","d","f","g","h","k","x","b","n","m");
@@ -66,10 +65,7 @@
         
         function crypt_pass($pass) {
             // neues passwort verschluesseln ( mysql = ecncrypt() )
-            mt_srand((double)microtime()*1000000);
-            $a=mt_rand(1,128);
-            $b=mt_rand(1,128);
-            $mysalt = chr($a).chr($b);
+            $mysalt = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"), 0, 2);
             return crypt($pass, $mysalt);
         }
         
@@ -85,8 +81,8 @@ echo "<pre>";
             // =================================================================
             
             // Datenbank bereinigen
-            $sql = "DELETE FROM auth_user WHERE username LIKE 'va%'";
-            $result = $db -> query($sql);
+            $sql_array[] = "DELETE FROM auth_user WHERE username LIKE 'va%';";
+//            $result = $db -> query($sql);
             
             $fd = fopen($file, "r");
             while (!feof($fd)) {
@@ -110,8 +106,8 @@ echo "<pre>";
                     $nachname = $info[1];
                 }
                 
-                $sql = "INSERT INTO auth_user (nachname,vorname,username) VALUES ('".$nachname."','".$vorname."','".$username."');";
-                $result = $db -> query($sql);
+                $sql_array[] = "INSERT INTO auth_user (nachname,vorname,username) VALUES ('".$nachname."','".$vorname."','".$username."');";
+//                $result = $db -> query($sql);
                 
                 // Passwort festlegen
                 $user_pass[$username] = passwort();
@@ -121,20 +117,14 @@ echo "<pre>";
             foreach ( $user_pass as $username=>$pass ) {
 
                 // neues passwort verschluesseln ( mysql = ecncrypt() )
-                mt_srand((double)microtime()*1000000);
-                $a=mt_rand(1,128);
-                $b=mt_rand(1,128);
-                $mysalt = chr($a).chr($b);
-                $pass_crypt = crypt($pass, $mysalt);
+                $pass_crypt = crypt_pass($pass);
 
                 // da ich das passwort erstellt habe, klappt magic_quotes_gpc nicht
                 $pass_crypt = addslashes($pass_crypt);
                     
                     
-                $sql = "UPDATE auth_user
-                           SET pass = '".$pass_crypt."'
-                         WHERE username = '".$username."'";
-                $result = $db -> query($sql);
+                $sql_array[] = "UPDATE auth_user SET pass = '".$pass_crypt."' WHERE username = '".$username."';";
+//                $result = $db -> query($sql);
                 
                 echo $username." ".$pass."\n";
                     
@@ -155,8 +145,8 @@ echo "<pre>";
             );
             
             // Datenbank bereinigen
-            $sql = "DELETE FROM auth_user WHERE username LIKE 'bezirk_%'";
-            $result = $db -> query($sql);
+            $sql_array[] = "DELETE FROM auth_user WHERE username LIKE 'bezirk_%';";
+//            $result = $db -> query($sql);
             $user_pass = array();
             
             foreach ( $bezirke as $bezirk=>$label ) {
@@ -166,8 +156,8 @@ echo "<pre>";
                 $vorname  = "Bezirkssprecher";
                 $nachname = $label;
                 
-                $sql = "INSERT INTO auth_user (nachname,vorname,username) VALUES ('".$nachname."','".$vorname."','".$username."');";
-                $result = $db -> query($sql);
+                $sql_array[] = "INSERT INTO auth_user (nachname,vorname,username) VALUES ('".$nachname."','".$vorname."','".$username."');";
+//                $result = $db -> query($sql);
                 
                 // Passwort festlegen
                 $user_pass[$username] = passwort();
@@ -177,25 +167,25 @@ echo "<pre>";
             foreach ( $user_pass as $username=>$pass ) {
 
                 // neues passwort verschluesseln ( mysql = ecncrypt() )
-                mt_srand((double)microtime()*1000000);
-                $a=mt_rand(1,128);
-                $b=mt_rand(1,128);
-                $mysalt = chr($a).chr($b);
+                $mysalt = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"), 0, 2);
                 $pass_crypt = crypt($pass, $mysalt);
 
                 // da ich das passwort erstellt habe, klappt magic_quotes_gpc nicht
                 $pass_crypt = addslashes($pass_crypt);
                     
                     
-                $sql = "UPDATE auth_user
-                           SET pass = '".$pass_crypt."'
-                         WHERE username = '".$username."'";
-                $result = $db -> query($sql);
+                $sql_array[] = "UPDATE auth_user SET pass = '".$pass_crypt."' WHERE username = '".$username."';";
+//                $result = $db -> query($sql);
                 
                 echo $username." ".$pass."\n";
                     
             }
             // =================================================================
+            
+            echo "-----------\n";
+            foreach ( $sql_array as $line ) {
+                echo $line."\n";
+            }
 
             
         }
