@@ -236,9 +236,6 @@ echo "</pre>";
         if ( $_SESSION["uid"] != "" ) {
             $hidedata["login"] = array();
             
-            
-            
-        
             // Mitglieder-Verwaltung
             // =================================================================
             include $pathvars["moduleroot"]."vvb/mitglieder.cfg.php";
@@ -260,8 +257,6 @@ echo "</pre>";
                 $sql = "SELECT *
                         FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].
                             $where;
-//echo "<pre>";
-//echo print_r($vvb_recht,true);
 
                 // Mitglieder-Bereich anzeigen
                 $result = $db -> query($sql);
@@ -296,7 +291,6 @@ echo "</pre>";
                               FROM db_mitglieder".
                                 $where."
                           GROUP BY VA_text, VA, Aussenstelle";
-//echo $sql."\n";
                     $result = $db -> query($sql);
                     while ( $data = $db -> fetch_array($result,1) ) {
                         
@@ -316,7 +310,6 @@ echo "</pre>";
                         );
                     }
                 }
-//echo "</pre>";
 
             }
             // =================================================================

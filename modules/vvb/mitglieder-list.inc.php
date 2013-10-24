@@ -93,8 +93,6 @@
 
         // DROPDOWN: Dienststellen
         // ---------------------------------------------------------------------
-//echo "<pre>";
-//echo "hallo\n";
         
         $get_value_amt = explode("-",$_GET["dienststelle"]);
         
@@ -106,44 +104,85 @@
         }
 
 
+        $buffer_where = array("1=1");
         if ( $vvb_recht["where"] != "" ) {
-            $where = "
-                          WHERE ".$vvb_recht["where"];
+            $buffer_where[] = $vvb_recht["where"];
         }
+        
+        // Hauptamter rausfinden
         $sql = "SELECT DISTINCT ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"].",
                                 ".$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"].",
                                 ".$cfg["mitglieder"]["db"]["mitglieder"]["va"].",
                                 ".$cfg["mitglieder"]["db"]["mitglieder"]["ast"]."
-                           FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].$where."
+                           FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
+                          WHERE ".implode("
+                            AND ",$buffer_where)."
+                            AND ".$cfg["mitglieder"]["db"]["mitglieder"]["ast"].">0
                        ORDER BY ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]."";
         $result = $db -> query($sql);
-//echo $sql."\n";
+        $haupt_aussen = array();
         while ( $data = $db -> fetch_array($result,1) ) {
-            if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] == "" )      continue;
-            if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]] == "" ) continue;
-
-            
-            if ( $get_value_amt[0] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] ) {
-                $sel = "selected=\"true\"";
-            } else {
-                $sel = "";
-            }
-            
-            $dataloop["dienststelle"][$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]] = array(
-                "label" => str_replace("- Au&szlig;enstelle","mit Au&szlig;enstelle",$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]]),
-                "value" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]],
-                "class" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]],
-                "sel"   => $sel,
-            );
+            $haupt_aussen[$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]] = $data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]];
         }
         
         
         
-//echo "hallo\n";
-//echo print_r($dataloop["dienststelle"],true);
-//echo "</pre>";
         
-//        if (is_array($dataloop["dienststelle"])) ksort($dataloop["dienststelle"]);
+        $sql = "SELECT DISTINCT ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"].",
+                                ".$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"].",
+                                ".$cfg["mitglieder"]["db"]["mitglieder"]["va"]."
+                           FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
+                          WHERE ".implode("
+                            AND ",$buffer_where)."
+                            AND ".$cfg["mitglieder"]["db"]["mitglieder"]["ast"]."=0
+                       ORDER BY ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]."";
+        $result = $db -> query($sql);
+        while ( $data = $db -> fetch_array($result,1) ) {
+            if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] == "" )      continue;
+            if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]] == "" ) continue;
+
+            if ( $_GET["dienststelle"] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] ) {
+                $sel = " selected=\"true\"";
+            } else {
+                $sel = "";
+            }
+            
+            $dataloop["dienststelle"][$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]]] = array(
+                "label" => str_replace("- Au&szlig;enstelle","mit Au&szlig;enstelle",$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]]),
+                "value" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]],
+                "class" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]]." margin-top",
+                "sel"   => $sel,
+            );
+            
+            if ( $haupt_aussen[$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]] != "" ) {
+                // nur Hauptamt
+                if ( $_GET["dienststelle"] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."-0" ) {
+                    $sel = " selected=\"true\"";
+                } else {
+                    $sel = "";
+                }
+                $dataloop["dienststelle"][$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]]."_ha"] = array(
+                    "label" => "  - ".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]].": nur Hauptamt",
+                    "value" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."-0",
+                    "class" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]],
+                    "sel"   => $sel,
+                );
+                
+                // nur Aussenstelle
+                
+                if ( $_GET["dienststelle"] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."-".$haupt_aussen[$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]] ) {
+                    $sel = " selected=\"true\"";
+                } else {
+                    $sel = "";
+                }
+                $dataloop["dienststelle"][$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]]."_ast"] = array(
+                    "label" => "  - ".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]].": nur Au&szlig;enstelle",
+                    "value" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."-".$haupt_aussen[$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]],
+                    "class" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]],
+                    "sel"   => $sel,
+                );
+            }
+        }
         // ---------------------------------------------------------------------
 
 
