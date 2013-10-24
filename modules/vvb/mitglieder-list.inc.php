@@ -93,56 +93,57 @@
 
         // DROPDOWN: Dienststellen
         // ---------------------------------------------------------------------
+//echo "<pre>";
+//echo "hallo\n";
+        
+        $get_value_amt = explode("-",$_GET["dienststelle"]);
+        
+        if ( is_numeric($get_value_amt[0]) ) {
+            $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$get_value_amt[0]."'";
+        }
+        if ( is_numeric($get_value_amt[1]) ) {
+            $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["ast"]."='".$get_value_amt[1]."'";
+        }
+
+
+        if ( $vvb_recht["where"] != "" ) {
+            $where = "
+                          WHERE ".$vvb_recht["where"];
+        }
         $sql = "SELECT DISTINCT ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"].",
                                 ".$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"].",
                                 ".$cfg["mitglieder"]["db"]["mitglieder"]["va"].",
                                 ".$cfg["mitglieder"]["db"]["mitglieder"]["ast"]."
-                           FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"];
-        if ( $vvb_recht["where"] != "" ) {
-            $sql .= "
-                          WHERE ".$vvb_recht["where"];
-        }
-//echo "<pre>".print_r($sql)."</pre>";
-//echo "<pre>";
+                           FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].$where."
+                       ORDER BY ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]."";
         $result = $db -> query($sql);
+//echo $sql."\n";
         while ( $data = $db -> fetch_array($result,1) ) {
-//echo $_GET["dienststelle"]."::".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."::".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]]."\n";
             if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] == "" )      continue;
             if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]] == "" ) continue;
 
-            $value = $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."-".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]];
-            $dst = explode("-",$value);
             
-            if ( $_GET["dienststelle"] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]] ) {
-//echo "  Aussenstelle\n";
+            if ( $get_value_amt[0] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] ) {
                 $sel = "selected=\"true\"";
-                $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."'";
-                $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["ast"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]]."'";
-            } elseif ( $_GET["dienststelle"] == $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]] && $data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]] == 0 ) {
-//echo "  hauptamt\n";
-                $sel = "selected=\"true\"";
-                $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]."'";
-                $where_array[] = $cfg["mitglieder"]["db"]["mitglieder"]["ast"]."='0'";
             } else {
                 $sel = "";
             }
-
-            if ( $data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]] == 0 ) {
-                $value = $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]];
-            } else {
-                $value = $data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]];
-            }
-
-            $dataloop["dienststelle"][$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]]] = array(
-                "label" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]],
-                "value" => $value,
+            
+            $dataloop["dienststelle"][$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]] = array(
+                "label" => str_replace("- Au&szlig;enstelle","mit Au&szlig;enstelle",$data[$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]]),
+                "value" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]],
                 "class" => $data[$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]],
                 "sel"   => $sel,
             );
         }
+        
+        
+        
+//echo "hallo\n";
+//echo print_r($dataloop["dienststelle"],true);
 //echo "</pre>";
         
-        if (is_array($dataloop["dienststelle"])) ksort($dataloop["dienststelle"]);
+//        if (is_array($dataloop["dienststelle"])) ksort($dataloop["dienststelle"]);
         // ---------------------------------------------------------------------
 
 
