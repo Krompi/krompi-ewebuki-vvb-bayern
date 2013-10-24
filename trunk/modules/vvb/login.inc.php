@@ -260,6 +260,8 @@ echo "</pre>";
                 $sql = "SELECT *
                         FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].
                             $where;
+//echo "<pre>";
+//echo print_r($vvb_recht,true);
 
                 // Mitglieder-Bereich anzeigen
                 $result = $db -> query($sql);
@@ -282,6 +284,39 @@ echo "</pre>";
                         "label" => "Import-Log",
                     );
                 }
+                
+                if ( $vvb_recht["group"] != "ort" ) {
+                    $hidedata["export_table"] = array();
+                    
+                    // Uebersicht der einzelnen Aemter
+                    $sql = "SELECT VA_text as amt, 
+                                   VA,
+                                   Aussenstelle,
+                                   count(Mitglieds_Nr) as anzahl
+                              FROM db_mitglieder".
+                                $where."
+                          GROUP BY VA_text, VA, Aussenstelle";
+//echo $sql."\n";
+                    $result = $db -> query($sql);
+                    while ( $data = $db -> fetch_array($result,1) ) {
+                        
+                        if ($data["amt"]=="") continue;
+
+                        if ( $data["anzahl"] == 0 ) {
+                            $anzahl = "1 Mitglied";
+                        } else {
+                            $anzahl = $data["anzahl"]." Mitglieder";
+                        }
+
+                        $dataloop["export_table"][] = array(
+                            "amt"      => $data["amt"],
+                            "anzahl"   => $anzahl,
+                            "query"    => "?dienststelle=".$data["VA"]."-".$data["Aussenstelle"],
+                            "csv_link" => $cfg["mitglieder"]["basis"]."/list,csv.html?dienststelle=".$data["VA"]."-".$data["Aussenstelle"],
+                        );
+                    }
+                }
+//echo "</pre>";
 
             }
             // =================================================================

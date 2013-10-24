@@ -75,7 +75,12 @@
                                 <select name="dienststelle" id="filter_aemter" class="grid_2">
                                     <option value="" class="dd-init">bitte w&auml;hlen</option>
                                     <!--##loop-dienststelle-->
-                                    <option value="!{value}" class="!{class} dd-dienststelle"!{sel}>!{label}</option>
+                                    <option value="!{value}" class="!{class} items dd-dienststelle"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
+                                <select name="" class="grid_2 filter-aemter-dummy" style="display: block;">
+                                    <!--##loop-dienststelle-->
+                                    <option value="!{value}" class="items !{class}">!{label}</option>
                                     <!--##cont-->
                                 </select>
                             </p>
@@ -98,23 +103,35 @@
 
                         <script>
                             function filter_aemter() {
-console.log ( '1: ' + jQuery('#filter_bezirk option:selected').attr('value') );
-if ( jQuery('#filter_bezirk option:selected').hasClass('dd-init') ) console.log ('hallo');
-                                if ( jQuery('#filter_bezirk option:selected').attr('value') != "" ) {
-                                    jQuery('#filter_aemter option:selected').attr('selected',false);
-                                    jQuery('#filter_aemter option.dd-dienststelle').show()
-                                                                   .not('.' + jQuery('#filter_bezirk').val()).hide();
-console.log ('test1' + jQuery('#filter_bezirk').val());
-                                } else {
-console.log ('test2');
-                                    jQuery('#filter_aemter option[value]').show();
+                                
+                                if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
+                                    // value des ausgewaehlten Punktes holen
+                                    if ( !isNaN(jQuery('#filter_aemter option:selected').val()) ) {
+                                        selVal = jQuery('#filter_aemter option:selected').val();
+                                    } else {
+                                        selVal = -1;
+                                    }
+                                    // alle options entfernen
+                                    jQuery('#filter_aemter option.items').remove();
+                                    // alle dummy-eintraege durchgehen
+                                    jQuery('.filter-aemter-dummy option').each(function(index,element) {
+                                        if ( jQuery(element).hasClass(jQuery('#filter_bezirk').val()) ) {
+                                            if ( jQuery(element).val() === selVal ) {
+                                                jQuery(element).attr('selected',true);
+                                            }
+                                            jQuery(element).appendTo('#filter_aemter');
+                                        }
+                                    });
+                                    if ( selVal == -1 ) {
+                                        jQuery('#filter_aemter option:first-child').attr('selected','true');
+                                    }
                                 }
+                                
                             }
                             jQuery(function(){
-console.log ('test');
                                 filter_aemter();
                                 jQuery('#filter_bezirk').change(filter_aemter);
-                            })
+                            });
                         </script>
 
                     </form>
@@ -147,7 +164,12 @@ console.log ('test');
                                 <select name="dienststelle" id="filter_aemter" class="grid_2">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-dienststelle-->
-                                    <option value="!{value}" class="!{class}"!{sel}>!{label}</option>
+                                    <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
+                                    <!--##cont-->
+                                </select>
+                                <select name="" class="grid_2 filter-aemter-dummy" style="display: block;">
+                                    <!--##loop-dienststelle-->
+                                    <option value="!{value}" class="items !{class}">!{label}</option>
                                     <!--##cont-->
                                 </select>
                             </p>
@@ -170,21 +192,38 @@ console.log ('test');
 
                         <script>
                             function filter_aemter() {
+                                
                                 if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
-                                    jQuery('#filter_aemter option:selected').attr('selected',false);
-                                    jQuery('#filter_aemter option[value]').show()
-                                                                   .not('.' + jQuery('#filter_bezirk').val()).hide();
-console.log ('test1');
-                                } else {
-                                    jQuery('#filter_aemter option[value]').show();
-console.log ('test2');
+                                    // value des ausgewaehlten Punktes holen
+                                    if ( !isNaN(jQuery('#filter_aemter option:selected').val()) ) {
+                                        selVal = jQuery('#filter_aemter option:selected').val();
+                                    } else {
+                                        selVal = -1;
+                                    }
+console.clear();
+console.log (selVal);
+                                    // alle options entfernen
+                                    jQuery('#filter_aemter option.items').remove();
+                                    // alle dummy-eintraege durchgehen
+                                    jQuery('.filter-aemter-dummy option').each(function(index,element) {
+                                        if ( jQuery(element).hasClass(jQuery('#filter_bezirk').val()) ) {
+                                            clone = jQuery(element).clone(true);
+                                            if ( jQuery(clone).val() === selVal ) {
+                                                jQuery(clone).attr('selected',true);
+                                            }
+                                            jQuery(clone).appendTo('#filter_aemter');
+                                        }
+                                    });
+                                    if ( selVal == -1 ) {
+                                        jQuery('#filter_aemter option:first-child').attr('selected','true');
+                                    }
                                 }
+                                
                             }
                             jQuery(function(){
-console.log ('test');
                                 filter_aemter();
                                 jQuery('#filter_bezirk').change(filter_aemter);
-                            })
+                            });
                         </script>
 
 
