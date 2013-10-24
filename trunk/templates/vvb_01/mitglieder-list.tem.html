@@ -54,7 +54,7 @@
                             <legend>Ergebnis filtern</legend>
                             <p>
                                 <label class="grid_2">Eingruppierung</label>
-                                <select name="eingruppierung" class="grid_2">
+                                <select name="eingruppierung" class="grid_4">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-eingruppierung-->
                                     <option value="!{value}"!{sel}>!{label}</option>
@@ -63,7 +63,7 @@
                             </p>
                             <p>
                                 <label class="grid_2">Bezirk</label>
-                                <select name="bezirk" id="filter_bezirk" class="grid_2">
+                                <select name="bezirk" id="filter_bezirk" class="grid_4">
                                     <option value="">bitte w&auml;hlen</option>
                                     <!--##loop-bezirk-->
                                     <option value="!{value}"!{sel}>!{label}</option>
@@ -72,21 +72,22 @@
                             </p>
                             <p>
                                 <label class="grid_2">Dienststelle</label>
-                                <select name="dienststelle" id="filter_aemter" class="grid_2">
+                                <select name="dienststelle" id="filter_aemter" class="grid_4">
                                     <option value="" class="dd-init">bitte w&auml;hlen</option>
                                     <!--##loop-dienststelle-->
                                     <option value="!{value}" class="!{class} items dd-dienststelle"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
                                 <select name="" class="grid_2 filter-aemter-dummy" style="display: none;">
+                                    <option value="0">bitte w&auml;hlen</option>
                                     <!--##loop-dienststelle-->
-                                    <option value="!{value}" class="items !{class}">!{label}</option>
+                                    <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
                             </p>
                             <p>
                                 <label class="grid_2">Nachname</label>
-                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_2" />
+                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_4" />
                             </p>
                             <p>
                                 <label class="grid_2">&nbsp;</label>
@@ -106,20 +107,23 @@
                                 
                                 if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
                                     // value des ausgewaehlten Punktes holen
-                                    if ( !isNaN(jQuery('#filter_aemter option:selected').val()) ) {
-                                        selVal = jQuery('#filter_aemter option:selected').val();
+                                    if ( jQuery('.filter-aemter-dummy option:selected').val() != '0' ) {
+                                        selVal = jQuery('.filter-aemter-dummy option:selected').val();
                                     } else {
                                         selVal = -1;
                                     }
+console.clear();
+console.log (selVal);
                                     // alle options entfernen
                                     jQuery('#filter_aemter option.items').remove();
                                     // alle dummy-eintraege durchgehen
-                                    jQuery('.filter-aemter-dummy option').each(function(index,element) {
+                                    jQuery('.filter-aemter-dummy option.items').each(function(index,element) {
                                         if ( jQuery(element).hasClass(jQuery('#filter_bezirk').val()) ) {
-                                            if ( jQuery(element).val() === selVal ) {
-                                                jQuery(element).attr('selected',true);
+                                            clone = jQuery(element).clone(true);
+                                            if ( jQuery(clone).val() === selVal ) {
+                                                jQuery(clone).attr('selected',true);
                                             }
-                                            jQuery(element).appendTo('#filter_aemter');
+                                            jQuery(clone).appendTo('#filter_aemter');
                                         }
                                     });
                                     if ( selVal == -1 ) {
@@ -143,7 +147,7 @@
                             <legend>Ergebnis filtern</legend>
                             <p>
                                 <label class="grid_2">Eingruppierung</label>
-                                <select name="eingruppierung" class="grid_2">
+                                <select name="eingruppierung" class="grid_4">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-eingruppierung-->
                                     <option value="!{value}"!{sel}>!{label}</option>
@@ -152,7 +156,7 @@
                             </p>
                             <p>
                                 <label class="grid_2">Bezirk</label>
-                                <select name="bezirk" id="filter_bezirk" class="grid_2">
+                                <select name="bezirk" id="filter_bezirk" class="grid_4">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-bezirk-->
                                     <option value="!{value}"!{sel}>!{label}</option>
@@ -161,21 +165,22 @@
                             </p>
                             <p>
                                 <label class="grid_2">Dienststelle</label>
-                                <select name="dienststelle" id="filter_aemter" class="grid_2">
+                                <select name="dienststelle" id="filter_aemter" class="grid_4">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-dienststelle-->
                                     <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
                                 <select name="" class="grid_2 filter-aemter-dummy" style="display: none;">
+                                    <option value="0">bitte w&auml;hlen</option>
                                     <!--##loop-dienststelle-->
-                                    <option value="!{value}" class="items !{class}">!{label}</option>
+                                    <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
                                     <!--##cont-->
                                 </select>
                             </p>
                             <p>
                                 <label class="grid_2">Nachname</label>
-                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_2" />
+                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_4" />
                             </p>
                             <p>
                                 <label class="grid_2">&nbsp;</label>
@@ -195,8 +200,8 @@
                                 
                                 if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
                                     // value des ausgewaehlten Punktes holen
-                                    if ( !isNaN(jQuery('#filter_aemter option:selected').val()) ) {
-                                        selVal = jQuery('#filter_aemter option:selected').val();
+                                    if ( jQuery('.filter-aemter-dummy option:selected').val() != '0' ) {
+                                        selVal = jQuery('.filter-aemter-dummy option:selected').val();
                                     } else {
                                         selVal = -1;
                                     }
@@ -205,7 +210,7 @@ console.log (selVal);
                                     // alle options entfernen
                                     jQuery('#filter_aemter option.items').remove();
                                     // alle dummy-eintraege durchgehen
-                                    jQuery('.filter-aemter-dummy option').each(function(index,element) {
+                                    jQuery('.filter-aemter-dummy option.items').each(function(index,element) {
                                         if ( jQuery(element).hasClass(jQuery('#filter_bezirk').val()) ) {
                                             clone = jQuery(element).clone(true);
                                             if ( jQuery(clone).val() === selVal ) {
@@ -236,7 +241,7 @@ console.log (selVal);
                             <legend>Ergebnis filtern</legend>
                             <p>
                                 <label class="grid_2">Eingruppierung</label>
-                                <select name="eingruppierung" class="grid_2">
+                                <select name="eingruppierung" class="grid_4">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-eingruppierung-->
                                     <option value="!{value}"!{sel}>!{label}</option>
@@ -245,7 +250,7 @@ console.log (selVal);
                             </p>
                             <p>
                                 <label class="grid_2">Dienststelle</label>
-                                <select name="dienststelle" class="grid_2">
+                                <select name="dienststelle" class="grid_4">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-dienststelle-->
                                     <option value="!{value}"!{sel}>!{label}</option>
@@ -254,7 +259,7 @@ console.log (selVal);
                             </p>
                             <p>
                                 <label class="grid_2">Nachname</label>
-                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_2" />
+                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_4" />
                             </p>
                             <p>
                                 <label class="grid_2">&nbsp;</label>
@@ -278,7 +283,7 @@ console.log (selVal);
                             <legend>Ergebnis filtern</legend>
                             <p>
                                 <label class="grid_2">Eingruppierung</label>
-                                <select name="eingruppierung" class="grid_2">
+                                <select name="eingruppierung" class="grid_4">
                                     <option >bitte w&auml;hlen</option>
                                     <!--##loop-eingruppierung-->
                                     <option value="!{value}"!{sel}>!{label}</option>
@@ -287,7 +292,7 @@ console.log (selVal);
                             </p>
                             <p>
                                 <label class="grid_2">Nachname</label>
-                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_2" />
+                                <input type="text" name="name" value="!#ausgaben_mitglied_name" class="grid_4" />
                             </p>
                             <p>
                                 <label class="grid_2">&nbsp;</label>

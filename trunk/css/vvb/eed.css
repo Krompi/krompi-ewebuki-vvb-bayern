@@ -44,3 +44,8 @@ li.thumbs a.pic {
   height: 100px;
   margin: 0 auto;
   width: 96px; }
+
+
+option.margin-top {
+    margin-top: 3px;
+}
