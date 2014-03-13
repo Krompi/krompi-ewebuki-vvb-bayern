@@ -59,11 +59,29 @@
 
     // Ortsbeauftragter
     if ( preg_match("/^va([0-9]{2})/", $_SESSION["username"], $match) ) {
+        // rechte für das eigene Amt vergeben
         $vvb_recht = array(
             "group" => "ort",
             "right" => array("show"),
             "where" => $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$match[1]."'"
         );
+        // Falls LVG-Ortsbeauftrager, Rechte für alle Abteilungen erteilen
+        $sql = "SELECT *  
+                  FROM ".$cfg["mitglieder"]["db"]["aemter"]["entries"]." 
+                 WHERE ".$cfg["mitglieder"]["db"]["aemter"]["akz"]."=".(integer)$match[1];
+        $result = $db->query($sql);
+        if ( $db->num_rows($result) > 0 ) {
+            $data = $db -> fetch_array($result,1);
+            if ( $data[$cfg["mitglieder"]["db"]["aemter"]["typ"]] == "LVG" ) {
+                $vvb_recht = array(
+                    "group" => "ort",
+                    "right" => array("show"),
+                    // nur die Mitglieder der Abteilung 1-4
+                    //"where" => $cfg["mitglieder"]["db"]["mitglieder"]["va"]." IN (9,10,12,14)"
+                    "where" => $cfg["mitglieder"]["db"]["mitglieder"]["va"]." IN (SELECT kennzahl FROM db_aemter WHERE typ='LVG')"
+                );
+            }
+        }
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Ortsbeauftragter".$debugging["char"];
     }
 
