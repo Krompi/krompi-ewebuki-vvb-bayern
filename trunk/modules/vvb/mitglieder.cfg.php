@@ -165,6 +165,17 @@
        "import_log" => TRUE,
          "encoding" => "iso-8859-15",
             "right" => "",
+    "expand_rights" => array(
+                        "va14" => array(14,12,10,9,7),     # LVG, Abt. 1-5
+                        "va12" => array(14,12,10,9,7),     # LVG, Abt. 1-5
+                        "va10" => array(14,12,10,9,7),     # LVG, Abt. 1-5
+                        "va09" => array(14,12,10,9,7),     # LVG, Abt. 1-5
+                        "va07" => array(14,12,10,9,7),     # LVG, Abt. 1-5
+                        "va16" => array(16,38),            # Reg. Ost / Schwabach
+                        "va38" => array(16,38),            # Reg. Ost / Schwabach
+                        "va19" => array(19,66),            # Reg. Nord / Landshut
+                        "va66" => array(19,66),            # Reg. Nord / Landshut
+                      ),
     );
 
     $ausgaben["cfg_basis"] = $cfg["mitglieder"]["basis"];
