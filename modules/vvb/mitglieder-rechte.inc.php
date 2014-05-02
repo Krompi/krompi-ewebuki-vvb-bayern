@@ -65,23 +65,29 @@
             "right" => array("show"),
             "where" => $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$match[1]."'"
         );
-        // Falls LVG-Ortsbeauftrager, Rechte für alle Abteilungen erteilen
-        $sql = "SELECT *  
-                  FROM ".$cfg["mitglieder"]["db"]["aemter"]["entries"]." 
-                 WHERE ".$cfg["mitglieder"]["db"]["aemter"]["akz"]."=".(integer)$match[1];
-        $result = $db->query($sql);
-        if ( $db->num_rows($result) > 0 ) {
-            $data = $db -> fetch_array($result,1);
-            if ( $data[$cfg["mitglieder"]["db"]["aemter"]["typ"]] == "LVG" ) {
-                $vvb_recht = array(
-                    "group" => "ort",
-                    "right" => array("show"),
-                    // nur die Mitglieder der Abteilung 1-4
-                    //"where" => $cfg["mitglieder"]["db"]["mitglieder"]["va"]." IN (9,10,12,14)"
-                    "where" => $cfg["mitglieder"]["db"]["mitglieder"]["va"]." IN (SELECT kennzahl FROM db_aemter WHERE typ='LVG')"
-                );
-            }
+
+        // in der config kann die Berechtigung erweitert werden
+        if ( is_array($cfg["mitglieder"]["expand_rights"][$_SESSION["username"]]) && count($cfg["mitglieder"]["expand_rights"][$_SESSION["username"]]) > 0 ) {
+            $vvb_recht["where"] = $cfg["mitglieder"]["db"]["mitglieder"]["va"]." IN (".implode(", ",$cfg["mitglieder"]["expand_rights"][$_SESSION["username"]]).")";
         }
+
+        // Falls LVG-Ortsbeauftrager, Rechte für alle Abteilungen erteilen
+        // $sql = "SELECT *  
+        //           FROM ".$cfg["mitglieder"]["db"]["aemter"]["entries"]." 
+        //          WHERE ".$cfg["mitglieder"]["db"]["aemter"]["akz"]."=".(integer)$match[1];
+        // $result = $db->query($sql);
+        // if ( $db->num_rows($result) > 0 ) {
+        //     $data = $db -> fetch_array($result,1);
+        //     if ( $data[$cfg["mitglieder"]["db"]["aemter"]["typ"]] == "LVG" ) {
+        //         $vvb_recht = array(
+        //             "group" => "ort",
+        //             "right" => array("show"),
+        //             // nur die Mitglieder der Abteilung 1-4
+        //             //"where" => $cfg["mitglieder"]["db"]["mitglieder"]["va"]." IN (9,10,12,14)"
+        //             "where" => $cfg["mitglieder"]["db"]["mitglieder"]["va"]." IN (SELECT kennzahl FROM db_aemter WHERE typ='LVG')"
+        //         );
+        //     }
+        // }
         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "   Benutzergruppe Ortsbeauftragter".$debugging["char"];
     }
 
