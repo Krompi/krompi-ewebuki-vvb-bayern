@@ -1,0 +1,1 @@
+Skripte und Templates der Webseite des Verband des Vermessungsdienstes in Bayern, basierend auf eWeBuKi
