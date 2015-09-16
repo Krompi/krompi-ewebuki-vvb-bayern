@@ -140,7 +140,7 @@
 
             $dataloop["news"][] = array(
                 "titel"     => $titel,
-                "teaser"    => $teaser,
+                "teaser"    => tagreplace($teaser),
                 "datum"     => $datum_start_dmy,
                 "detail"    => $detail,
                 "img_src"   => $img_src,
