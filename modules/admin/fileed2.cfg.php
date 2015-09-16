@@ -82,7 +82,7 @@
                              "line" => "5",    # pro zeile  (rows / line)
                           "newline" => "<br clear=\"all\" />",
                              "user" => "fuid",
-                        #"grant_grp" => "fgroups",          # dort steht, welche gruppen das bild editiern koennen
+                        "grant_grp" => "fgroups",          # dort steht, welche gruppen das bild editiern koennen
                                ),
                      "lang" => array(
                             #"entries" => "site_file_lang",
@@ -139,7 +139,7 @@
 //          "no_dummy" => "admin",                             # noetiges recht um den fhit komplett zu bearbeiten
             "right" => $cfg["auth"]["menu"]["fileed"][1],
          "restrict" => array(), # z.B. array("delete", "edit")
-        #"su_groups" => array(1),       # beinhaltet die ids der gruppen, die alle bilder bearbeiten koennen
+        "su_groups" => array(1),       # beinhaltet die ids der gruppen, die alle bilder bearbeiten koennen
     );
 
 ////+///////+///////+///////+///////+///////+///////+///////////////////////////////////////////////////////////
