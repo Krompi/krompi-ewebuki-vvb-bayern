@@ -36,32 +36,6 @@
 </div>
 <!--##show-->
 
-<!--##hide-show_mitglieder-->
-<div class="grid_7 border-all omega" style="margin-bottom: 1em;padding: 0 15px 15px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;">
-    <h2>Mitglieder-Daten</h2>
-    <p>Sie haben Zugriff auf Daten von !{count} Mitgliedern.
-        <a href="!{link_list}">Liste</a>
-        | <a href="!{link_csv}">CSV-Export</a>
-        <!--##loop-memb_import_rights-->
-        | <a href="!{link}">!{label}</a>
-        <!--##cont-->
-    </p>
-<!--##show-->
-<!--##hide-export_table-->
-    <table style="margin-top:30px;">
-        <!--##loop-export_table-->
-        <tr>
-            <td>!{amt}</td>
-            <td>!{anzahl}</td>
-            <td><a href="!{csv_link}">CSV-Export</a></td>
-        </tr>
-        <!--##cont-->
-    </table>
-<!--##show-->
-<!--##hide-show_mitglieder-->
-</div>
-<!--##show-->
-
 <!--##hide-show_artikel-->
 <div class="grid_7 border-all omega" style="margin-bottom: 1em;padding: 0 15px 15px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;">
     <h2>Artikel</h2>
@@ -104,6 +78,32 @@
         }
     )
 </script>
+<!--##show-->
+
+<!--##hide-show_mitglieder-->
+<div class="grid_7 border-all omega" style="margin-bottom: 1em;padding: 0 15px 15px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;">
+    <h2>Mitglieder-Daten</h2>
+    <p>Sie haben Zugriff auf Daten von !{count} Mitgliedern.
+        <a href="!{link_list}">Liste</a>
+        | <a href="!{link_csv}">CSV-Export</a>
+        <!--##loop-memb_import_rights-->
+        | <a href="!{link}">!{label}</a>
+        <!--##cont-->
+    </p>
+<!--##show-->
+<!--##hide-export_table-->
+    <table style="margin-top:30px;">
+        <!--##loop-export_table-->
+        <tr>
+            <td>!{amt}</td>
+            <td>!{anzahl}</td>
+            <td><a href="!{csv_link}">CSV-Export</a></td>
+        </tr>
+        <!--##cont-->
+    </table>
+<!--##show-->
+<!--##hide-show_mitglieder-->
+</div>
 <!--##show-->
 
 
