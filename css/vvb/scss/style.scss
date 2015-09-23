@@ -2,6 +2,7 @@
 @import "grid";
 @import "jquery-ui";
 @import "slimbox2";
+// @import "bootstrap";
 
 
 // OWN MIXINS
@@ -110,7 +111,7 @@ $bg-button-confirm : #9AD6F3;
         }
         &.active {
             background: #CAE6F4;
-            
+
             &:hover {
                 .edit-box {
                     opacity:0;

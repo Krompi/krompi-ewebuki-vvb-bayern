@@ -42,6 +42,12 @@
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    if ( strstr($environment["ebene"]."/".$environment["kategorie"], "/admin" ) && !empty($_SESSION["uid"]) ) {
+        // anderes Base-Template verwenden
+        $cfg["print"]["state"] = true;
+        $_POST["print"][2] = "base-admin";
+    }
+
     date_default_timezone_set('Europe/Berlin');
 
     if ( ($_SESSION["uid"] != 1 && !strpos($_SERVER["SERVER_NAME"],"krompi")) ) {
@@ -66,14 +72,14 @@
         include $pathvars["moduleroot"]."basic/view.inc.php";
     }
 
-    
-    
-    
-    
+
+
+
+
 if ( $_SESSION["uid"] != "" ) {
-    
-    
-    
+
+
+
     // wizard: for testing only !!
     if ( preg_match("/^\/wizard/",$environment["ebene"]) )
     {
@@ -181,7 +187,7 @@ if ( $_SESSION["uid"] != "" ) {
     include $pathvars["moduleroot"]."addon/changed.cfg.php";
     include $pathvars["moduleroot"]."addon/changed.inc.php";
 }
-    
+
 
     // Mitglieder-Ausgabe
     if ( strstr($environment["ebene"]."/".$environment["kategorie"],"/admin/mitglieder") )
@@ -196,8 +202,8 @@ if ( $_SESSION["uid"] != "" ) {
     {
         include $pathvars["moduleroot"]."vvb/artikel.inc.php";
     }
-    
-    
+
+
 
     // addon: kontakt
     if (  ( $environment["ebene"] == "" && $environment["kategorie"] == "kontakt" )
@@ -256,8 +262,8 @@ if ( $_SESSION["uid"] != "" ) {
 #        include $pathvars["moduleroot"]."customer/leer-ctrl.inc.php"; # erweitertes modul
 #    }
 
-    
-    
+
+
     // Artikelanzeige mit Jahresauswahl
     if ( ($environment["ebene"] == "" && $environment["kategorie"] == "index") || $environment["ebene"] == "" && $environment["kategorie"] == "aktuell" )
     {
