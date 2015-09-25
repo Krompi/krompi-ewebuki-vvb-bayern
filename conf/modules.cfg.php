@@ -42,7 +42,7 @@
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    if ( strstr($environment["ebene"]."/".$environment["kategorie"], "/admin" ) && !empty($_SESSION["uid"]) ) {
+    if ( (strstr($environment["ebene"]."/".$environment["kategorie"], "/admin" ) || strstr($environment["ebene"]."/".$environment["kategorie"], "/wizard" )) && !empty($_SESSION["uid"]) ) {
         // anderes Base-Template verwenden
         $cfg["print"]["state"] = true;
         $_GET["print"][2] = "base-admin";

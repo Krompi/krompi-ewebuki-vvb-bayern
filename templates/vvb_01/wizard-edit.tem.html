@@ -1,6 +1,6 @@
 <!--##begin-->
 !#ausgaben_ce_script
-<div id="wizard">
+<div id="wizard" class="container-fluid">
     <div class="grid_9">
         #(inhalt)
         <p>&nbsp;</p>
@@ -154,18 +154,25 @@
                         <div class="clear"></div>
                     </fieldset>
 
-                    <fieldset>
+                    <fieldset class="form-group">
                         <legend>#(dimension)</legend>
+
+                        <div class="form-group">
+                            <label for="num_col" class="col-sm-3 control-label">#(num_col)</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="num_col" name="num_col" value="!#ausgaben_num_col" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="num_row" class="col-sm-3 control-label">#(num_row)</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="num_row" name="num_row" value="!#ausgaben_num_row" class="form-control" />
+                            </div>
+                        </div>
+
                         <p>
-                            <label>#(num_col)</label>
-                            <input type="text" name="num_col" value="!#ausgaben_num_col" class="small" />
-                        </p>
-                        <p>
-                            <label>#(num_row)</label>
-                            <input type="text" name="num_row" value="!#ausgaben_num_row" class="small" />
-                        </p>
-                        <p>
-                            <label>&nbsp;</label>
+                            <label class="col-sm-3 control-label">&nbsp;</label>
                             <input type="submit" name="refresh[]" value="#(refresh)" class="button" />
                         </p>
                     </fieldset>
