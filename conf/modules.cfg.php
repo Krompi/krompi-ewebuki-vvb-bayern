@@ -45,7 +45,7 @@
     if ( strstr($environment["ebene"]."/".$environment["kategorie"], "/admin" ) && !empty($_SESSION["uid"]) ) {
         // anderes Base-Template verwenden
         $cfg["print"]["state"] = true;
-        $_POST["print"][2] = "base-admin";
+        $_GET["print"][2] = "base-admin";
     }
 
     date_default_timezone_set('Europe/Berlin');
@@ -276,6 +276,69 @@ if ( $_SESSION["uid"] != "" ) {
         include $pathvars["moduleroot"]."vvb/login.cfg.php";
         include $pathvars["moduleroot"]."vvb/login.inc.php"; # erweitertes modul
     }
+
+
+    function walk_menu($refid = 0, $lang="de", $level=1, $nested = false) {
+        global $db, $cfg, $menu_walk_parameter;
+
+        $menu_array = array();
+
+        $sql = "SELECT *
+                  FROM site_menu
+                  JOIN site_menu_lang
+                    ON (site_menu.mid=site_menu_lang.mid)
+                 WHERE refid=".$refid."
+                   AND lang='".$lang."'
+              ORDER BY sort";
+        $result  = $db -> query($sql);
+        while ( $data = $db -> fetch_array($result,1) ) {
+echo $refid."::".$data["mid"]."::".$data["label"]."\n";
+
+            // Gibt es Unterpunkte
+            $sql = "SELECT *
+                      FROM site_menu
+                      JOIN site_menu_lang
+                        ON (site_menu.mid=site_menu_lang.mid)
+                     WHERE refid=". $data["mid"]."
+                       AND lang='".$lang."'
+                  ORDER BY sort";
+            $result_subdir = $db->query($sql);
+            $num_subdir    = $db->num_rows($result_subdir);
+
+            $menu_array[$data["mid"]] = array(
+                "path"   => make_ebene($data["mid"]),
+                "entry"  => $data["entry"],
+                "label"  => $data["label"],
+                "exturl" => $data["exturl"],
+                "hide"   => $data["hide"],
+                "sort"   => $data["sort"],
+                "num_subdir" => $num_subdir,
+                "level"  => $level,
+            );
+
+            // Rekursiv Aufrufen
+            if ( $num_subdir > 0 ) {
+                $sub_dir = walk_menu($data["mid"], $lang, $level+1);
+// echo "<pre>".print_r($sub_dir,true)."</pre>";
+                // // Arrays zusammenfügen
+                if ( $nested == FALSE ) {
+                    $menu_array = array_merge($menu_array, $sub_dir);
+                } else {
+                    $menu_array[$data["mid"]]["subdir"] = $sub_dir;
+                }
+                //
+            }
+
+
+        }
+
+        return $menu_array;
+    }
+
+    // echo "<pre>";
+    // $test = walk_menu();
+    // echo print_r($test,true);
+    // echo "</pre>";
 
 
 

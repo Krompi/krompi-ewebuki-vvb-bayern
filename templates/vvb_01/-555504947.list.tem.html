@@ -1,0 +1,42 @@
+<!--##begin-->
+<!--menued -555504947.list.tem.html v1 chaot-->
+<div class="container-fluid">
+  <h1>#(ueberschrift)</h1>
+  <p>
+      <!--##hide-back-->
+      <a href="!{link}"><img src="../../images/default/up.png" border="0" alt="Zur�ck" title="Zur�ck" width="24\" height="18"></a>
+      <!--##show-->
+      <span style="float:right">!#ausgaben_design</span>
+  </p>
+  <div class="menu-editor">
+  <!--##hide-move-->
+      <form method="post" action="!#ausgaben_form_aktion">
+          <p class="red">!#ausgaben_form_error</p>
+          <!-- <p>!#element_entry</p> -->
+  <!--##show-->
+          !#ausgaben_root
+          !#ausgaben_show_menu
+  <!--##hide-move-->
+          <fieldset class="menu-editor-tools">
+              <input type="submit" name="send[]" value="g(send)" class="first" />
+              <input type="reset" name="reset" value="g(reset)" class="next" />
+              <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="next" />
+          </fieldset>
+      </form>
+  <!--##show-->
+
+      <div class="menu-editor-tools">
+          <p>
+              !#ausgaben_new
+              !#ausgaben_renumber
+          </p>
+      </div>
+  </div>
+
+
+</div>
+<p>!#ausgaben_inaccessible</p>
+
+
+
+<!--##end-->

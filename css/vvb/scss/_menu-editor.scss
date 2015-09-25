@@ -1,0 +1,25 @@
+.menu-editor {
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        li {
+            padding: 3px 0 2px;
+            border-bottom: 1px solid #dbdbdb;
+            &:hover {
+                background: #efefef;
+            }
+        }
+    }
+    .form-group {
+        input[type="text"], select {
+            @extend .form-control;
+        }
+    }
+}
+.menu-editor-tools {
+    a, input {
+        @extend .btn;
+        @extend .btn-primary;
+    }
+}
