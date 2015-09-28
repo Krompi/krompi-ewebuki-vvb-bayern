@@ -36,7 +36,7 @@
     c/o Werner Ammon
     Lerchenstr. 11c
 
-    86343 Königsbrunn
+    86343 Kï¿½nigsbrunn
 
     URL: http://www.chaos.de
 */
@@ -161,6 +161,36 @@
                        ),
         "default_label"     => "inhalt"
            );
+
+    if ( $environment["kategorie"] == "edit" ) {
+        // if ( $_GET["referer"] == "" ) {
+        //     $_GET["referer"] = @$_SERVER["HTTP_REFERER"];
+        // }
+
+        $sql = "SELECT *
+                  FROM ". SITETEXT ."
+                 WHERE lang = '".$environment["language"]."'
+                   AND label ='".$environment["parameter"][3]."'
+                   AND tname ='".$environment["parameter"][2]."'
+                 ORDER BY version DESC";
+        if ( $debugging["sql_enable"] ) $debugging["ausgabe"] .= "sql: ".$sql.$debugging["char"];
+        $result = $db -> query($sql);
+        $current_version = false;
+        while ( $data = $db -> fetch_array($result,1) ) {
+            if ( $current_version != false ) {
+                $hidedata["version_prev"]["link"] = $cfg["contented"]["basis"]."/edit,".$environment["parameter"][1].",".$environment["parameter"][2].",".$environment["parameter"][3].",".$environment["parameter"][4].",,".$data["version"].".html";
+                break;
+            }
+            if ( $environment["parameter"][6] == "" ) {
+                $current_version = $data["version"];
+                continue;
+            } elseif ( $environment["parameter"][6] == $data["version"] ) {
+                $current_version = $data["version"];
+                continue;
+            }
+            $hidedata["version_next"]["link"] = $cfg["contented"]["basis"]."/edit,".$environment["parameter"][1].",".$environment["parameter"][2].",".$environment["parameter"][3].",".$environment["parameter"][4].",,".$data["version"].".html";
+        }
+    }
 
 ////+///////+///////+///////+///////+///////+///////+///////////////////////////////////////////////////////////
 ?>

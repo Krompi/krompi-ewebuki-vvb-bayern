@@ -1,3 +1,12 @@
 
 @import "bootstrap";
+@import "font-awesome";
 @import "menu-editor";
+
+.eed-tools {
+    a, input {
+        @extend .btn;
+        @extend .btn-default;
+        margin: 2px 2px 2px 0;
+    }
+}

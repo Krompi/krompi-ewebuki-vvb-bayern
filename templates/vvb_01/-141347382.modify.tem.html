@@ -1,0 +1,80 @@
+<!--##begin-->
+<!--contented -102562964.modify.tem.html v1 chaot-->
+!#ausgaben_ce_script
+
+<div class="container-fluid">
+    <h1>
+        #(ueberschrift)
+    </h1>
+    <p>#(inhalt)</p>
+    <p>!#ausgaben_form_error</p>
+
+    <form method="post" action="!#ausgaben_form_aktion" class="menu-editor">
+        <div class="eed-tools">
+            <div class="eed-tools pull-right">
+                <!--##hide-version_prev-->
+                <a href="!{link}?referer=!#ausgaben_form_referer" title="vorherige Version"><span class="fa fa-angle-double-left"></span></a>
+                <!--##show-->
+                !#ausgaben_version
+                <!--##hide-version_next-->
+                <a href="!{link}?referer=!#ausgaben_form_referer" title="nächste Version"><span class="fa fa-angle-double-right"></span></a>
+                <!--##show-->
+            </div>
+            <script type="text/javascript">ebToolbar('T');</script>
+        </div>
+
+        <textarea id="content" name="!#ausgaben_name" cols="80" rows="15" title="!#ausgaben_lock" class="form-control !#ausgaben_class" !#ausgaben_eventh2>!#ausgaben_inhalt</textarea>
+
+        <div class="eed-tools">
+            <div class="pull-right">!#ausgaben_lock</div>
+            <script type="text/javascript">ebToolbar('B');</script>
+        </div>
+
+        <!--##hide-list_images-->
+        <div class="clearfix">
+            <!--##loop-list_images-->
+            <div class="col-sm-3">
+                <div class="thumbnail">
+                    <img src="!{src}" !{size} alt="!{alt}" title="!{title} g(edit)" onclick="!{oclick}" />
+                    <input type="button" id="eb_imgo" value="O" title="Einf�gen Original (original)" onclick="!{oclick}" class="btn btn-default btn-sm" />
+                    <input type="button" id="eb_imgs" value="B" title="Einf�gen Gross (big)" onclick="!{bclick}" class="btn btn-default btn-sm" />
+                    <input type="button" id="eb_imgm" value="M" title="Einf�gen Mittel (middle)" onclick="!{mclick}" class="btn btn-default btn-sm" />
+                    <input type="button" id="eb_imgb" value="S" title="Einf�gen Klein (small)" onclick="!{sclick}" class="btn btn-default btn-sm" />
+                </div>
+            </div>
+            <!--##cont-->
+        </div>
+        <!--##show-->
+
+        <!--##hide-list_other-->
+        <div class="clearfix">
+            <!--##loop-list_other-->
+            <a title="!{title} einf�gen" onclick="!{fclick}" class="btn btn-default btn-sm">!{title}</a>
+            <!--##cont-->
+        </div>
+        <!--##show-->
+
+        <fieldset>
+            <input type="hidden" name="html" value="!#ausgaben_form_hidden_html" class="hidden" />
+            <input type="hidden" name="version" value="!#ausgaben_form_hidden_version" class="hidden" />
+            <input type="hidden" name="status" value="!#ausgaben_form_hidden_status" class="hidden" />
+            <input type="hidden" name="form_referer" value="!#ausgaben_form_referer" class="hidden" />
+            <div class="clearer">&nbsp;</div>
+            <input type="submit" name="send[save]" value="g(overwrite)" accesskey="s" class="btn btn-primary" />
+            <!--##hide-revision_control-->
+            <input type="submit" name="send[versioning]" value="g(version)" accesskey="b" class="btn btn-primary" />
+            <!--##show-->
+            <input type="reset" name="reset" value="g(reset)" accesskey="r" class="btn btn-warning" />
+            <input type="button" name="abort" value="g(abort)" accesskey="a" onclick="location='!#ausgaben_form_break'" class="btn btn-warning" />
+        </fieldset>
+
+    </form>
+    <script type="text/javascript" language="JavaScript">
+        <!--
+        // This is for toolbar plugins
+        var ebCanvas = document.getElementById('content');
+        //-->
+    </script>
+
+</div>
+<!--##end-->
