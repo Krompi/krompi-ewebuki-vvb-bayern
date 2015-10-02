@@ -1,4 +1,31 @@
 #!/bin/sh
+path_ewebuki=ewebuki
+path_custom=vvb
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -e | --file )           shift
+                                path_ewebuki=$1
+                                ;;
+        -c | --interactive )    shift
+                                path_custom=$1
+                                ;;
+#        -h | --help )           usage
+#                                exit
+#                                ;;
+#        * )                     usage
+#                                exit 1
+    esac
+    shift
+done
+
+echo ${path_ewebuki}
+echo ${path_custom}
+exit;
+
+
+
+
 cd ..
 cd ewebuki
 
