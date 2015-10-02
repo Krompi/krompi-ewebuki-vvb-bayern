@@ -35,7 +35,7 @@ ln -sfv ../${path_custom}/file
 
 # Ordner Links setzen
 cd css/
-    ln -sfv ../../vvb/css/vvb
+    ln -sfv ../../${path_custom}/css/vvb
     ln -sfv ../../${path_custom}/css/vvb_01
 cd ..
 
