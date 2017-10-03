@@ -72,8 +72,8 @@
     // tipp: mit class=\"menupunkt\" laesst sich das aussehen anpassen
     //       ##picture## enthaelt den im menued unter bild vergebenen wert
     // css menu ohne template
-                       "on" => "<ul class=\"navigation\">\n",
-                     "link" => "<li class=\"##class## ##extend##\"><a ##target## href=\"##link##\" title=\"##title##\">##picture####label##</a>##next_level##</li>\n",
+                       "on" => "<ul class=\"nav navbar-nav navigation\">\n",
+                     "link" => "<li class=\"##class## ##extend##\"><a ##target## href=\"##link##\">##picture####label##</a>##next_level##</li>\n",
                     #"link1" => "<li><a ##target## href=\"##link##\">##label##</a></li>\n",
                     #"link2" => "<li class=\"##aktiv##\">##label##</li>\n",
                       "off" => "</ul>\n",
