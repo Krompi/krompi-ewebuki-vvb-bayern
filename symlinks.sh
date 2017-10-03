@@ -1,6 +1,6 @@
 #!/bin/sh
-path_ewebuki=ewebuki
-path_custom=vvb
+path_ewebuki=website
+path_custom=website.ext
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -19,9 +19,9 @@ while [ "$1" != "" ]; do
     shift
 done
 
-echo ${path_ewebuki}
-echo ${path_custom}
-exit;
+#echo ${path_ewebuki}
+#echo ${path_custom}
+#exit;
 
 
 
@@ -30,21 +30,24 @@ cd ..
 cd ${path_ewebuki}
 
 ln -sfv ../${path_custom}/.htaccess
-rm -rf  file
-ln -sfv ../${path_custom}/file
+#rm -rf  file
+#ln -sfv ../${path_custom}/file
 
 # Ordner Links setzen
 cd css/
     ln -sfv ../../${path_custom}/css/vvb
     ln -sfv ../../${path_custom}/css/vvb_01
+    ln -sfv ../../${path_custom}/css/responsive
 cd ..
 
 cd images
     ln -sfv ../../${path_custom}/images/vvb
+    ln -sfv ../../${path_custom}/images/responsive
 cd ..
 
 cd js
     ln -sfv ../../${path_custom}/js/vvb
+    ln -sfv ../../${path_custom}/js/responsive
 cd ..
 cd modules
     ln -sfv ../../${path_custom}/modules/vvb
@@ -53,6 +56,7 @@ cd ..
 cd templates
     ln -sfv ../../${path_custom}/templates/vvb
     ln -sfv ../../${path_custom}/templates/vvb_01
+    ln -sfv ../../${path_custom}/templates/responsive
 cd ..
 
 # configs-Links setzen
