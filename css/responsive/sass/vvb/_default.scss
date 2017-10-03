@@ -1,0 +1,16 @@
+body {
+    background: #daeaf2;
+    font-family: "PT Sans",Sans-serif;
+    line-height: 1.5;
+}
+
+.content-wrap {
+    background: $vvb-default-bg;
+    padding: 15px;
+}
+
+h1 {
+    font-size: 1.7em;
+    border-bottom: 3px solid $vvb-blue;
+    margin-top: 0;
+}
