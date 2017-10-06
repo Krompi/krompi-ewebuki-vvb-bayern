@@ -1,29 +1,91 @@
 <!--$Id$-->
 <!--##begin-->
+<!--##hide-form-->
 <div class="col-md-8 col-xs-12">
     <form class="form-horizontal " method="post" action="!#ausgaben_form_aktion">
+<!--##show-->
+
         <h1>#(ueberschrift)</h1>
-        <span class="help-block">Mit * gekennzeichnete Felder sind Pflichtfelder</span>
-        <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">#(name)</label>
-            <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-            </div>
+        <!--##hide-success-->
+        <p class="bg-success" style="padding: 10px 15px;">
+            #(success)
+        </p>
+        <!--##show-->
+
+<!--##hide-form-->
+        <span class="help-block col-sm-offset-3 col-sm-9">Mit * gekennzeichnete Felder sind Pflichtfelder</span>
+<!--##show-->
+<!--##hide-form_error-->
+        <div class="panel panel-default">
+            <ul class="list-group">
+                <!--##loop-form_error-->
+                <li class="list-group-item">!{text}</li>
+                <!--##cont-->
+            </ul>
         </div>
+<!--##show-->
+<!--##hide-form-->
         <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">#(name)</label>
-            <div class="col-sm-10">
+            <label for="name" class="col-sm-3 control-label">#(name)</label>
+            <div class="col-sm-9">
                 !#element_name
             </div>
         </div>
+        <div class="form-group">
+            <label for="e-mail" class="col-sm-3 control-label">#(e-mail)</label>
+            <div class="col-sm-9">
+                !#element_e-mail
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="telefon" class="col-sm-3 control-label">#(telefon)</label>
+            <div class="col-sm-9">
+                !#element_telefon
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="betreff" class="col-sm-3 control-label">#(betreff)</label>
+            <div class="col-sm-9">
+                !#element_betreff
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="mitteilung" class="col-sm-3 control-label">#(mitteilung)</label>
+            <div class="col-sm-9">
+                !#element_mitteilung
+            </div>
+        </div>
+<!--##show-->
+<!--##hide-captcha-->
+        <div class="form-group">
+            <label for="captcha" class="col-sm-3 control-label">
+            </label>
+            <div class="col-sm-9">
+                <img title="captcha" alt="captcha" src="!{url}" />
+                <input type="text" value="" name="captcha" class="form-control !{class}" id="captcha" />
+                <input name="captcha_proof" type="hidden" value="!{proof}" class="hidden" />
+            </div>
+        </div>
+<!--##show-->
+<!--##hide-form-->
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-default" name="send[]" value="g(send)">g(send)</button>
+                <button type="submit" class="btn btn-link pull-right" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'">g(abort)</button>
+            </div>
+        </div>
+        <input type="hidden" value="!#ausgaben_last_viewed" name="last_viewed" class="" maxlength="50" id="last_viewed"  readonly="true" />
+        <input name="form_referer" type="hidden" value="!#ausgaben_form_referer" class="hidden" />
     </form>
 </div>
+<!--##show-->
 
 <div class="col-md-4 col-xs-12">
-    <div class="box">
+    <div class="box" style="padding: 10px 15px;">
         #(inhalt)
     </div>
 </div>
+<!--##end-->
 
 
         <!--##hide-form-->
@@ -31,11 +93,6 @@
         <!--##show-->
             <div class="grid_9">
                 <h1>#(ueberschrift)</h1>
-        <!--##hide-success-->
-                <fieldset class="border-all">
-                    <p>#(success)</p>
-                </fieldset>
-        <!--##show-->
             </div>
         <!--##hide-form-->
             <div class="grid_6">
