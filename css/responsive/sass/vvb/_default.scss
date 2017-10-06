@@ -4,13 +4,63 @@ body {
     line-height: 1.5;
 }
 
-.content-wrap {
+.main-wrap {
     background: $vvb-default-bg;
-    padding: 15px;
+    padding: 0;
 }
 
 h1 {
     font-size: 1.7em;
     border-bottom: 3px solid $vvb-blue;
-    margin-top: 0;
+    font-weight: bold;
+    line-height: 3.5rem;
+}
+
+h2 {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+
+.box {
+    //border: 1px solid $btn-default-border;
+    background: #fff;
+    margin-top: 20px;
+    border-radius: 2px;
+    h3 {
+        background: $vvb-blue;
+        font-size: 1.7em;
+        color: #3f3f3f;
+        //border-bottom: 3px solid red;
+        font-weight: bold;
+        line-height: 3.5rem;
+        padding: 0 10px;
+        margin: 0;
+    }
+    ul, div {
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+}
+
+.content-wrap {
+    padding-bottom: 20px;
+}
+
+.vvb-navigation {
+    margin-top: 20px;
+    a {
+        display: block;
+    }
+    .Level2Active {
+        //background: #f2f2f2;
+        a {
+            font-weight: bold;
+        }
+    }
+}
+
+table {
+    @extend .table;
+    @extend .table-condensed;
 }

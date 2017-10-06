@@ -1,0 +1,25 @@
+
+article {
+    background: #fff;
+    padding: 10px 10px;
+    margin: 0 0 15px;
+    border-radius: 2px;
+    @extend .clearfix;
+    h2 {
+        padding: 0;
+        margin: 0;
+
+    }
+    .meta {
+        font-size: .8em;
+    }
+    .article-img {
+        padding-left: 0;
+        a {
+            display: block;
+        }
+        img {
+            width: 100%;
+        }
+    }
+}
