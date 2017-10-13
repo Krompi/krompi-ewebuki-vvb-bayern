@@ -3,3 +3,7 @@
     border: 0;
     margin-bottom: 0;
 }
+
+.panel-default > .panel-heading {
+    background-color: $vvb-blue;
+}

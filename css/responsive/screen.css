@@ -8329,6 +8329,9 @@ h2 {
   border: 0;
   margin-bottom: 0; }
 
+.panel-default > .panel-heading {
+  background-color: #aedcf2; }
+
 article {
   background: #fff;
   padding: 10px 10px;
