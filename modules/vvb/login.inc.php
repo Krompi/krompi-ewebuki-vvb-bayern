@@ -42,7 +42,7 @@
     URL: http://www.chaos.de
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
+
     if ( $_GET["import"] == "ort" && $_SESSION["username"] == "ewebuki" ) {
         $file = $pathvars["fileroot"]."file/new/aemter-edited.csv";
         

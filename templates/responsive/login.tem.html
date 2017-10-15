@@ -6,43 +6,33 @@
 
     #{login-no-auth}
 
-    #{login-admin}
-
+    <!--##hide-authLogout-->
+    <div class="col-md-4 pull-right">
+        <form class="form-horizontal " method="post" action="!#ausgaben_auth_url">
+            <div class="panel panel-default vvb-navigation">
+                <!--<div class="panel-heading"><a href="!#pathvars_virtual/aktuell.html">Archiv</a></div>-->
+                <ul class="list-group">
+                    <!--##loop-authInPlace-->
+                    <li class="list-group-item !{class}" style="!{style}">
+                        <a href="!{link}">!{desc}</a>
+                    </li>
+                    <!--##cont-->
+                    <!--##loop-authTools-->
+                    <li class="list-group-item !{class}" style="!{style}">
+                        <a href="!{url}" title="!{title}">!{label}!{end}</a>
+                    </li>
+                    <!--##cont-->
+                    <li class="list-group-item !{class}" style="!{style}">
+                        <button type="submit" class="btn btn-default btn-block btn-sm" name="logout" value="logout">Abmelden</button>
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    <!--##show-->
 
 </div>
 <!--##end-->
-
-
-<!--##hide-authLogout-->
-<div class="grid_2" style="float:right;">
-    <form method="post" action="!#ausgaben_auth_url">
-        <div class="box border-all">
-            <div class="space-lr">
-                <p>
-                    <input type="submit" name="logout" value="logout" style="width:100%;" />
-                </p>
-<!--##show-->
-
-                <!--##loop-authInPlace-->
-                <a href="!{link}">!{desc}</a><br />
-                <!--##cont-->
-                <br />
-
-                <!--##hide-authTools-->
-                <p>#(desc)<br />
-                <!--##loop-authTools-->
-                <a href="!{url}" title="!{title}">!{label}!{end}</a>
-                <!--##cont-->
-                </p>
-                <!--##show-->
-
-<!--##hide-authLogout-->
-            </div>
-            <div class="clear"></div>
-        </div>
-        </form>
-</div>
-<!--##show-->
 
 <!--##hide-show_artikel-->
 <div class="grid_7 border-all omega" style="margin-bottom: 1em;padding: 0 15px 15px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;">
