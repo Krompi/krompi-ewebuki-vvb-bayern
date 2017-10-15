@@ -1,0 +1,148 @@
+<!--$Id$-->
+<!--##begin-->
+
+<div class="col-md-12">
+    <h1>Administrationsbereich</h1>
+
+    #{login-no-auth}
+
+    #{login-admin}
+
+
+</div>
+<!--##end-->
+
+
+<!--##hide-authLogout-->
+<div class="grid_2" style="float:right;">
+    <form method="post" action="!#ausgaben_auth_url">
+        <div class="box border-all">
+            <div class="space-lr">
+                <p>
+                    <input type="submit" name="logout" value="logout" style="width:100%;" />
+                </p>
+<!--##show-->
+
+                <!--##loop-authInPlace-->
+                <a href="!{link}">!{desc}</a><br />
+                <!--##cont-->
+                <br />
+
+                <!--##hide-authTools-->
+                <p>#(desc)<br />
+                <!--##loop-authTools-->
+                <a href="!{url}" title="!{title}">!{label}!{end}</a>
+                <!--##cont-->
+                </p>
+                <!--##show-->
+
+<!--##hide-authLogout-->
+            </div>
+            <div class="clear"></div>
+        </div>
+        </form>
+</div>
+<!--##show-->
+
+<!--##hide-show_artikel-->
+<div class="grid_7 border-all omega" style="margin-bottom: 1em;padding: 0 15px 15px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;">
+    <h2>Artikel</h2>
+    <p>!{anzahl} Artikel sind in Bearbeitung. <a href="admin/artikel.html">zur Übersicht aller Artikel</a></p>
+    <form method="post" action="/auth/admin/bloged/add.html">
+        <input type="submit" name="blog" value="Neuer Eintrag">
+        <input type="hidden" value="/aktuell" name="link">
+        <input type="hidden" value="/aktuell" name="kategorie">
+    </form>
+    <table class="adm-blog-list" cellspacing="0">
+        <thead>
+            <tr>
+                <th style="width:10%">Datum</th>
+                <th style="width:50%">Titel</th>
+                <th style="width:20%">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--##loop-blog_list-->
+            <tr>
+                <td>!{datum}</td>
+                <td>
+                    <a href="!{link_wiz_edit}"><b>!{titel}</b></a>
+                    <div class="adm-blog-list-aktion">!{aktion}</div>
+                </td>
+                <td><i title="zuletz geändert: !{changed}">!{changed}</i><br /><b>!{status}</b></td>
+            </tr>
+            <!--##cont-->
+        </tbody>
+    </table>
+</div>
+<div id="preview"></div>
+<script type="text/javascript">
+    $('.adm-blog-list td').hover(
+        function() {
+            $(this).find('.adm-blog-list-aktion').show();
+        },
+        function() {
+            $(this).find('.adm-blog-list-aktion').hide();
+        }
+    )
+</script>
+<!--##show-->
+
+<!--##hide-show_mitglieder-->
+<div class="grid_7 border-all omega" style="margin-bottom: 1em;padding: 0 15px 15px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;">
+    <h2>Mitglieder-Daten</h2>
+    <p>Sie haben Zugriff auf Daten von !{count} Mitgliedern.
+        <a href="!{link_list}">Liste</a>
+        | <a href="!{link_csv}">CSV-Export</a>
+        <!--##loop-memb_import_rights-->
+        | <a href="!{link}">!{label}</a>
+        <!--##cont-->
+    </p>
+<!--##show-->
+<!--##hide-export_table-->
+    <table style="margin-top:30px;">
+        <!--##loop-export_table-->
+        <tr>
+            <td>!{amt}</td>
+            <td>!{anzahl}</td>
+            <td><a href="!{csv_link}">CSV-Export</a></td>
+        </tr>
+        <!--##cont-->
+    </table>
+<!--##show-->
+<!--##hide-show_mitglieder-->
+</div>
+<!--##show-->
+
+
+<!--##hide-authLogin-->
+<div class="">
+    <form method="post" action="!#ausgaben_auth_url">
+        <div class="grid_5 prefix_1">
+            <div class="box border-all ui-corner-all">
+                <h3>#(ueberschrift)</h3>
+                <div class="space-lr">
+                    <input type="hidden" name="form_referer" value="!#ausgaben_form_referer" />
+                    <p>
+                        <label for="user" style="width:100%;">Benutzername</label>
+                        <input type="text" name="user" id="user" style="width:100%;" style="" />
+                    </p>
+                    <p>
+                        <label for="pass" style="width:100%;">Passwort</label>
+                        <input type="password" name="pass" id="pass" style="width:100%;" style="" />
+                    </p>
+                    <p>
+                        <label class="grid_1">&nbsp;</label>
+                        <input type="submit" name="login" style="width:100%;" value="login" />
+                    </p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        </form>
+</div>
+<!--##show-->
+
+
+
+<!--##end-->
