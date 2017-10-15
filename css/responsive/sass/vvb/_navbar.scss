@@ -6,4 +6,15 @@
 
 .panel-default > .panel-heading {
     background-color: $vvb-blue;
+    background: $vvb-blue;
+    font-size: 1.7em;
+    color: #3f3f3f;
+    //border-bottom: 3px solid red;
+    font-weight: bold;
+    line-height: 3.5rem;
+    padding: 0 10px;
+    margin: 0;
+    a {
+        color: inherit;
+    }
 }
