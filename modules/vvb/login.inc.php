@@ -438,13 +438,13 @@ echo "</pre>";
                     if ( $data["status"] == -1 ) {
                          $dataloop["blog_list"][$counter]["status"] = "in Bearbeitung";
                         array_unshift($aktion_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_release"]."\">Freigabe</a>");
-                        array_unshift($aktion_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_release"]."\" class=\"btn btn-xs btn-default\" title=\"Freigabe\"><span class=\"fa fa-globe\"></span> Freigabe</a>");
+                        array_unshift($btn_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_release"]."\" class=\"btn btn-xs btn-default\" title=\"Freigabe\"><span class=\"fa fa-globe\"></span> Freigabe</a>");
                     } elseif ( $data["status"] == -2 ) {
                          $dataloop["blog_list"][$counter]["status"] = "wartet auf Freigabe";
                     } elseif ( $data["status"] == 1 ) {
                          $dataloop["blog_list"][$counter]["status"] = "Freigegeben";
                          array_unshift($aktion_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_unlock"]."\">Freigabe aufheben</a>");
-                        array_unshift($aktion_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_unlock"]."\" class=\"btn btn-xs btn-default\" title=\"Freigabe aufheben\"><span class=\"fa fa-lock\"></span> Freigabe aufheben</a>");
+                         array_unshift($btn_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_unlock"]."\" class=\"btn btn-xs btn-default\" title=\"Freigabe aufheben\"><span class=\"fa fa-lock\"></span> Freigabe aufheben</a>");
                     } else {
                          $dataloop["blog_list"][$counter]["status"] = "unbekannt (".$data["status"].")";
                     }

@@ -1,0 +1,34 @@
+<!--##begin-->
+<!--##hide-show_mitglieder-->
+<div class="col-md-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">Mitglieder-Daten</div>
+        <div class="panel-body">
+            <p>Sie haben Zugriff auf Daten von !{count} Mitgliedern.</p>
+            <p>
+                <a href="!{link_list}" class="btn btn-sm btn-default"><span class="fa fa-list"></span> Liste</a>
+                <a href="!{link_csv}" class="btn btn-sm btn-default"><span class="fa fa-file-excel-o"></span> CSV-Export</a>
+                <!--##loop-memb_import_rights-->
+                <a href="!{link}" class="btn btn-sm btn-default">!{label}</a>
+                <!--##cont-->
+            </p>
+<!--##show-->
+<!--##hide-export_table-->
+            <table class="table table-hover table-condensed">
+                <!--##loop-export_table-->
+                <tr>
+                    <td>!{amt}</td>
+                    <td>!{anzahl}</td>
+                    <td><a href="!{csv_link}" class="btn btn-xs btn-default"><span class="fa fa-file-excel-o"></span> CSV-Export</a></td>
+                </tr>
+                <!--##cont-->
+            </table>
+<!--##show-->
+<!--##hide-show_mitglieder-->
+        </div>
+    </div>
+</div>
+<!--##show-->
+
+
+<!--##end-->
