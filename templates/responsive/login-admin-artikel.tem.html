@@ -1,0 +1,46 @@
+<!--##begin-->
+<!--##hide-show_artikel-->
+<div class="col-md-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">Artikel</div>
+        <div class="panel-body">
+            <form method="post" action="/auth/admin/bloged/add.html">
+                <p>!{anzahl} Artikel sind in Bearbeitung. </p>
+                <p>
+                    <a class="btn btn-default btn-sm" href="admin/artikel.html">
+                        <span class="fa fa-list"></span> zur Übersicht aller Artikel
+                    </a>
+                    <button type="submit" class="btn btn-default btn-sm pull-right" name="blog" value="Neuer Eintrag">
+                        <span class="fa fa-plus"></span> Neuer Eintrag
+                    </button>
+                    <input type="hidden" value="/aktuell" name="link">
+                    <input type="hidden" value="/aktuell" name="kategorie">
+                </p>
+            </form>
+
+            <table class="table table-bordered table-condensed table-hover" cellspacing="0">
+                <thead>
+                <tr>
+                    <th style="width:10%">Datum</th>
+                    <th style="width:50%">Titel</th>
+                    <th style="width:20%">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--##loop-blog_list-->
+                <tr>
+                    <td>!{datum}</td>
+                    <td>
+                        <a href="!{link_wiz_edit}"><b>!{titel}</b></a>
+                        <div class="adm-blog-list-aktion">!{btn}</div>
+                    </td>
+                    <td><i title="zuletz geändert: !{changed}">!{changed}</i><br /><b>!{status}</b></td>
+                </tr>
+                <!--##cont-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--##show-->
+<!--##end-->

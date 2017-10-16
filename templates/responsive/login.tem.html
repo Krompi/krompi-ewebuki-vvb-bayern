@@ -3,46 +3,18 @@
 
 <div class="col-md-12">
     <h1>Administrationsbereich</h1>
-
-    #{login-no-auth}
-
-    <!--##hide-authLogout-->
-    <div class="col-md-4 pull-right">
-        <form class="form-horizontal " method="post" action="!#ausgaben_auth_url">
-            <div class="panel panel-default vvb-navigation">
-                <!--<div class="panel-heading"><a href="!#pathvars_virtual/aktuell.html">Archiv</a></div>-->
-                <ul class="list-group">
-                    <!--##loop-authInPlace-->
-                    <li class="list-group-item !{class}" style="!{style}">
-                        <a href="!{link}">!{desc}</a>
-                    </li>
-                    <!--##cont-->
-                    <!--##loop-authTools-->
-                    <li class="list-group-item !{class}" style="!{style}">
-                        <a href="!{url}" title="!{title}">!{label}!{end}</a>
-                    </li>
-                    <!--##cont-->
-                    <li class="list-group-item !{class}" style="!{style}">
-                        <button type="submit" class="btn btn-default btn-block btn-sm" name="logout" value="logout">Abmelden</button>
-                    </li>
-                </ul>
-            </div>
-        </form>
-    </div>
-    <!--##show-->
-
 </div>
+
+#{login-no-auth}
+
+#{login-admin-tools}
+#{login-admin-artikel}
+
+
 <!--##end-->
 
 <!--##hide-show_artikel-->
 <div class="grid_7 border-all omega" style="margin-bottom: 1em;padding: 0 15px 15px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;">
-    <h2>Artikel</h2>
-    <p>!{anzahl} Artikel sind in Bearbeitung. <a href="admin/artikel.html">zur Übersicht aller Artikel</a></p>
-    <form method="post" action="/auth/admin/bloged/add.html">
-        <input type="submit" name="blog" value="Neuer Eintrag">
-        <input type="hidden" value="/aktuell" name="link">
-        <input type="hidden" value="/aktuell" name="kategorie">
-    </form>
     <table class="adm-blog-list" cellspacing="0">
         <thead>
             <tr>

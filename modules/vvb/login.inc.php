@@ -419,27 +419,38 @@ echo "</pre>";
                     $new = $id["mid"];
                     $dataloop["blog_list"][$counter]["link_blog_delete"] = $pathvars["virtual"]."/admin/bloged/delete,,".$blog_id[1].",,".$new.".html";
 
+                    // Aktion
+                    // ---------
                     $aktion_array = array(
                         "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_edit"]."\">Bearbeiten</a>",
                         "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_delete"]."\">L&ouml;schen</a>",
                         "<a href=\"".$dataloop["blog_list"][$counter]["link_details_version"]."\" target=\"_blank\">Vorschau</a>",
                     );
+                    $btn_array = array(
+                        "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_edit"]."\" class=\"btn btn-xs btn-default\" title=\"bearbeiten\"><span class=\"fa fa-wrench\"></span> Bearbeiten</a>",
+                        "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_delete"]."\" class=\"btn btn-xs btn-default\" title=\"l&ouml;schen\"><span class=\"fa fa-trash\"></span> L&ouml;schen</a>",
+                        "<a href=\"".$dataloop["blog_list"][$counter]["link_details_version"]."\" class=\"btn btn-xs btn-default\" title=\"Vorschau\" target=\"_blank\"><span class=\"fa fa-search\"></span> Vorschau</a>",
+                    );
+                    // ---------
 
 
                     // status darstellen
                     if ( $data["status"] == -1 ) {
                          $dataloop["blog_list"][$counter]["status"] = "in Bearbeitung";
-                         array_unshift($aktion_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_release"]."\">Freigabe</a>");
+                        array_unshift($aktion_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_release"]."\">Freigabe</a>");
+                        array_unshift($aktion_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_release"]."\" class=\"btn btn-xs btn-default\" title=\"Freigabe\"><span class=\"fa fa-globe\"></span> Freigabe</a>");
                     } elseif ( $data["status"] == -2 ) {
                          $dataloop["blog_list"][$counter]["status"] = "wartet auf Freigabe";
                     } elseif ( $data["status"] == 1 ) {
                          $dataloop["blog_list"][$counter]["status"] = "Freigegeben";
                          array_unshift($aktion_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_unlock"]."\">Freigabe aufheben</a>");
+                        array_unshift($aktion_array, "<a href=\"".$dataloop["blog_list"][$counter]["link_wiz_unlock"]."\" class=\"btn btn-xs btn-default\" title=\"Freigabe aufheben\"><span class=\"fa fa-lock\"></span> Freigabe aufheben</a>");
                     } else {
                          $dataloop["blog_list"][$counter]["status"] = "unbekannt (".$data["status"].")";
                     }
 
                     $dataloop["blog_list"][$counter]["aktion"] = implode(" | ",$aktion_array);
+                    $dataloop["blog_list"][$counter]["btn"] = implode(" ",$btn_array);
 
                 }
                 
