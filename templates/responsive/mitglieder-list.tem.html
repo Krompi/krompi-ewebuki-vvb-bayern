@@ -1,0 +1,158 @@
+<!--$Id$-->
+<!--##begin-->
+
+<div class="col-md-12">
+    <h1>Mitglieder-Liste</h1>
+</div>
+
+<div class="col-md-9">
+    <table class="table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th style="width: 30px;">Nr</th>
+            <th>Nachname, Vorname, Adresse</th>
+            <th>Eingruppierung</th>
+            <th>Bezirk</th>
+            <th>Dienststelle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--##loop-list-->
+        <tr>
+            <td>!{Mitglieds_Nr}</td>
+            <td style="white-space: nowrap;">
+                !{Nachname}, !{Vorname}<br />
+                !{Strasse}, !{PLZ} !{Ort}
+            </td>
+            <td>!{Eingruppierung}</td>
+            <td>!{Bezirk}</td>
+            <td>!{VA_text}</td>
+        </tr>
+        <!--##cont-->
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <!--##loop-selektor-->
+            <li class="!{class}">
+                !{value}
+            </li>
+            <!--##cont-->
+        </ul>
+    </nav>
+</div>
+
+<!--##hide-right_vorstand-->
+<div class="col-md-3 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">Ergebnis filtern</div>
+        <div class="panel-body">
+            <form method="GET" action="!#ausgaben_form_aktion" style="" class="right_vorstand">
+                <div class="form-group">
+                    <label for="eingruppierung">Eingruppierung</label>
+                    <select id="eingruppierung" name="eingruppierung" class="form-control">
+                        <option >bitte w&auml;hlen</option>
+                        <!--##loop-eingruppierung-->
+                        <option value="!{value}"!{sel}>!{label}</option>
+                        <!--##cont-->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="filter_bezirk">Bezirk</label>
+                    <select name="bezirk" id="filter_bezirk" class="form-control">
+                        <option >bitte w&auml;hlen</option>
+                        <!--##loop-bezirk-->
+                        <option value="!{value}"!{sel}>!{label}</option>
+                        <!--##cont-->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="filter_aemter">Dienststelle</label>
+                    <select name="dienststelle" id="filter_aemter" class="form-control">
+                        <option >bitte w&auml;hlen</option>
+                        <!--##loop-dienststelle-->
+                        <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
+                        <!--##cont-->
+                    </select>
+                    <select name="" class="grid_2 filter-aemter-dummy" style="display: none;">
+                        <option value="0">bitte w&auml;hlen</option>
+                        <!--##loop-dienststelle-->
+                        <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
+                        <!--##cont-->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Nachname</label>
+                    <input type="text" id="name" name="name" value="!#ausgaben_mitglied_name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="send[]" value="Abschicken" class="btn btn-default btn-block">Abschicken</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Daten-Export</div>
+        <div class="panel-body">
+            <a href="!#ausgaben_link_csv" target="_blank" class="btn btn-default btn-block">
+                <span class="fa fa-file-excel-o" aria-hidden="true"></span> CSV
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function filter_aemter() {
+
+            if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
+                // value des ausgewaehlten Punktes holen
+                if ( jQuery('.filter-aemter-dummy option:selected').val() != '0' ) {
+                    selVal = jQuery('.filter-aemter-dummy option:selected').val();
+                } else {
+                    selVal = -1;
+                }
+                console.clear();
+                console.log (selVal);
+                // alle options entfernen
+                jQuery('#filter_aemter option.items').remove();
+                // alle dummy-eintraege durchgehen
+                jQuery('.filter-aemter-dummy option.items').each(function(index,element) {
+                    if ( jQuery(element).hasClass(jQuery('#filter_bezirk').val()) ) {
+                        clone = jQuery(element).clone(true);
+                        if ( jQuery(clone).val() === selVal ) {
+                            jQuery(clone).attr('selected',true);
+                        }
+                        jQuery(clone).appendTo('#filter_aemter');
+                    }
+                });
+                if ( selVal == -1 ) {
+                    jQuery('#filter_aemter option:first-child').attr('selected','true');
+                }
+            }
+
+        }
+        jQuery(function(){
+            filter_aemter();
+            jQuery('#filter_bezirk').change(filter_aemter);
+        });
+    </script>
+</div>
+<!--##show-->
+
+<script type="text/javascript">
+    jQuery(function() {
+        jQuery('.adm-blog-list-aktion').css('visibility', 'hidden');
+        jQuery('.adm-blog-list td').hover(
+            function() {
+                jQuery(this).find('.adm-blog-list-aktion').css('visibility', 'visible');
+            },
+            function() {
+                jQuery(this).find('.adm-blog-list-aktion').css('visibility', 'hidden');
+            }
+        )
+    })
+</script>
+
+
+
+<!--##end-->
