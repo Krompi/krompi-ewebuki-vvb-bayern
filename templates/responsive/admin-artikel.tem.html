@@ -1,0 +1,52 @@
+<!--$Id$-->
+<!--##begin-->
+
+<div class="col-md-12">
+    <h1>Artikel-Übersicht</h1>
+
+    <form method="post" action="/auth/admin/bloged/add.html" class="clearfix">
+        <button class="btn btn-default pull-right" type="submit" name="blog" value="Neuer Eintrag">Neuer Eintrag</button>
+        <input type="hidden" value="/aktuell" name="link">
+        <input type="hidden" value="/aktuell" name="kategorie">
+    </form>
+
+    <table class="table table-condensed table-striped adm-blog-list">
+        <thead>
+        <tr>
+            <th style="width:10%">Datum</th>
+            <th style="width:50%">Titel</th>
+            <th style="width:20%">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--##loop-blog_list-->
+        <tr>
+            <td>!{datum}</td>
+            <td>
+                <a href="!{link_wiz_edit}"><b>!{titel}</b></a>
+                <div class="adm-blog-list-aktion">!{btn}</div>
+            </td>
+            <td><i title="zuletz geändert: !{changed}">!{changed}</i><br /><b>!{status}</b></td>
+        </tr>
+        <!--##cont-->
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    jQuery(function() {
+        jQuery('.adm-blog-list-aktion').css('visibility', 'hidden');
+        jQuery('.adm-blog-list td').hover(
+            function() {
+                jQuery(this).find('.adm-blog-list-aktion').css('visibility', 'visible');
+            },
+            function() {
+                jQuery(this).find('.adm-blog-list-aktion').css('visibility', 'hidden');
+            }
+        )
+    })
+</script>
+
+
+
+<!--##end-->

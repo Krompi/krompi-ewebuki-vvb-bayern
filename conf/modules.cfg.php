@@ -188,6 +188,10 @@ if ( $_SESSION["uid"] != "" ) {
     include $pathvars["moduleroot"]."addon/changed.inc.php";
 }
 
+include $pathvars["moduleroot"]."vvb/functions.inc.php"; # erweitertes modul
+
+
+
 
     // Mitglieder-Ausgabe
     if ( strstr($environment["ebene"]."/".$environment["kategorie"],"/admin/mitglieder") )
@@ -275,6 +279,10 @@ if ( $_SESSION["uid"] != "" ) {
     {
         include $pathvars["moduleroot"]."vvb/login.cfg.php";
         include $pathvars["moduleroot"]."vvb/login.inc.php"; # erweitertes modul
+    }
+
+    if ( $_SESSION["uid"] != "" ) {
+        $ausgaben["benutzer"] = $_SESSION["forename"] . " " . $_SESSION["surname"];
     }
 
 

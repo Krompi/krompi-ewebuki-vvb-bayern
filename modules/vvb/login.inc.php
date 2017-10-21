@@ -235,7 +235,7 @@ echo "</pre>";
 
         if ( $_SESSION["uid"] != "" ) {
             $hidedata["login"] = array();
-            
+
             // Mitglieder-Verwaltung
             // =================================================================
             include $pathvars["moduleroot"]."vvb/mitglieder.cfg.php";
