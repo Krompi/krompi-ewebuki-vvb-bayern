@@ -115,6 +115,13 @@
                       ORDER BY changed DESC, tname desc, version desc";
                 if ( $debugging["sql_enable"] ) $debugging["ausgabe"] .= " * sql: ".$sql.$debugging["char"];
 
+                // seiten umschalter
+                $inhalt_selector = inhalt_selector( $sql, $environment["parameter"][1], 10, $parameter, 1, 10, $_SERVER["QUERY_STRING"] );
+                $ausgaben["inhalt_selector"] = $inhalt_selector[0]."<br />";
+                if ( $environment["parameter"][1] != "csv" ) $sql = $inhalt_selector[1];
+                $ausgaben["anzahl"] = $inhalt_selector[2];
+                $dataloop["selektor"] = mod_selektor($ausgaben["inhalt_selector"]);
+
 //echo $where."\n";
 //echo $sql."\n";
                 $result = $db -> query($sql);
