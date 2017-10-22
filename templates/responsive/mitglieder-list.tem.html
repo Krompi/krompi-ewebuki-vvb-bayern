@@ -6,6 +6,15 @@
 </div>
 
 <div class="col-md-9">
+
+    <!--##hide-right_import-->
+    <p style="text-align: right;">
+        <b class="btn btn-primary">Liste</b>
+        <a href="!#ausgaben_cfg_basis/import.html" class="btn btn-default">Import</a>
+        <a href="!#ausgaben_cfg_basis/import-log.html" class="btn btn-default">Import-Log</a>
+    </p>
+    <!--##show-->
+
     <table class="table table-condensed table-striped">
         <thead>
         <tr>
@@ -43,8 +52,8 @@
     </nav>
 </div>
 
-<!--##hide-right_vorstand-->
 <div class="col-md-3 col-xs-12">
+    <!--##hide-filter_complete-->
     <div class="panel panel-default">
         <div class="panel-heading">Ergebnis filtern</div>
         <div class="panel-body">
@@ -92,14 +101,6 @@
             </form>
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">Daten-Export</div>
-        <div class="panel-body">
-            <a href="!#ausgaben_link_csv" target="_blank" class="btn btn-default btn-block">
-                <span class="fa fa-file-excel-o" aria-hidden="true"></span> CSV
-            </a>
-        </div>
-    </div>
 
     <script>
         function filter_aemter() {
@@ -136,8 +137,86 @@
             jQuery('#filter_bezirk').change(filter_aemter);
         });
     </script>
+    <!--##show-->
+
+    <!--##hide-filter_ohne_bezirk-->
+    <div class="panel panel-default">
+        <div class="panel-heading">Ergebnis filtern</div>
+        <div class="panel-body">
+            <form method="GET" action="!#ausgaben_form_aktion" style="" class="right_vorstand">
+                <div class="form-group">
+                    <label for="eingruppierung">Eingruppierung</label>
+                    <select id="eingruppierung" name="eingruppierung" class="form-control">
+                        <option >bitte w&auml;hlen</option>
+                        <!--##loop-eingruppierung-->
+                        <option value="!{value}"!{sel}>!{label}</option>
+                        <!--##cont-->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="filter_aemter">Dienststelle</label>
+                    <select name="dienststelle" id="filter_aemter" class="form-control">
+                        <option >bitte w&auml;hlen</option>
+                        <!--##loop-dienststelle-->
+                        <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
+                        <!--##cont-->
+                    </select>
+                    <select name="" class="grid_2 filter-aemter-dummy" style="display: none;">
+                        <option value="0">bitte w&auml;hlen</option>
+                        <!--##loop-dienststelle-->
+                        <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
+                        <!--##cont-->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Nachname</label>
+                    <input type="text" id="name" name="name" value="!#ausgaben_mitglied_name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="send[]" value="Abschicken" class="btn btn-default btn-block">Abschicken</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--##show-->
+
+    <!--##hide-filter_ohne_bezirk_und_ort-->
+    <div class="panel panel-default">
+        <div class="panel-heading">Ergebnis filtern</div>
+        <div class="panel-body">
+            <form method="GET" action="!#ausgaben_form_aktion" style="" class="right_vorstand">
+                <div class="form-group">
+                    <label for="eingruppierung">Eingruppierung</label>
+                    <select id="eingruppierung" name="eingruppierung" class="form-control">
+                        <option >bitte w&auml;hlen</option>
+                        <!--##loop-eingruppierung-->
+                        <option value="!{value}"!{sel}>!{label}</option>
+                        <!--##cont-->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Nachname</label>
+                    <input type="text" id="name" name="name" value="!#ausgaben_mitglied_name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="send[]" value="Abschicken" class="btn btn-default btn-block">Abschicken</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--##show-->
+
+    <!--##hide-csv_export-->
+    <div class="panel panel-default">
+        <div class="panel-heading">Daten-Export</div>
+        <div class="panel-body">
+            <a href="!#ausgaben_link_csv" target="_blank" class="btn btn-default btn-block">
+                <span class="fa fa-file-excel-o" aria-hidden="true"></span> CSV
+            </a>
+        </div>
+    </div>
+    <!--##show-->
 </div>
-<!--##show-->
 
 <script type="text/javascript">
     jQuery(function() {

@@ -63,6 +63,8 @@
         // Berechtigung
         // ---------------------------------------------------------------------
         if ( $vvb_recht["group"] == "schatz" ) {
+            $hidedata["filter_complete"] = array();
+            $hidedata["csv_export"] = array();
             $hidedata["right_import"] = array();
             // Import
             $dataloop["mitglieder_links"][] = array(
@@ -75,11 +77,17 @@
                 "label" => "Import-Log",
             );
         } elseif ( $vvb_recht["group"] == "vorstand" ) {
+            $hidedata["filter_complete"] = array();
+            $hidedata["csv_export"] = array();
             $hidedata["right_vorstand"] = array();
         } elseif ( $vvb_recht["group"] == "ort" ) {
+            $hidedata["filter_ohne_bezirk_und_ort"] = array();
             $hidedata["right_ort"] = array();
+            $hidedata["csv_export"] = array();
         } elseif ( $vvb_recht["group"] == "bezirk" ) {
+            $hidedata["filter_ohne_bezirk"] = array();
             $hidedata["right_bezirk"] = array();
+            $hidedata["csv_export"] = array();
         }
         // ---------------------------------------------------------------------
 
