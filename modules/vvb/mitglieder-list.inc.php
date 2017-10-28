@@ -62,6 +62,7 @@
 
         // Berechtigung
         // ---------------------------------------------------------------------
+        $hidedata["right_import"] = array();
         if ( $vvb_recht["group"] == "schatz" ) {
             $hidedata["filter_complete"] = array();
             $hidedata["csv_export"] = array();

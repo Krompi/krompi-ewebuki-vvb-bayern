@@ -8279,6 +8279,13 @@ h2 {
   .vvb-navigation .Level2Active a {
     font-weight: bold; }
 
+.table-hide-btn .btn {
+  visibility: hidden; }
+.table-hide-btn tr:hover .btn {
+  visibility: visible; }
+.table-hide-btn .bg-success .btn {
+  display: none; }
+
 .header {
   background: url(/images/vvb/bg_body_kachel.gif) left bottom #F2F9FC;
   padding: 12px 0;

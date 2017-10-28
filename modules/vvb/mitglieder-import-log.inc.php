@@ -49,6 +49,7 @@
 
         $parameter = array_merge($_POST,$_GET);
         if ( $parameter["ajax"] == "insert-data" ) {
+            echo "<pre>";
             $error = insert_member_data(array(), $parameter["data"]);
             if ( $error != "" ) {
                 header("HTTP/1.0 404 Not Found");
@@ -58,10 +59,11 @@
             exit;
         }
 
-        if ( $_POST["ajax"] == "delete-data" ) {
+        if ( $parameter["ajax"] == "delete-data" ) {
             $sql = "DELETE FROM ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
-                          WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$_POST["data"]."
+                          WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$parameter["data"]."
                             AND ".$cfg["mitglieder"]["db"]["import_log"]["active"]."=0";
+echo "hallo", $sql."\n";
             $result  = $db -> query($sql);
             if ( $result ) {
                 header("HTTP/1.0 200 ok");
@@ -105,7 +107,7 @@
         $result = $db -> query($sql);
         while ( $data = $db -> fetch_array($result,1) ) {
             if ( $data[$cfg["mitglieder"]["db"]["import_log"]["active"]] == -1 ) {
-                $class = "active";
+                $class = "bg-success";
             } else {
                 $class = "";
             }

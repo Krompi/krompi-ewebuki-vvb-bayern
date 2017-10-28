@@ -12,56 +12,29 @@
     </p>
     <!--##show-->
 
+    <style>
+        .table
+    </style>
+
     <div class="panel panel-default">
-        <ul class="list-group">
+        <table class="table table-condensed table-hide-btn">
             <!--##loop-log_list-->
-            <li class="list-group-item">
-                <div class="col-md-8">
+            <tr class="!{class}" data-stamp="!{stamp}">
+                <td>
                     <b>importiert am !{datum} um !{zeit}</b><br />
                     !{count} Mitglieder
-                </div>
-                <div class="col-md-8">
-                    <div class="edit-box">
-                        <div class="edit-button-wrap">
-                            <span class="edit-label insert">einlesen</span>
-                            <span class="edit-confirm insert-confirm" data-date="!{stamp}">bestätigen</span>
-                        </div>
-                        <div class="edit-button-wrap">
-                            <span class="edit-label delete">löschen</span>
-                            <span class="edit-confirm delete-confirm" data-date="!{stamp}">bestätigen?</span>
-                        </div>
-                    </div>
-                </div>
-            </li>
+                </td>
+                <td style="vertical-align: middle;">
+                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModal"  data-date="!{datum} (!{zeit} Uhr)" data-stamp="!{stamp}" data-action="load">einlesen</button>
+                </td>
+                <td style="vertical-align: middle;">
+                    <button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#exampleModal"  data-date="!{datum} (!{zeit} Uhr)" data-stamp="!{stamp}" data-action="delete">löschen</button>
+                </td>
+            </tr>
             <!--##cont-->
-        </ul>
+        </table>
     </div>
 
-    <table class="table table-condensed table-striped">
-        <thead>
-        <tr>
-            <th style="width: 30px;">Nr</th>
-            <th>Nachname, Vorname, Adresse</th>
-            <th>Eingruppierung</th>
-            <th>Bezirk</th>
-            <th>Dienststelle</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!--##loop-list-->
-        <tr>
-            <td>!{Mitglieds_Nr}</td>
-            <td style="white-space: nowrap;">
-                !{Nachname}, !{Vorname}<br />
-                !{Strasse}, !{PLZ} !{Ort}
-            </td>
-            <td>!{Eingruppierung}</td>
-            <td>!{Bezirk}</td>
-            <td>!{VA_text}</td>
-        </tr>
-        <!--##cont-->
-        </tbody>
-    </table>
 
     <nav aria-label="Page navigation">
         <ul class="pagination">
@@ -74,186 +47,83 @@
     </nav>
 </div>
 
-<div class="col-md-3 col-xs-12">
-    <!--##hide-filter_complete-->
-    <div class="panel panel-default">
-        <div class="panel-heading">Ergebnis filtern</div>
-        <div class="panel-body">
-            <form method="GET" action="!#ausgaben_form_aktion" style="" class="form-group">
-                <div class="form-group">
-                    <label for="eingruppierung">Eingruppierung</label>
-                    <select id="eingruppierung" name="eingruppierung" class="form-control">
-                        <option >bitte w&auml;hlen</option>
-                        <!--##loop-eingruppierung-->
-                        <option value="!{value}"!{sel}>!{label}</option>
-                        <!--##cont-->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="filter_bezirk">Bezirk</label>
-                    <select name="bezirk" id="filter_bezirk" class="form-control">
-                        <option >bitte w&auml;hlen</option>
-                        <!--##loop-bezirk-->
-                        <option value="!{value}"!{sel}>!{label}</option>
-                        <!--##cont-->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="filter_aemter">Dienststelle</label>
-                    <select name="dienststelle" id="filter_aemter" class="form-control">
-                        <option >bitte w&auml;hlen</option>
-                        <!--##loop-dienststelle-->
-                        <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
-                        <!--##cont-->
-                    </select>
-                    <select name="" class="grid_2 filter-aemter-dummy" style="display: none;">
-                        <option value="0">bitte w&auml;hlen</option>
-                        <!--##loop-dienststelle-->
-                        <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
-                        <!--##cont-->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="name">Nachname</label>
-                    <input type="text" id="name" name="name" value="!#ausgaben_mitglied_name" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <button type="submit" name="send[]" value="Abschicken" class="btn btn-default btn-block">Abschicken</button>
-                </div>
-            </form>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Daten <span class="modal-action">löschen</span></h4>
+            </div>
+            <div class="modal-body bg-danger">
+                <p>Daten vom <span class="modal-datum"></span> wirklich <span class="modal-action"></span>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning pull-left modal-action"></button>
+                <button type="button" class="btn btn-link pull-right" data-dismiss="modal">Abbrechen</button>
+            </div>
         </div>
     </div>
-
-    <script>
-        function filter_aemter() {
-
-            if ( jQuery('#filter_bezirk').val() != "" && jQuery('#filter_bezirk').val() != "bitte wählen" ) {
-                // value des ausgewaehlten Punktes holen
-                if ( jQuery('.filter-aemter-dummy option:selected').val() != '0' ) {
-                    selVal = jQuery('.filter-aemter-dummy option:selected').val();
-                } else {
-                    selVal = -1;
-                }
-                console.clear();
-                console.log (selVal);
-                // alle options entfernen
-                jQuery('#filter_aemter option.items').remove();
-                // alle dummy-eintraege durchgehen
-                jQuery('.filter-aemter-dummy option.items').each(function(index,element) {
-                    if ( jQuery(element).hasClass(jQuery('#filter_bezirk').val()) ) {
-                        clone = jQuery(element).clone(true);
-                        if ( jQuery(clone).val() === selVal ) {
-                            jQuery(clone).attr('selected',true);
-                        }
-                        jQuery(clone).appendTo('#filter_aemter');
-                    }
-                });
-                if ( selVal == -1 ) {
-                    jQuery('#filter_aemter option:first-child').attr('selected','true');
-                }
-            }
-
-        }
-        jQuery(function(){
-            filter_aemter();
-            jQuery('#filter_bezirk').change(filter_aemter);
-        });
-    </script>
-    <!--##show-->
-
-    <!--##hide-filter_ohne_bezirk-->
-    <div class="panel panel-default">
-        <div class="panel-heading">Ergebnis filtern</div>
-        <div class="panel-body">
-            <form method="GET" action="!#ausgaben_form_aktion" style="" class="form-group">
-                <div class="form-group">
-                    <label for="eingruppierung">Eingruppierung</label>
-                    <select id="eingruppierung" name="eingruppierung" class="form-control">
-                        <option >bitte w&auml;hlen</option>
-                        <!--##loop-eingruppierung-->
-                        <option value="!{value}"!{sel}>!{label}</option>
-                        <!--##cont-->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="filter_aemter">Dienststelle</label>
-                    <select name="dienststelle" id="filter_aemter" class="form-control">
-                        <option >bitte w&auml;hlen</option>
-                        <!--##loop-dienststelle-->
-                        <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
-                        <!--##cont-->
-                    </select>
-                    <select name="" class="grid_2 filter-aemter-dummy" style="display: none;">
-                        <option value="0">bitte w&auml;hlen</option>
-                        <!--##loop-dienststelle-->
-                        <option value="!{value}" class="items !{class}"!{sel}>!{label}</option>
-                        <!--##cont-->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="name">Nachname</label>
-                    <input type="text" id="name" name="name" value="!#ausgaben_mitglied_name" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <button type="submit" name="send[]" value="Abschicken" class="btn btn-default btn-block">Abschicken</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!--##show-->
-
-    <!--##hide-filter_ohne_bezirk_und_ort-->
-    <div class="panel panel-default">
-        <div class="panel-heading">Ergebnis filtern</div>
-        <div class="panel-body">
-            <form method="GET" action="!#ausgaben_form_aktion" style="" class="form-group">
-                <div class="form-group">
-                    <label for="eingruppierung">Eingruppierung</label>
-                    <select id="eingruppierung" name="eingruppierung" class="form-control">
-                        <option >bitte w&auml;hlen</option>
-                        <!--##loop-eingruppierung-->
-                        <option value="!{value}"!{sel}>!{label}</option>
-                        <!--##cont-->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="name">Nachname</label>
-                    <input type="text" id="name" name="name" value="!#ausgaben_mitglied_name" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <button type="submit" name="send[]" value="Abschicken" class="btn btn-default btn-block">Abschicken</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!--##show-->
-
-    <!--##hide-csv_export-->
-    <div class="panel panel-default">
-        <div class="panel-heading">Daten-Export</div>
-        <div class="panel-body">
-            <a href="!#ausgaben_link_csv" target="_blank" class="btn btn-default btn-block">
-                <span class="fa fa-file-excel-o" aria-hidden="true"></span> CSV
-            </a>
-        </div>
-    </div>
-    <!--##show-->
 </div>
 
 <script type="text/javascript">
-    jQuery(function() {
-        jQuery('.adm-blog-list-aktion').css('visibility', 'hidden');
-        jQuery('.adm-blog-list td').hover(
-            function() {
-                jQuery(this).find('.adm-blog-list-aktion').css('visibility', 'visible');
-            },
-            function() {
-                jQuery(this).find('.adm-blog-list-aktion').css('visibility', 'hidden');
+    jQuery('#exampleModal').on('show.bs.modal', function (event) {
+        var button = jQuery(event.relatedTarget);     // Button that triggered the modal
+        var action = button.data('action');      // Extract info from data-* attributes
+        var datum  = button.data('date');        // Extract info from data-* attributes
+        var stamp  = button.data('stamp');       // Extract info from data-* attributes
+
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = jQuery(this)
+        if ( action == 'load' ) {
+            modal.find('.modal-action').text('einlesen');
+            modal.find('.modal-datum').text(datum);
+            modal.find('.modal-footer .modal-action').removeClass('btn-warning btn-success');
+            modal.find('.modal-footer .modal-action').addClass('btn-success');
+            modal.find('.modal-footer .modal-action').attr('data-action', 'insert');
+            modal.find('.modal-footer .modal-action').attr('data-stamp', stamp);
+        } else {
+            modal.find('.modal-action').text('löschen');
+            modal.find('.modal-datum').text(datum);
+            modal.find('.modal-footer .modal-action').removeClass('btn-warning btn-success');
+            modal.find('.modal-footer .modal-action').addClass('btn-warning');
+            modal.find('.modal-footer .modal-action').attr('data-action', 'delete');
+            modal.find('.modal-footer .modal-action').attr('data-stamp', stamp);
+        }
+    })
+    // loeschen-button druecken
+    jQuery('.modal-footer .modal-action').click(function(){
+
+        var button = jQuery(this);
+
+        jQuery.ajax(
+            '!#pathvars_requested',
+            {
+                type: 'POST',
+                data: {
+                    'ajax': button.attr('data-action') + '-data',
+                    'data': button.attr('data-stamp')
+                },
+                success: function() {
+                    if ( button.attr('data-action') == 'delete' ) {
+                        jQuery('.table-hide-btn tr[data-stamp="' + button.attr('data-stamp') + '"]').hide('blind');
+                    } else if ( button.attr('data-action') == 'insert' ) {
+                        jQuery('.table-hide-btn tr').removeClass('bg-success')
+                                                    .find('.btn').show('.btn');
+                        jQuery('.table-hide-btn tr[data-stamp="' + button.attr('data-stamp') + '"]').addClass('bg-success')
+                                                                                       .find('.btn').hide();
+                    }
+                    jQuery('#exampleModal').modal('hide')
+
+                },
+                error: function() {
+                    alert('Fehler!!!');
+                }
             }
         )
+
     })
 </script>
-
 
 
 <!--##end-->

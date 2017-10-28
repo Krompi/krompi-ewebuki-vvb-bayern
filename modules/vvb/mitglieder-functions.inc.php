@@ -142,7 +142,7 @@
                 // TODO: evtl. log-speicherung wieder aus Funktion rausnehmen
 
 
-//echo print_r($member_data,true);
+echo print_r($member_data,true);
                 $log_date = date("U");
                 if ( $timestamp != FALSE ) {
 
@@ -150,7 +150,7 @@
                     $sql = "SELECT *
                               FROM ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
                              WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$timestamp."";
-//echo $sql."\n";
+echo $sql."\n";
                     $result  = $db -> query($sql);
                     if ( $db->num_rows($result) > 0 ) {
 //echo "<pre>";
@@ -164,7 +164,7 @@
                                    SET ".$cfg["mitglieder"]["db"]["import_log"]["active"]."=-1,
                                        ".$cfg["mitglieder"]["db"]["import_log"]["count"]."=".count($member_data)."
                                  WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$timestamp;
-//echo $sql."\n";
+echo $sql."\n";
 //echo "--".print_r($member_data,true);
 //exit;
                         $result  = $db -> query($sql);
@@ -172,7 +172,7 @@
                         $sql = "UPDATE ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
                                    SET ".$cfg["mitglieder"]["db"]["import_log"]["active"]."=0
                                  WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."<>".$timestamp;
-//echo $sql."\n";
+echo $sql."\n";
                         $result  = $db -> query($sql);
                     }
                 } else {

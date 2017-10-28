@@ -64,3 +64,19 @@ table {
     @extend .table;
     @extend .table-condensed;
 }
+
+.table-hide-btn {
+    .btn {
+        visibility: hidden;
+    }
+    tr:hover {
+        .btn {
+            visibility: visible;
+        }
+    }
+    .bg-success {
+        .btn {
+            display: none;
+        }
+    }
+}
