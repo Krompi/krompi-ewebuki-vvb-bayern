@@ -142,7 +142,7 @@
                 // TODO: evtl. log-speicherung wieder aus Funktion rausnehmen
 
 
-echo print_r($member_data,true);
+//echo print_r($member_data,true);
                 $log_date = date("U");
                 if ( $timestamp != FALSE ) {
 
@@ -150,21 +150,50 @@ echo print_r($member_data,true);
                     $sql = "SELECT *
                               FROM ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
                              WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$timestamp."";
-echo $sql."\n";
+//echo $sql."\n";
                     $result  = $db -> query($sql);
                     if ( $db->num_rows($result) > 0 ) {
 //echo "<pre>";
                         // Daten holen
                         $data = $db -> fetch_array($result,1);
 //echo print_r($data,true);
-                        $member_data = unserialize($data[$cfg["mitglieder"]["db"]["import_log"]["content"]]);
+
+                        /**
+                         * Mulit-byte Unserialize
+                         *
+                         * UTF-8 will screw up a serialized string
+                         *
+                         * @access private
+                         * @param string
+                         * @return string
+                         */
+                        function mb_unserialize($string) {
+                            $string2 = preg_replace_callback(
+                                '!s:(\d+):"(.*?)";!s',
+                                function($m){
+                                    $len = strlen($m[2]);
+                                    $result = "s:$len:\"{$m[2]}\";";
+                                    return $result;
+
+                                },
+                                $string);
+                            return unserialize($string2);
+                        }
+
+
+
+
+
+
+                        $member_data = mb_unserialize($data[$cfg["mitglieder"]["db"]["import_log"]["content"]]);
 //echo print_r(($data[$cfg["mitglieder"]["db"]["import_log"]["content"]]),true)."\n";
+
                         // Log auf aktive schalten
                         $sql = "UPDATE ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
                                    SET ".$cfg["mitglieder"]["db"]["import_log"]["active"]."=-1,
                                        ".$cfg["mitglieder"]["db"]["import_log"]["count"]."=".count($member_data)."
                                  WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."=".$timestamp;
-echo $sql."\n";
+//echo $sql."\n";
 //echo "--".print_r($member_data,true);
 //exit;
                         $result  = $db -> query($sql);
@@ -172,7 +201,7 @@ echo $sql."\n";
                         $sql = "UPDATE ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
                                    SET ".$cfg["mitglieder"]["db"]["import_log"]["active"]."=0
                                  WHERE ".$cfg["mitglieder"]["db"]["import_log"]["time"]."<>".$timestamp;
-echo $sql."\n";
+//echo $sql."\n";
                         $result  = $db -> query($sql);
                     }
                 } else {
@@ -234,17 +263,17 @@ echo $sql."\n";
                 if ( $error == "" ) {
                     // Neue Daten einfuegen
                     foreach ( $member_data as $value ) {
-                        $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
-                                                    (".implode(",
-                                                        ",$value["field"]).")
-                                                VALUES (".implode(",
-                                                        ",$value["value"]).");";
+//                        $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
+//                                                    (".implode(",
+//                                                        ",$value["field"]).")
+//                                                VALUES (".implode(",
+//                                                        ",$value["value"]).");";
                         $sql_tmp_array[] = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
                                                     (".implode(",
                                                         ",$value["field"]).")
                                                 VALUES (".implode(",
                                                         ",$value["value"]).");";
-                        $result  = $db -> query($sql);
+//                        $result  = $db -> query($sql);
                         if ( !$result ) {
                             $error = $db -> error("FEHLER");
                             break;
@@ -254,8 +283,10 @@ echo $sql."\n";
 
                 // Transaktion durchfuehren
                 if ( $error == "" ) {
-                    $sql = "COMMIT;";
+//                    $sql = "COMMIT;";
                     $sql_tmp_array[] = "COMMIT;";
+                    $sql = implode("\n", $sql_tmp_array);
+//echo $sql;
                     $result  = $db -> query($sql);
                 }
 //echo implode("\n",$sql_tmp_array)."\n";

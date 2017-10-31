@@ -291,7 +291,6 @@
             $csv_array = array();
         }
 
-//echo "<pre>";
         while ( $data = $db -> fetch_array($result,1) ) {
 
             // platz fuer vorbereitungen hier z.B.tabellen farben wechseln
