@@ -1,0 +1,46 @@
+<!--##begin-->
+<div class="col-md-12">
+    <h1>User-Editor - Bearbeiten</h1>
+
+    #(inhalt)
+
+    <table class="table">
+        <tr>
+            <td style="width: 25%;">#(login)</td>
+            <td>!#ausgaben_login</td>
+        </tr>
+        <tr>
+            <td>#(surname)</td>
+            <td>!#ausgaben_surname</td>
+        </tr>
+        <tr>
+            <td>#(forename)</td>
+            <td>!#ausgaben_forename</td>
+        </tr>
+        <tr>
+            <td>#(email)</td>
+            <td>!#ausgaben_email</td>
+        </tr>
+        <!--##hide-old_rights-->
+        <tr>
+            <td>#(level)</td>
+            <td>!#ausgaben_level</td>
+        </tr>
+        <!--##show-->
+        <!--##hide-new_rights-->
+        <tr>
+            <td>#(group)</td>
+            <td>!#ausgaben_group</td>
+        </tr>
+        <!--##show-->
+    </table>
+
+    <p>
+        <a href="!#ausgaben_back" class="btn btn-default"><span class="fa fa-list"></span> zur &Uuml;bersicht</a>
+        <a href="!#ausgaben_edit" class="btn btn-default"><span class="fa fa-wrench"></span> Bearbeiten</a>
+    </p>
+
+    <p>!#ausgaben_output</p>
+    <p>!#ausgaben_inaccessible</p>
+</div>
+<!--##end-->

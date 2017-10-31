@@ -1,0 +1,53 @@
+<!--##begin-->
+<div class="col-md-12">
+    <form method="get" action="!#ausgaben_form_aktion" class="form-inline">
+        <h1>User-Editor - &Uuml;bersicht</h1>
+        <div class="form-group">
+            <label for="search">Suche</label>
+            <input type="text" id="search" name="search" value="!#ausgaben_search" class="form-control" />
+        </div>
+        <button type="submit" name="send[]" value="g(send)" class="btn btn-default">Abschicken</button>
+        <a href="!#ausgaben_link_new" class="btn btn-default pull-right">g(new)</a>
+    </form>
+    <table width="100%" class="table table-striped table-hover table-condensed">
+        <thead>
+            <tr>
+                <th align="left">#(login)</th>
+                <th align="left">#(surname)</th>
+                <th align="left">#(forename)</th>
+                <th align="left">g(modcol)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--##loop-user-->
+            <tr>
+                <td>!{login}</td>
+                <td>!{surname}</td>
+                <td>!{forename}</td>
+                <td style="white-space:nowrap">
+                    <a href="!{edit}" title="Bearbeiten" class="btn btn-default btn-xs">
+                        &nbsp;<span class="fa fa-wrench"></span>&nbsp;
+                    </a>
+                    <a href="!{delete}" title="L&ouml;schen" class="btn btn-default btn-xs">
+                        &nbsp;<span class="fa fa-trash"></span>&nbsp;
+                    </a>
+                    <a href="!{details}" title="Details" class="btn btn-default btn-xs">
+                        &nbsp;<span class="fa fa-user"></span>&nbsp;
+                    </a>
+                </td>
+            </tr>
+            <!--##cont-->
+        </tbody>
+    </table>
+</div>
+
+
+
+<p style="float:left">g(anzahl)!#ausgaben_anzahl</p>
+<p style="float:right">!#ausgaben_inhalt_selector</p>
+<div style="clear:both"></div>
+<p>!#ausgaben_output</p>
+<p>!#ausgaben_inaccessible</p>
+<!--##end-->
+</body>
+</html>

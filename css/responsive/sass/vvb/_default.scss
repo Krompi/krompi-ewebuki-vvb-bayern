@@ -80,3 +80,9 @@ table {
         }
     }
 }
+
+.form-vvb {
+    input {
+        @extend .form-control;
+    }
+}
