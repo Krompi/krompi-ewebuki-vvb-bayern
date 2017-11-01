@@ -22,7 +22,33 @@
     <p>
 </div>
 
-<div class="col-md-9">
+
+<div id="wizard" class="col-md-9">
+    <!--##hide-no_sort_content-->
+    <div style="padding: 10px;" class="bg-info" id="no_sort_content">#(show_none)</div>
+    <!--##show-->
+    <!--##hide-show_one_content-->
+    <div style="padding: 10px;" class="bg-info" id="no_sort_content">#(show_one)</div>
+    <!--##show-->
+
+    <!--##hide-sort_content-->
+    <ul id="content_blocks" style="padding: 0;">
+        <!--##loop-sort_content-->
+        <li id="item_!{key}" class="!{class}" style="!{style}">
+            <!--                 <a name="item_!{key}" href="#" style="float:right;">nach oben</a> -->
+            <div class="clearer"></div>
+            !{value_html}
+            <div class="clearer"></div>
+            <p class="buttons" !{modify}>
+                <a href="!{link_up}" class="btn btn-default btn-xs" title="#(wiz_moveup_desc)" style="!{display_up}">#(wiz_moveup)</a>
+                <a href="!{link_down}" class="btn btn-default btn-xs" title="#(wiz_movedown_desc)" style="!{display_down}">#(wiz_movedown)</a>
+                <a href="!{delete}" class="btn btn-default btn-xs" title="#(wiz_delete_desc)" style="!{display_delete}">#(wiz_delete)</a>
+            </p>
+            <div class="clearer"></div>
+        </li>
+        <!--##cont-->
+    </ul>
+    <!--##show-->
 </div>
 
 <div class="col-md-3">
@@ -72,9 +98,7 @@
                     <button type="button" onclick="lb_cancel.show();" class="btn btn-default btn-block btn-xs">g(abort)</button>
                 </li>
                 <li class="list-group-item">
-                    #(confirm_cancel)
-                    <button type="submit" name="cancel[]" value="cancel" class="btn btn-default btn-block btn-xs">g(yes)</button>
-                    <button type="button" onclick="lb_cancel.hide();;" class="btn btn-default btn-block btn-xs">g(no)</button>
+                    <button type="button" class="btn btn-default btn-block btn-xs" data-toggle="modal" data-target="#modal-confirm-cancel">g(abort)</button>
                 </li>
             </ul>
         </form>
@@ -101,88 +125,77 @@
         <form method="post" name="form_sent" action="!#ausgaben_form_aktion">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <button type="button" onclick="preview();" id="button_preview" class="btn btn-default btn-block btn-xs">g(preview)</button>
+                    <!--<button type="button" onclick="preview();" id="button_preview" class="btn btn-default btn-block btn-xs">g(preview)</button>-->
+                    <button type="button" class="btn btn-default btn-block btn-xs" data-toggle="modal" data-target="#modal-preview">g(preview)</button>
                 </li>
                 <li class="list-group-item">
                     <button type="submit" name="version[]" value="version" class="btn btn-default btn-block btn-xs">g(save)</button>
                 </li>
                 <li class="list-group-item">
-                    <button type="button" class="btn btn-default btn-block btn-xs button-cancel">g(abort)</button>
+                    <button type="button" class="btn btn-default btn-block btn-xs" data-toggle="modal" data-target="#modal-confirm-cancel">g(abort)</button>
                 </li>
             </ul>
-            <div id="cancel_dialog" style="display:none;">
-                <form method="post" id="form_sent" name="form_sent" action="!#ausgaben_form_aktion">
-                    <p>Nicht gespeicherte Änderungen gehen unwiederbringlich verloren.</p>
-                    <p>Wirklich abbrechen?</p>
-                    <input type="hidden" name="cancel[]" value="cancel" class="cancel-aktiv" disabled="true" />
-                </form>
-            </div>
+        </form>
+    </div>
+    <!--##show-->
+
+    <!--##hide-blocked-->
+    <div class="panel panel-default">
+        <form method="post" name="form_sent" action="!#ausgaben_form_aktion">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    #(blocked)
+                </li>
+                <li class="list-group-item">
+                    <button type="submit" name="version[]" value="version" class="btn btn-default btn-block btn-xs">g(save)</button>
+                </li>
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-default btn-block btn-xs" data-toggle="modal" data-target="#modal-confirm-cancel">g(abort)</button>
+                </li>
+            </ul>
         </form>
     </div>
     <!--##show-->
 </div>
 
-<div id="wizard">
 
-    <pre id="output"></pre>
-
-    <div class="clearer">
-        <a name="preview">&nbsp;</a>
+<div id="modal-confirm-cancel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-confirm-cancel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Bearbeitung abbrechen</h4>
+            </div>
+            <div class="modal-body">
+                <p>Nicht gespeicherte &Auml;nderungen gehen unwiederbringlich verloren.</p>
+                <p>Wirklich abbrechen?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="post" id="form_sent" name="form_sent" action="!#ausgaben_form_aktion">
+                    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">zur&uuml;ck</button>
+                    <button type="submit" name="cancel[]" class="btn btn-primary pull-left">Bearbeitung abbrechen</button>
+                </form>
+            </div>
+        </div>
     </div>
-
-<!--     <div id="vorhang_cancel" style="display:none;"></div> -->
-    <div id="vorhang_preview" style="display:none;"></div>
-
-<!--    <div class="column_1">
-        #{image_map}
-    </div>-->
-
-    <div class="grid_7">
-        <!--##hide-no_sort_content-->
-        <div style="display:block;margin:5px;background:silver;" id="no_sort_content">#(show_none)</div>
-        <!--##show-->
-        <!--##hide-show_one_content-->
-        <div style="display:block;margin:5px;padding:5px;background:#FFF3CF;" id="no_sort_content">#(show_one)</div>
-        <!--##show-->
-        <!--##hide-sort_content-->
-        <ul id="content_blocks">
-            <!--##loop-sort_content-->
-            <li id="item_!{key}" class="!{class}" style="!{style}">
-<!--                 <a name="item_!{key}" href="#" style="float:right;">nach oben</a> -->
-                <div class="clearer"></div>
-                !{value_html}
-                <div class="clearer"></div>
-                <p class="buttons" !{modify}>
-                    <a href="!{link_up}" class="button" title="#(wiz_moveup_desc)" style="!{display_up}">#(wiz_moveup)</a>
-                    <a href="!{link_down}" class="button" title="#(wiz_movedown_desc)" style="!{display_down}">#(wiz_movedown)</a>
-                    <a href="!{delete}" class="button" title="#(wiz_delete_desc)" style="!{display_delete}">#(wiz_delete)</a>
-                </p>
-                <div class="clearer"></div>
-            </li>
-            <!--##cont-->
-        </ul>
-        <!--##show-->
-    </div>
-
-    <div class="grid_2">
-
-
-        <!--##hide-blocked-->
-        <fieldset>
-            <form method="post" action="!#ausgaben_form_aktion">
-                #(blocked)
-                <button type="submit" name="cancel[]" value="cancel" class="button">g(abort)</button>
-                <div class="clearer"></div>
-            </form>
-        </fieldset>
-        <!--##show-->
-    </div>
-
-    <div class="clearer"></div>
-
 </div>
 
-<div id="vorschau_wrap" style="display:none;">
+<div id="modal-preview" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-preview">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Vorschau</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <form method="post" id="form_sent" name="form_sent" action="!#ausgaben_form_aktion">
+                    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">zur&uuml;ck</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 !#ausgaben_output
@@ -213,59 +226,59 @@
     })
     // <!--##show-->
 
-    jQuery('#cancel_dialog').dialog ({
-        position: ['center',35],
-        modal: true,
-        autoOpen: false,
-        title: 'Bearbeitung abbrechen',
-        width: 660,
-        heigth: 'auto',
-        buttons: {
-            "ja": function() {
-                jQuery('#form_sent').submit();
-                jQuery(this).dialog ("close");
-            },
-            "nein": function() {
-                jQuery('#cancel_dialog input.cancel-aktiv').attr('disabled','true');
-                jQuery(this).dialog ("close");
-            }
-        }
-    })
-    jQuery('.button-cancel').click(function(){
-        jQuery('#cancel_dialog').dialog ('open');
-        jQuery('#cancel_dialog input.cancel-aktiv').removeAttr('disabled');
-    })
-
-    jQuery('#vorschau_wrap').dialog ({
-        position: ['center',35],
-        modal: true,
-        autoOpen: false,
-        title: 'Vorschau',
-        width: 660,
-        heigth: 'auto'
-    })
-    function preview() {
-        jQuery('#vorschau_wrap').load(
+    jQuery('#modal-preview').on('show.bs.modal', function (e) {
+        jQuery('#modal-preview .modal-body').load(
             '!#ausgaben_form_aktion',
             {
                 'ajax': 'on',
                 'save': 'on'
-            },
-            function() {
-                //alert(jQuery('#vorschau_wrap').height());
-                jQuery("a[rel^='lightbox']").slimbox(
-                                        {
-                                            counterText: "Bild {x} von {y}"
-                                            /* Put custom options here */
-                                        },
-                                        null, function(el) {
-                                            return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
-                                        }
-                );
-                jQuery('#vorschau_wrap').dialog ('open');
+//            },
+//            function() {
+//                alert(jQuery('#vorschau_wrap').height());
+//                jQuery("a[rel^='lightbox']").slimbox(
+//                                        {
+//                                            counterText: "Bild {x} von {y}"
+//                                            /* Put custom options here */
+//                                        },
+//                                        null, function(el) {
+//                                            return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+//                                        }
+//                );
+//                jQuery('#vorschau_wrap').dialog ('open');
             }
         )
-    }
+    })
+
+//    jQuery('#vorschau_wrap').dialog ({
+//        position: ['center',35],
+//        modal: true,
+//        autoOpen: false,
+//        title: 'Vorschau',
+//        width: 660,
+//        heigth: 'auto'
+//    })
+//    function preview() {
+//        jQuery('#vorschau_wrap').load(
+//            '!#ausgaben_form_aktion',
+//            {
+//                'ajax': 'on',
+//                'save': 'on'
+//            },
+//            function() {
+//                alert(jQuery('#vorschau_wrap').height());
+//                jQuery("a[rel^='lightbox']").slimbox(
+//                                        {
+//                                            counterText: "Bild {x} von {y}"
+//                                            /* Put custom options here */
+//                                        },
+//                                        null, function(el) {
+//                                            return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+//                                        }
+//                );
+//                jQuery('#vorschau_wrap').dialog ('open');
+//            }
+//        )
+//    }
 
 
 </script>

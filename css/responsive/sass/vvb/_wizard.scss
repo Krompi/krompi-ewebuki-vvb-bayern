@@ -1,0 +1,9 @@
+#content_blocks {
+    .buttons {
+        a {
+            @extend .btn;
+            @extend .btn-default;
+            @extend .btn-xs;
+        }
+    }
+}
