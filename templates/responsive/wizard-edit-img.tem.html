@@ -1,0 +1,37 @@
+<!--##begin-->
+<!-- IMG-Tag bearbeiten -->
+
+<div id="wiz_ed" class="col-md-9">
+    <p>
+        <input type="submit" name="upload[]" value="neue Datei hochladen" title="neue Datei hochladen" class="btn btn-default btn-xs" />
+        <input type="submit" id="eb_submit" name="add[]" value="Dateien holen" title="Dateien holen" class="btn btn-default btn-xs" />
+        <input type="submit" name="change_pic[]" value="ausgew&auml;hlte Datei bearbeiten" title="ausgew&auml;hlte Datei bearbeiten" class="btn btn-default btn-xs" /><br />
+    </p>
+    <!--##hide-imgmulti-->
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <td colspan="2">&nbsp;</td>
+                <th>Bildunterschrift</th>
+                <th>Bildbeschreibung</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--##loop-imgmulti-->
+            <tr>
+                <td>
+                    <input type="radio" class="" id="pic_!{id}" value="!{src}" name="tagwerte[0]"!{checked} />
+                </td>
+                <td>
+                    <img src="!{src}" alt="Preview">
+                </td>
+                <td>!{funder}</td>
+                <td>!{fdesc}</td>
+            </tr>
+            <!--##cont-->
+        </tbody>
+    </table>
+    <!--##show-->
+</div>
+
+<!--##end-->

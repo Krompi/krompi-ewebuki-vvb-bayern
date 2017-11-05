@@ -1,0 +1,37 @@
+<!--##begin-->
+<!-- Standard-Editor-Bereich -->
+<!--##hide-default-->
+<div id="wiz_ed" class="col-md-9">
+    <div class="editor_buttons" style="padding: 5px 0;"><script type="text/javascript">ebToolbar('T');</script></div>
+    <div style="margin-right:5px;">
+        <textarea id="content_box" name="!#ausgaben_name" class="form-control" rows="17" !#ausgaben_eventh2>!#ausgaben_inhalt</textarea>
+    </div>
+    <p style="padding: 5px 0;">
+        <!--##loop-list_other-->
+        <a title="!{title} einf&uuml;gen" onclick="!{fclick}" class="btn btn-default btn-xs">!{title}</a>
+        <!--##cont-->
+    </p>
+    <div class="wiz-thumbs-wrap">
+        <!--##loop-list_images-->
+        <div class="thumbs1 col-md-3 wiz-thumbs">
+            <div class="wiz-thumbs-inner">
+                <p>
+                    <input type="button" id="eb_imgo" value="O" title="Einf&uuml;gen Original (original)" onclick="!{oclick}" class="btn btn-default btn-xs" />
+                    <input type="button" id="eb_imgs" value="B" title="Einf&uuml;gen Gross (big)" onclick="!{bclick}" class="btn btn-default btn-xs" />
+                    <input type="button" id="eb_imgm" value="M" title="Einf&uuml;gen Mittel (middle)" onclick="!{mclick}" class="btn btn-default btn-xs" />
+                    <input type="button" id="eb_imgb" value="S" title="Einf&uuml;gen Klein (small)" onclick="!{sclick}" class="btn btn-default btn-xs" />
+                </p>
+                <img src="!{src}" !{size} alt="!{alt}" title="!{title}" onclick="!{oclick}" style=";   " />
+            </div>
+        </div>
+        <!--##cont-->
+    </div>
+</div>
+<script type="text/javascript" language="JavaScript">
+    <!--
+    // This is for toolbar plugins
+    var ebCanvas = document.getElementById('content_box');
+    //-->
+</script>
+<!--##show-->
+<!--##end-->

@@ -25,12 +25,9 @@
 
 
     <form method="post" action="!#ausgaben_form_aktion" enctype="multipart/form-data" id="cEd" class="">
-        <div id="wiz_ed" class="col-md-9">
-            <div class="editor_buttons"><script type="text/javascript">ebToolbar('T');</script></div>
-            <div style="margin-right:5px;">
-                <textarea id="content_box" name="!#ausgaben_name" class="ta_norm" rows="15" style="width:100%;padding:2px;" !#ausgaben_eventh2>!#ausgaben_inhalt</textarea>
-            </div>
-        </div>
+
+        #{wizard-edit-img}
+        #{wizard-edit-default}
 
         <div class="col-md-3">
             <div class="panel panel-default">
@@ -47,7 +44,7 @@
                         <button type="submit" name="send[]" id="button_send" value="g(send)" accesskey="s" class="btn btn-default btn-block btn-xs">g(send)</button>
                     </li>
                     <li class="list-group-item">
-                        <button type="submit" name="cancel[]" id="button_cancel" value="g(abort)" accesskey="a" class="button">g(abort)</button>
+                        <button type="submit" name="cancel[]" id="button_cancel" value="g(abort)" accesskey="a" class="btn btn-default btn-block btn-xs">g(abort)</button>
                     </li>
                 </ul>
             </div>
@@ -76,9 +73,25 @@
 
 <script type="text/javascript">
     jQuery('#modal-preview').on('show.bs.modal', function (e) {
-        jQuery('#modal-preview .modal-body').load(
+//        jQuery('#modal-preview .modal-body').load(
+//            '!#ausgaben_form_aktion',
+//            'ajax=on&send[]=send&' + jQuery('#cEd').serialize()
+//        )
+        jQuery.post(
             '!#ausgaben_form_aktion',
-            'ajax=on&send[]=send&' + jQuery('#cEd').serialize()
+            'ajax=on&send[]=send&' + jQuery('#cEd').serialize(),
+            function(data) {
+                jQuery('#modal-preview .modal-body').html(data);
+                jQuery("a[rel^='lightbox']").slimbox(
+                    {
+                        counterText: "Bild {x} von {y}"
+                        /* Put custom options here */
+                    },
+                    null, function(el) {
+                        return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+                    }
+                );
+            }
         )
     })
 
@@ -114,25 +127,6 @@
                     <input type="submit" name="upload[]" value="#(upload_file)" title="#(upload_file)" class="button" />
                         <input type="submit" id="eb_submit" name="add[]" value="#(get_file)" title="#(get_file)" class="button" />
                         <input type="submit" name="change_pic[]" value="#(edit_file)" title="#(edit_file)" class="button" /><br />
-                    <!--##show-->
-                    <!--##hide-imgmulti-->
-                    <ul style="">
-                    <!--##loop-imgmulti-->
-                        <li style="clear:both;margin:5px;padding:5px;" >
-                            <input type="radio" class="radiocheck" id="pic_!{id}" value="!{src}" name="tagwerte[0]"!{checked} />
-                            <label for="pic_!{id}">
-                                <img src="!{src}" alt="Preview" style="float:left;margin:0 10px;" />
-                                <div style="float:left;">
-                                    <b>#(funder)</b><br />
-                                    <p>!{funder}</p>
-                                    <b>#(fdesc)</b><br />
-                                    <p>!{fdesc}</p>
-                                </div>
-                            </label>
-                            <div class="clear"></div>
-                        </li>
-                    <!--##cont-->
-                    </ul>
                     <!--##show-->
                     <!--##hide-img-->
                     </fieldset>
@@ -558,11 +552,6 @@
         <!-- Standard-Editor-Bereich -->
                     <!--##hide-default-->
                     <fieldset class="ce">
-                        <div class="editor_buttons"><script type="text/javascript">ebToolbar('T');</script></div>
-                        <div style="margin-right:5px;">
-                            <textarea id="content_box" name="!#ausgaben_name" class="ta_norm" rows="15" style="width:100%;padding:2px;" !#ausgaben_eventh2>!#ausgaben_inhalt</textarea>
-                        </div>
-                        <div style="clear:both"></div>
                         <p>
                         <!--##loop-list_other-->
 <!--                             <li class="files1" style="background:!{color};float:left;display:block;"> -->
@@ -601,12 +590,6 @@
                             <!--##cont-->
                             </ul>
                         </div>
-                        <script type="text/javascript" language="JavaScript">
-                            <!--
-                            // This is for toolbar plugins
-                            var ebCanvas = document.getElementById('content_box');
-                            //-->
-                        </script>
                     </fieldset>
                     <!--##show-->
 

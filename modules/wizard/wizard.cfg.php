@@ -149,7 +149,7 @@
                 ),
      "allowed_tags" => array(       // definiert welche Tags wo benutzt werden duerfen
                            "H" => array(),
-                           "P" => array("link","b","i","acr"),
+                           "P" => array("link","b","i","acr","file"),
                 ),
 
         // alle elemente die eingefuegt werden koennen, mit standardinhalt
