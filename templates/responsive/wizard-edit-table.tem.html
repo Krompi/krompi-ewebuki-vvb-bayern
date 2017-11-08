@@ -1,0 +1,39 @@
+<!--##begin-->
+<!-- IMG-Tag bearbeiten -->
+<!--##hide-tab-->
+<div id="wiz_ed" class="col-md-9">
+<!--##show-->
+    <!--##hide-tab_error-->
+    <fieldset class="error">
+        <legend>Fehler</legend>
+        #!ausgaben_form_error
+    </fieldset>
+    <!--##show-->
+<!--##hide-tab-->
+
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="csv_upload">CSV-Datei hochladen</label>
+            <input type="file" id="csv_upload" name="csv_upload" class="form-control">
+        </div>
+        <input type="submit" name="refresh[]" value="Hochladen" class="btn btn-default" />
+    </div>
+
+    <hr>
+
+    <div class="form-group">
+        <label for="num_col" class="col-sm-3 control-label">Anzahl der Spalten</label>
+        <div class="col-sm-3">
+            <input type="text" id="num_col" name="num_col" value="!#ausgaben_num_col" class="form-control" />
+        </div>
+        <label for="num_row" class="col-sm-3 control-label">Anzahl der Zeilen</label>
+        <div class="col-sm-3">
+            <input type="text" id="num_row" name="num_row" value="!#ausgaben_num_row" class="form-control" />
+        </div>
+    </div>
+
+
+</div>
+<!--##show-->
+
+<!--##end-->
