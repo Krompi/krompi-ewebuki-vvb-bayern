@@ -1,0 +1,93 @@
+<!--##begin-->
+<!-- SEL-Tag bearbeiten -->
+<!--##hide-sel_global-->
+<div id="wiz_ed" class="col-md-9">
+<!--##show-->
+    <!--##hide-sel_error-->
+    <fieldset class="error">
+        <legend>Fehler</legend>
+        #!ausgaben_form_error
+    </fieldset>
+    <!--##show-->
+<!--##hide-sel_global-->
+
+    <div class="wizard-gallery">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="description" class="col-sm-2 control-label">Beschreibung</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="description" name="description" value="!{description}">
+                    <input type="hidden" name="tagwerte[0]" value="!#ausgaben_tagwerte0" />
+                </div>
+            </div>
+        </div>
+
+        <h2>
+            Ausgew&auml;hlte Bilder
+        </h2>
+
+        <div class="wizard-gallery-wrap gallery-selected connectedSortable">
+            <!--##loop-chosen_images-->
+            <div class="wizard-gallery-item" data-id="!{id}">
+                <input id="check_!{id}" type="checkbox" name="tagwerte[3][]" value="!{id}" onclick="check_selected('!#ausgaben_check_id')">
+                <label for="check_!{id}">
+                    <img src="!{src}" alt="!{under}" title="!{under}" />
+                </label>
+                <input id="hidden_!{id}" class="avail" name="pics[]"  type="hidden" value="!{id}">
+            </div>
+            <!--##cont-->
+        </div>
+
+        <h2>
+            Verf&uuml;gbare Bilder
+            <button type="submit" name="add[]" value="holen" class="btn btn-default btn-xs">
+                <span class="fa fa-plus"></span>
+            </button>
+        </h2>
+
+        <div class="wizard-gallery-wrap gallery-available connectedSortable">
+            <!--##loop-list_images-->
+            <div class="wizard-gallery-item" data-id="!{id}">
+                <input id="check_!{id}" type="checkbox" name="unset[]" value="!{id}" disabled onclick="check_selected('!#ausgaben_check_id')">
+                <label for="check_!{id}">
+                    <img src="!{src}" alt="!{under}" title="!{under}" />
+                </label>
+                <input id="hidden_!{id}" class="avail" name="unset[]"  type="hidden" value="!{id}">
+            </div>
+            <!--##cont-->
+        </div>
+
+    </div>
+
+
+</div>
+<script type="text/javascript">
+    jQuery( function() {
+        jQuery( ".gallery-available" ).sortable({
+            placeholder: 'wizard-gallery-highlight',
+            connectWith: ".connectedSortable",
+            receive: function(evt,ui) {
+                var itemID = ui.item.data('id')
+console.log (ui.item.data('id') + '45')
+                jQuery('#hidden_' + itemID).attr({'name' :'unset[]'})
+                jQuery('[data-id="' + itemID + '"] input').prop('checked', false).prop('readonly', true);
+//                jQuery('#check_'+test).hide()
+            }
+        }).disableSelection();
+
+        jQuery( ".gallery-selected" ).sortable({
+            placeholder: 'wizard-gallery-highlight',
+            connectWith: ".connectedSortable",
+            receive: function(evt,ui) {
+                var itemID = ui.item.data('id')
+console.log (ui.item.data('id'))
+                jQuery('#hidden_' + itemID).attr({'name' :'pics[]'})
+                jQuery('[data-id="' + itemID + '"] input').prop('checked', false).prop('readonly', false);
+//                jQuery('#check_'+test).show()
+            }
+        }).disableSelection();
+    })
+</script>
+<!--##show-->
+
+<!--##end-->

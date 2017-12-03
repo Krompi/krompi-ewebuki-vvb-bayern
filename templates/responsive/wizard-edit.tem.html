@@ -30,6 +30,7 @@
         #{wizard-edit-img}
         #{wizard-edit-table}
         #{wizard-edit-list}
+        #{wizard-edit-gallery}
 
         <div class="col-md-3">
             <div class="panel panel-default">
@@ -332,9 +333,11 @@
                         <ul id="grid_list_2" style="height:50px" class="connectedSortable">
                             <!--##loop-chosen_images-->
                             <li style="height:130px" id="!{id}" class="thumbs sel_item">
-                                    <img src="!{src}" alt="!{under} g(edit)" title="!{under} g(edit)" />
-                                    <input id="hidden_!{id}" name="pics[]" type="hidden" value="!{id}" />
-                                <p><input id="check_!{id}" type="checkbox" style="width:120px" name="tagwerte[3][]" class="radiocheck" value="!{id}" onclick="check_selected('!#ausgaben_check_id')" !{checked} /></p>
+                                <img src="!{src}" alt="!{under} g(edit)" title="!{under} g(edit)" />
+                                <input id="hidden_!{id}" name="pics[]" type="hidden" value="!{id}" />
+                                <p>
+                                    <input id="check_!{id}" type="checkbox" style="width:120px" name="tagwerte[3][]" class="radiocheck" value="!{id}" onclick="check_selected('!#ausgaben_check_id')" !{checked} />
+                                </p>
                             </li>
                             <!--##cont-->
                             <div class="clear"></div>
