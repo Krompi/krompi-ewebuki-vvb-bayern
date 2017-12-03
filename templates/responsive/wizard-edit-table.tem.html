@@ -21,17 +21,62 @@
 
     <hr>
 
-    <div class="form-group">
-        <label for="num_col" class="col-sm-3 control-label">Anzahl der Spalten</label>
-        <div class="col-sm-3">
-            <input type="text" id="num_col" name="num_col" value="!#ausgaben_num_col" class="form-control" />
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label for="num_col" class="col-sm-2 control-label">Spalten</label>
+            <div class="col-sm-2">
+                <input type="text" id="num_col" name="num_col" value="!#ausgaben_num_col" class="form-control" />
+            </div>
+            <label for="num_row" class="col-sm-2 control-label">Zeilen-</label>
+            <div class="col-sm-2">
+                <input type="text" id="num_row" name="num_row" value="!#ausgaben_num_row" class="form-control" />
+            </div>
+            <button type="submit" name="refresh[]" value="Aktualisieren" class="btn btn-default">Aktualisieren</button>
         </div>
-        <label for="num_row" class="col-sm-3 control-label">Anzahl der Zeilen</label>
-        <div class="col-sm-3">
-            <input type="text" id="num_row" name="num_row" value="!#ausgaben_num_row" class="form-control" />
-        </div>
-    </div>
 
+        <div class="wizard-table">
+            <div class="editor_buttons" style="padding: 5px 0;"><script type="text/javascript">ebToolbar('T');</script></div>
+            !#ausgaben_tabelle
+        </div>
+
+
+        <!--<div class="form-group row">-->
+            <!--<label for="tagwert_0" class="col-sm-3 control-label">Ausrichtung</label>-->
+            <!--<div class="col-sm-9">-->
+                <!--<input type="text" id="tagwert_0" name="tagwerte[0]" value="!#ausgaben_tagwerte0" class="form-control" />-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="form-group row">-->
+            <!--<label for="tagwert_1" class="col-sm-3 control-label">Breite</label>-->
+            <!--<div class="col-sm-9">-->
+                <!--<input type="text" id="tagwert_1" name="tagwerte[1]" value="!#ausgaben_tagwerte1" class="form-control" />-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="form-group row">-->
+            <!--<label for="tagwert_2" class="col-sm-3 control-label">Rahmen</label>-->
+            <!--<div class="col-sm-9">-->
+                <!--<input type="text" id="tagwert_2" name="tagwerte[2]" value="!#ausgaben_tagwerte2" class="form-control" />-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="form-group row">-->
+            <!--<label for="tagwert_3" class="col-sm-3 control-label">Zellenaußenabstand</label>-->
+            <!--<div class="col-sm-9">-->
+                <!--<input type="text" id="tagwert_3" name="tagwerte[3]" value="!#ausgaben_tagwerte3" class="form-control" />-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="form-group row">-->
+            <!--<label for="tagwert_4" class="col-sm-3 control-label">Zelleninnenabstand</label>-->
+            <!--<div class="col-sm-9">-->
+                <!--<input type="text" id="tagwert_4" name="tagwerte[4]" value="!#ausgaben_tagwerte4" class="form-control" />-->
+            <!--</div>-->
+        <!--</div>-->
+        <!---->
+
+    </div>
 
 </div>
 <!--##show-->
