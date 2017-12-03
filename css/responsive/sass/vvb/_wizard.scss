@@ -51,6 +51,17 @@
     }
 }
 
+.wizard-list {
+    [name^="del"] {
+        @extend .btn;
+        @extend .btn-default;
+        //@extend .btn-xs;
+    }
+    textarea {
+        width: 100;
+    }
+}
+
 hr {
   border-color: black;
 }
