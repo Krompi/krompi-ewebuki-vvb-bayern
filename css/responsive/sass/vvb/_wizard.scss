@@ -72,6 +72,7 @@
         justify-content: left;
         align-items: center;
         align-content: center;
+        min-height: 50px;
     }
     .wizard-gallery-wrap:after {
         display: block;
@@ -94,7 +95,20 @@
             left: -9999px;
         }
         input:checked + label {
+            position: relative;
+        }
+        input:checked + label::before {
             background-image: url(/images/vvb/picSelected.png);
+            background-repeat: no-repeat;
+            background-position: right bottom;
+            display: block;
+            content: '';
+            z-index: 200;
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
         }
         label {
             width: 100px;

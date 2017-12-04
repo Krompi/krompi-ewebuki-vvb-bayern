@@ -26,10 +26,15 @@
             Ausgew&auml;hlte Bilder
         </h2>
 
+        <p id="sel_error" class="error-max-sel" style="display:none;">
+            <span class="error-max-sel-counter"></span> Bilder wurden ausgewählt.
+            Es dürfen maximal !#ausgaben_max_sel_num ausgewählt werden.
+        </p>
+
         <div class="wizard-gallery-wrap gallery-selected connectedSortable">
             <!--##loop-chosen_images-->
             <div class="wizard-gallery-item" data-id="!{id}">
-                <input id="check_!{id}" type="checkbox" name="tagwerte[3][]" value="!{id}" onclick="check_selected('!#ausgaben_check_id')">
+                <input id="check_!{id}" type="checkbox" name="tagwerte[3][]" value="!{id}" onclick="check_selected('!#ausgaben_check_id')" !{checked}>
                 <label for="check_!{id}">
                     <img src="!{src}" alt="!{under}" title="!{under}" />
                 </label>
@@ -70,7 +75,7 @@
                 var itemID = ui.item.data('id')
 console.log (ui.item.data('id') + '45')
                 jQuery('#hidden_' + itemID).attr({'name' :'unset[]'})
-                jQuery('[data-id="' + itemID + '"] input').prop('checked', false).prop('readonly', true);
+                jQuery('[data-id="' + itemID + '"] input').prop('checked', false).prop('disabled', true);
 //                jQuery('#check_'+test).hide()
             }
         }).disableSelection();
@@ -82,11 +87,31 @@ console.log (ui.item.data('id') + '45')
                 var itemID = ui.item.data('id')
 console.log (ui.item.data('id'))
                 jQuery('#hidden_' + itemID).attr({'name' :'pics[]'})
-                jQuery('[data-id="' + itemID + '"] input').prop('checked', false).prop('readonly', false);
+                jQuery('[data-id="' + itemID + '"] input').prop('checked', false).prop('disabled', false);
 //                jQuery('#check_'+test).show()
             }
         }).disableSelection();
     })
+
+    function check_selected(id) {
+        var i = 0;
+        console.log(id);
+        jQuery('.gallery-selected [type="checkbox"]').each( function(element,index) {
+            console.log(this);
+                if ( jQuery(this).prop('checked') == true ) {
+                    i++;
+                }
+            }
+        );
+        jQuery('.error-max-sel-counter').text(i);
+        console.log(i);
+        if ( i > !#ausgaben_max_sel_num ) {
+            jQuery('.error-max-sel').show();
+        } else {
+            jQuery('.error-max-sel').hide();
+        }
+    }
+    check_selected('!#ausgaben_check_id');
 </script>
 <!--##show-->
 

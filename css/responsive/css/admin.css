@@ -8541,7 +8541,8 @@ article {
   flex-direction: row;
   justify-content: left;
   align-items: center;
-  align-content: center; }
+  align-content: center;
+  min-height: 50px; }
 .wizard-gallery .wizard-gallery-wrap:after {
   display: block;
   content: " invisible node " flex(999 999 auto); }
@@ -8557,7 +8558,19 @@ article {
     top: -9999px;
     left: -9999px; }
   .wizard-gallery .wizard-gallery-item input:checked + label {
-    background-image: url(/images/vvb/picSelected.png); }
+    position: relative; }
+  .wizard-gallery .wizard-gallery-item input:checked + label::before {
+    background-image: url(/images/vvb/picSelected.png);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    display: block;
+    content: '';
+    z-index: 200;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    right: 0;
+    bottom: 0; }
   .wizard-gallery .wizard-gallery-item label {
     width: 100px;
     height: 100px;
