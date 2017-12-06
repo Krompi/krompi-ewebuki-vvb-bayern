@@ -32,8 +32,28 @@
     <!--##show-->
 
     <!--##hide-sort_content-->
-    <ul id="content_blocks" style="padding: 0;">
+    <div class="content-wrap">
         <!--##loop-sort_content-->
+        <div class="panel panel-default !{class}" id="item_!{key}">
+            <div class="panel-body">
+                !{value_html}
+            </div>
+            <div class="panel-footer">
+                <div class="buttons" !{modify}>
+                    <a href="!{link_up}" class="btn btn-default btn-xs" title="#(wiz_moveup_desc)" style="!{display_up}">#(wiz_moveup)</a>
+                    <a href="!{link_down}" class="btn btn-default btn-xs" title="#(wiz_movedown_desc)" style="!{display_down}">#(wiz_movedown)</a>
+                    <a href="!{delete}" class="btn btn-default btn-xs" title="#(wiz_delete_desc)" style="!{display_delete}">#(wiz_delete)</a>
+                </div>
+            </div>
+        </div>
+        <!--##cont-->
+    </div>
+
+
+
+
+    <ul id="content_blocks" style="padding: 0;">
+        <!--##loop-sort_con1tent-->
         <li id="item_!{key}" class="!{class}" style="!{style}">
             <!--                 <a name="item_!{key}" href="#" style="float:right;">nach oben</a> -->
             <div class="clearer"></div>
@@ -211,6 +231,20 @@
                 url: '!#ausgaben_ajax_request?' + jQuery('#content_blocks').sortable('serialize',{'key':'content_blocks[]'}),
                 complete: function(data) {
                     jQuery('#content_blocks').effect('highlight');
+                    location.reload(true);
+                }
+            });
+        }
+    });
+    jQuery('.content-wrap').sortable({
+        axis: 'y',
+        items: '.ajax_move',
+        items: "> div",
+        update: function(event, ui) {
+            jQuery.ajax({
+                url: '!#ausgaben_ajax_request?' + jQuery('.content-wrap').sortable('serialize',{'key':'content_blocks[]'}),
+                complete: function(data) {
+                    jQuery('.content-wrap').effect('highlight');
                     location.reload(true);
                 }
             });

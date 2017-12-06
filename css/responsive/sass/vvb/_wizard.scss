@@ -133,3 +133,23 @@
 hr {
   border-color: black;
 }
+
+.content-wrap {
+    .panel {
+        .panel-footer {
+            display: none;
+        }
+        &:hover {
+            .panel-footer {
+                //display: block;
+            }
+        }
+    }
+    .buttons {
+        a {
+            @extend .btn;
+            @extend .btn-default;
+            @extend .btn-xs;
+        }
+    }
+}
