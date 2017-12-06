@@ -33,6 +33,35 @@
         </tbody>
     </table>
     <!--##show-->
+    <div style="display: none;">
+        <b>Bild-Größe</b>
+        <!--##loop-show-->
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="pic_size" id="pic_size" value="!{value}"!{check}>
+                !{label}
+            </label>
+        </div>
+        <!--##cont-->
+        <b>Bild-Größe (Detailansicht)</b>
+        <!--##loop-size-->
+        <p>
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="tagwerte[3]" id="tagwert_3" value="!{value}"!{check}>
+                !{label}
+            </label>
+        </p>
+        <!--##cont-->
+        <b>Ausrichtung</b>
+        <!--##loop-align-->
+        <p>
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="tagwerte[1]" id="tagwert_1" value="!{value}"!{check}>
+                !{label}
+            </label>
+        </p>
+        <!--##cont-->
+    </div>
 <!--##hide-img-->
 </div>
 <!--##show-->
