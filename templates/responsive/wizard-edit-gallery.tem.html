@@ -26,7 +26,7 @@
             Ausgew&auml;hlte Bilder
         </h2>
 
-        <p id="sel_error" class="error-max-sel" style="display:none;">
+        <p id="sel_error" class="error-max-sel alert alert-danger" style="display:none;">
             <span class="error-max-sel-counter"></span> Bilder wurden ausgewählt.
             Es dürfen maximal !#ausgaben_max_sel_num ausgewählt werden.
         </p>
@@ -107,8 +107,10 @@ console.log (ui.item.data('id'))
         console.log(i);
         if ( i > !#ausgaben_max_sel_num ) {
             jQuery('.error-max-sel').show();
+            jQuery('[data-button="send"]').hide();
         } else {
             jQuery('.error-max-sel').hide();
+            jQuery('[data-button="send"]').show();
         }
     }
     check_selected('!#ausgaben_check_id');
