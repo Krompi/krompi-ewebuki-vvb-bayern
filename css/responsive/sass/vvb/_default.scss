@@ -63,6 +63,8 @@ h2 {
 table {
     @extend .table;
     @extend .table-condensed;
+    border-bottom: 1px solid $table-border-color;
+    margin-bottom: ($line-height-computed / 2);
 }
 
 .table-hide-btn {
@@ -85,4 +87,38 @@ table {
     input {
         @extend .form-control;
     }
+}
+
+.gallery.panel-default {
+    .panel-heading {
+        background-color: $panel-footer-bg;
+        font-size: 1em;
+        line-height: inherit;
+        padding-top: 5;
+        padding-bottom: 5px;
+    }
+    .gallery-item {
+        margin-right: 10px;
+        float: left;
+        a {
+            width: 100px;
+            height: 100px;
+            background-color: $panel-footer-bg;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+            img {
+            }
+        }
+    }
+}
+
+.imgb {
+    margin-bottom: ($line-height-computed / 2);
+    width: 100;
+    img {
+        width: 100%;
+        height: auto;
+    }
+
 }

@@ -121,7 +121,20 @@
                                "  </div>\n".
                                "  <span##display##>g(compilation_info)(##count## g(compilation_pics))</span>\n".
                                "</div>";
-
+if ( $environment["design"] == "responsive" ) {
+    $defaults["tag"]["sel"] =  "<div class=\"panel panel-default gallery\">##no_image####youtube_div##
+                                  <div class=\"panel-heading\">##title## ##youtube_link##</div>##no_image_end##
+                                  <div class=\"panel-body\">";
+    $defaults["tag"]["*sel"] = "<div class=\"gallery-item\" ##style##>
+                                    <a href=\"##link##\" ##lb##class=\"pic\" title=\"##fdesc##\">
+                                      <img src=\"##tn##\" alt=\"##funder##\" title=\"##funder##\"/>
+                                    </a>
+                                </div>";
+    $defaults["tag"]["/sel"] = "</div>
+                                <div class=\"panel-footer\"##display##>g(compilation_info)(##count## g(compilation_pics))</div>
+                                </div>";
+}
+//echo "<pre>".print_r($environment,true)."</pre>";
     // [IMG]/[IMGB] aufbau der bilder und der bilder-links
     $defaults["tag"]["img_w3c"] = "<img src=\"##imgurl##\""." title=\"##funder##\" alt=\"##funder##\"##imgsize## style=\"##style_align####style_border####style_hspace####style_vspace##\"##attrib## />";
     #$defaults["tag"]["img"] = "<img src=\"##imgurl##\"##attrib####vspace####hspace## title=\"##beschriftung##\" alt=\"##beschriftung##\"##align####border####imgsize## />";

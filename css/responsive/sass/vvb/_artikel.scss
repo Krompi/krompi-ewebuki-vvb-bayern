@@ -5,6 +5,16 @@ article {
     margin: 0 0 15px;
     border-radius: 2px;
     @extend .clearfix;
+
+    &.meldung {
+        margin-top: 20px;
+        h1, p {
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+
     h2 {
         padding: 0;
         margin: 0;
