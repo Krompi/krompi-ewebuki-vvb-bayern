@@ -1,0 +1,41 @@
+<!--##begin-->
+
+<div class="col-md-12">
+    <h1>Passwort &auml;ndern</h1>
+
+    <form method="post" action="!#ausgaben_form_aktion" class="form-horizontal">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="ggroup" class="col-sm-2 control-label">#(oldpass)</label>
+                    <div class="col-sm-10">
+                        !#element_oldpass
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ggroup" class="col-sm-2 control-label">#(newpass)</label>
+                    <div class="col-sm-10">
+                        !#element_newpass
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ggroup" class="col-sm-2 control-label">#(chkpass)</label>
+                    <div class="col-sm-10">
+                        !#element_chkpass
+                    </div>
+                </div>
+
+                <div class="col-md-offset-2">
+                    <input type="submit" name="send" value="g(send)" class="btn btn-default" />
+                    <input type="reset" name="reset" value="zur&uuml;cksetzen" class="btn btn-default" />
+                    <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="btn btn-link pull-right" />
+                </div>
+
+                <input name="form_referer" type="hidden" value="!#ausgaben_form_referer" class="hidden" />
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!--##end-->
