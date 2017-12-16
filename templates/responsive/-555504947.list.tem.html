@@ -1,0 +1,53 @@
+<!--##begin-->
+<div class="col-md-12">
+    <div class="clearfix">
+        <h1>Menu-Editor - &Uuml;bersicht</h1>
+
+        <!--##hide-back-->
+        <a href="!{link}" class="btn btn-default">
+            eine Ebene nach oben <span  class="fa fa-level-up" aria-hidden="true"></span>
+        </a>
+        <!--##show-->
+
+        <!--##hide-new_menu_item-->
+        <a href="!{link}" class="pull-right btn btn-default">neuer Eintrag</a>
+        <!--##show-->
+    </div>
+
+    <!--##hide-move-->
+    <form method="post" action="!#ausgaben_form_aktion">
+        <p class="text-danger">!#ausgaben_form_error</p>
+        <!--<p>!#element_entry</p>-->
+    <!--##show-->
+
+    <div class="menu-editor">
+        !#ausgaben_root
+        !#ausgaben_show_menu
+    </div>
+
+    <!--##hide-renumber-->
+    <a href="!{link}" class="btn btn-default">
+        Sortierung neu nummerieren <span class="fa fa-sort-numeric-asc" aria-hidden="true"></span>
+    </a>
+    <!--##show-->
+
+    <!--##hide-move-->
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <input type="submit" name="send[]" value="g(send)" class="btn btn-success" >
+                <input type="reset" name="reset" value="zur&uuml;cksetzen" class="btn btn-default">
+                <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="btn btn-warning pull-right" >
+            </div>
+        </div>
+    </form>
+    <!--##show-->
+
+
+</div>
+
+
+
+
+
+<p>!#ausgaben_inaccessible</p>
+<!--##end-->

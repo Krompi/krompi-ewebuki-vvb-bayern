@@ -5,3 +5,26 @@
         }
     }
 }
+
+.menu-editor {
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+        li {
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+            &:hover {
+                background: #f5f5f5;
+            }
+            a.red {
+                @extend .text-danger;
+            }
+        }
+    }
+    .form-group {
+        input[type="text"], select {
+            @extend .form-control;
+        }
+    }
+}
