@@ -1,12 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
-<title>usered.modify</title>
-<link rel="stylesheet" href="../../css/default/screen.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="../../css/default/eed.css" type="text/css" media="screen" />
-</head>
-<body>
 <!--##begin-->
 
 <div class="col-md-12">
@@ -24,48 +15,52 @@
     <!--##show-->
 
     <form method="post" action="!#ausgaben_form_aktion" class="form-horizontal form-vvb">
-        <div class="form-group">
-            <label for="vorname" class="col-sm-2 control-label">#(vorname)</label>
-            <div class="col-sm-10">
-                !#element_vorname
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="nachname" class="col-sm-2 control-label">#(nachname)</label>
-            <div class="col-sm-10">
-                !#element_nachname
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="username" class="col-sm-2 control-label">#(username)</label>
-            <div class="col-sm-10">
-                !#element_username
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">#(email)</label>
-            <div class="col-sm-10">
-                !#element_email
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="newpass" class="col-sm-2 control-label">#(newpass)</label>
-            <div class="col-sm-10">
-                !#element_newpass
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="chkpass" class="col-sm-2 control-label">#(chkpass)</label>
-            <div class="col-sm-10">
-                !#element_chkpass
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input name="form_referer" type="hidden" value="!#ausgaben_form_referer" class="hidden" />
-                <button type="submit" name="send[]" value="g(send)" class="btn btn-success">g(send)</button>
-                <button type="reset" class="btn btn-default">Zur&uuml;cksetzen</button>
-                <a href="!#ausgaben_form_break" class="btn btn-link pull-right">g(abort)</a>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="vorname" class="col-sm-2 control-label">#(vorname)</label>
+                    <div class="col-sm-10">
+                        !#element_vorname
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nachname" class="col-sm-2 control-label">#(nachname)</label>
+                    <div class="col-sm-10">
+                        !#element_nachname
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username" class="col-sm-2 control-label">#(username)</label>
+                    <div class="col-sm-10">
+                        !#element_username
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-sm-2 control-label">#(email)</label>
+                    <div class="col-sm-10">
+                        !#element_email
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newpass" class="col-sm-2 control-label">#(newpass)</label>
+                    <div class="col-sm-10">
+                        !#element_newpass
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="chkpass" class="col-sm-2 control-label">#(chkpass)</label>
+                    <div class="col-sm-10">
+                        !#element_chkpass
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input name="form_referer" type="hidden" value="!#ausgaben_form_referer" class="hidden" />
+                        <button type="submit" name="send[]" value="g(send)" class="btn btn-success">g(send)</button>
+                        <button type="reset" class="btn btn-default">Zur&uuml;cksetzen</button>
+                        <a href="!#ausgaben_form_break" class="btn btn-link pull-right">g(abort)</a>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
