@@ -167,6 +167,9 @@
         $result = $db -> query($sql);
 
         while ( $data = $db -> fetch_array($result,1) ) {
+            if ( !preg_match("/^[0-9]+$/", $data["year"]) ) continue;
+
+
             if ( $environment["parameter"][4] == $data["year"] ) {
                 $style = "font-weight: bold;";
                 $ausgaben["archiv_filter"] = " - ".$data["year"];
@@ -180,6 +183,7 @@
                 "style" => $style,
             );
         }
+        $dataloop["selektor"] = mod_selektor($ausgaben["inhalt_selector"]);
     }
 
     if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= " *".$debugging["char"]." * ".$script["name"].$debugging["char"].str_pad("", strlen($script["name"])+10, " *").$debugging["char"];
