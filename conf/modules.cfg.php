@@ -343,6 +343,9 @@ echo $refid."::".$data["mid"]."::".$data["label"]."\n";
         return $menu_array;
     }
 
+if ( !isset($dataloop["selektor"]) && $ausgaben["inhalt_selector"] != "" ) {
+    $dataloop["selektor"] = mod_selektor($ausgaben["inhalt_selector"]);
+}
     // echo "<pre>";
     // $test = walk_menu();
     // echo print_r($test,true);
