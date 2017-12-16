@@ -1,0 +1,30 @@
+<!--$Id$-->
+<!--##begin-->
+
+<div class="col-md-12">
+    <h1>Gruppen-Editor - L&ouml;schen</h1>
+
+    <p>#(frage)</p>
+
+    <table class="table">
+        <!--##hide-members-->
+        <tr>
+            <td>#(members)</td>
+            <td>!#ausgaben_members</td>
+        </tr>
+        <!--##show-->
+    </table>
+
+    <p>
+        <form method="post" action="!#ausgaben_form_aktion">
+            <input type="submit" name="send[]" value="g(send)" class="btn btn-default">
+            <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="btn btn-link" >
+        </form>
+    </p>
+
+
+</div>
+
+
+
+<!--##end-->

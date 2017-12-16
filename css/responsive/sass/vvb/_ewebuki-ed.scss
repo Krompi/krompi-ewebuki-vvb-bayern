@@ -1,0 +1,7 @@
+.ewebuki-form {
+    form {
+        input, textarea {
+            @extend .form-control;
+        }
+    }
+}

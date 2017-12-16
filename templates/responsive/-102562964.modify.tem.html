@@ -1,0 +1,130 @@
+<!--$Id$-->
+<!--##begin-->
+
+<div class="col-md-12 ewebuki-form">
+    <h1>Gruppen-Editor - Bearbeiten</h1>
+</div>
+
+
+<form method="post" action="!#ausgaben_form_aktion" class="form-horizontal">
+
+    <div class="clearfix">
+        <div class="col-md-8 ewebuki-form">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                        <div class="form-group">
+                            <label for="ggroup" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                !#element_ggroup
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="beschreibung" class="col-sm-2 control-label">Beschreibung</label>
+                            <div class="col-sm-10">
+                                !#element_beschreibung
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <input type="submit" name="send[]" value="g(send)" class="btn btn-block btn-success">
+                    <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="btn btn-block btn-warning">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 ewebuki-form">
+        <div class="panel panel-default">
+            <div class="panel-heading">verf&uuml;gbar</div>
+            <ul class="list-group"  id="avail_user">
+                <li class="list-group-item">
+                    <input id="user_search">
+                </li>
+                <!--##loop-avail-->
+                <li id="doc_!{value}" class="sel_item list-group-item">
+                    !{vorname} !{name} (!{username})
+                </li>
+                <!--##cont-->
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">ausgew&auml;hlt</div>
+            <ul class="list-group"  id="chosen_user">
+                <!--##loop-actual-->
+                <li id="doc_!{value}" class="sel_item list-group-item">
+                    !{vorname} !{name} (!{username})
+                </li>
+                <!--##cont-->
+            </ul>
+        </div>
+    </div>
+
+</form>
+<script type="text/javascript">
+    if(typeof jQuery != "function" || typeof jQuery.ui != "object" ) {
+        alert("jQuery nicht geladen! Der Gruppen-Editor wird nicht funktionieren !");
+    }
+
+    window.onload = create_sortable;
+
+    jQuery('#user_search').on('keyup', function() {
+        console.clear();
+        jQuery('#avail_user .sel_item').each(function() {
+            console.log (jQuery('#user_search').val() + '::' + jQuery(this).html().indexOf(jQuery('#user_search').val()))
+            if ( jQuery(this).html().indexOf(jQuery('#user_search').val()) > -1 ) {
+                jQuery(this).show();
+            } else {
+                jQuery(this).hide();
+            }
+        })
+    })
+
+
+//    function aj_search() {
+//        jQuery.ajax ({
+//            type: 'POST',
+//            data:   'ajaxsuche=on&text='+jQuery('#user_search').val(),
+//            url:                '!#pathvars_uri',
+//            success:      function(ergebnis) {
+//                jQuery('#avail_user').empty();
+//                jQuery('#avail_user').append(ergebnis);
+//            }
+//        });
+//    }
+    function create_sortable() {
+        jQuery('#avail_user').sortable({
+            connectWith: '#chosen_user',
+            items : '.sel_item',
+            cursor: 'crosshair',
+            receive: function(){
+                jQuery.ajax ({
+                    type: 'POST',
+                    url:           '!#pathvars_uri',
+                    data:       'ajax=on&' +jQuery('#chosen_user').sortable('serialize',{key:'chosen_user[]'}),
+                });
+            }
+        });
+        jQuery('#chosen_user').sortable({
+            connectWith: '#avail_user',
+            items : '.sel_item',
+            cursor: 'crosshair',
+            receive: function(){
+                jQuery.ajax ({
+                    type: 'POST',
+                    url:           '!#pathvars_uri',
+                    data:       'ajax=on&' +jQuery('#chosen_user').sortable('serialize',{key:'chosen_user[]'}),
+                });
+            }
+        });
+    }
+</script>
+
+<!--##end-->
