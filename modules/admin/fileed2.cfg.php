@@ -133,7 +133,26 @@
                         "3" => array("g(fileupload)", "upload.html", "R", "/upload[,0-9]*.html/"),
 //                        "4" => array("g(filecompilation)", "compilation.html", "R", "/compilation[,0-9]*.html/"),
                        ),
-//      "default_view" => "symbols",                           # standardansicht im fileed-list
+
+      "element" => [
+          "img" => "<a href=\"!{ehref}\" class=\"pic\">
+                            <img src=\"!{src}\" alt=\"!{alt}\" title=\"!{title} g(edit)\" />
+                        </a>",
+          "pdf" => "<a href=\"!{ehref}\" class=\"pic\">
+                            <span class=\"fa fa-file-pdf-o\" aria-hidden=\"true\" style=\"font-size: 50px;\"></span>
+                        </a>",
+          "arc" => "<a href=\"!{ehref}\" class=\"pic\">
+                            <span class=\"fa fa-file-zip-o\" aria-hidden=\"true\" style=\"font-size: 50px;\"></span>
+                        </a>",
+          "odf" => "<a href=\"!{ehref}\" class=\"pic\">
+                            <span class=\"fa fa-file-text-o\" aria-hidden=\"true\" style=\"font-size: 50px;\"></span>
+                        </a>",
+          "txt" => "<a href=\"!{ehref}\" class=\"pic\">
+                            <span class=\"fa fa-file-text-o\" aria-hidden=\"true\" style=\"font-size: 50px;\"></span>
+                        </a>",
+      ],
+
+      "default_view" => "details",                           # standardansicht im fileed-list
       "replace_used" => true,                                # duerfen benutzte dateien ausgetauscht werden
 //       "dummy_regex" => array("#p[0-9]+,[0-9]+#"),           # regex, muster fuer fhit-sperre
 //          "no_dummy" => "admin",                             # noetiges recht um den fhit komplett zu bearbeiten

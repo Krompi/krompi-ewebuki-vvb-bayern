@@ -1,0 +1,27 @@
+<!--##begin-->
+<div class="col-md-12">
+    <h1>Datei-Editor - Upload</h1>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <form method="post" action="!#ausgaben_form_aktion" enctype="multipart/form-data">
+                <!--##loop-upload-->
+                <div class="form-group">
+                    <input type="file" name="!{name}">
+                </div>
+                <!--##cont-->
+
+                <input type="hidden" name="form_referer" value="!#ausgaben_form_referer" class="hidden">
+                <input type="submit" name="send[]" value="g(send)" class="btn btn-default">
+                <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="btn btn-link">
+                <a href="list.html" class="btn btn-link">
+                    <span class="fa fa-th-list" aria-hidden="true"></span> zur Datei-&Uuml;bersicht
+                </a>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+<!--##end-->

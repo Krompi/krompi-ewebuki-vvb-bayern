@@ -28,3 +28,23 @@
         }
     }
 }
+
+.datei-editor {
+    a.pic {
+        width: 65px;
+        height: 65px;
+        display: block;
+        text-align: center;
+        img {
+            max-height:100%;
+            max-width:100%;
+        }
+    }
+    .media-action {
+        a {
+            @extend .btn;
+            @extend .btn-default;
+            @extend .btn-xs;
+        }
+    }
+}
