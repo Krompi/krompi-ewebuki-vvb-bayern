@@ -188,7 +188,12 @@ if ( $_SESSION["uid"] != "" ) {
     include $pathvars["moduleroot"]."addon/changed.inc.php";
 }
 
-include $pathvars["moduleroot"]."vvb/functions.inc.php"; # erweitertes modul
+    include $pathvars["moduleroot"]."vvb/functions.inc.php"; # erweitertes modul
+
+    if ( $environment["ebene"] == "" && $environment["kategorie"] == "vvb" ) {
+        header("Location: ".$pathvars["virtual"]."/vvb/vorstand.html");
+        exit;
+    }
 
 
 
