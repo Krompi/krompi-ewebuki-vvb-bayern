@@ -19,9 +19,9 @@ while [ "$1" != "" ]; do
     shift
 done
 
-echo ${path_ewebuki}
-echo ${path_custom}
-exit;
+#echo ${path_ewebuki}
+#echo ${path_custom}
+#exit;
 
 
 
@@ -30,8 +30,8 @@ cd ..
 cd ${path_ewebuki}
 
 ln -sfv ../${path_custom}/.htaccess
-rm -rf  file
-ln -sfv ../${path_custom}/file
+#rm -rf  file
+#ln -sfv ../${path_custom}/file
 
 # Ordner Links setzen
 cd css/
