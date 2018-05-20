@@ -1,6 +1,6 @@
 #!/bin/sh
-path_ewebuki=website
-path_custom=website.ext
+path_ewebuki=html
+path_custom=html.ext
 
 while [ "$1" != "" ]; do
     case $1 in

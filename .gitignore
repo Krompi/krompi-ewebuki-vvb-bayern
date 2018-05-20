@@ -1,3 +1,4 @@
 /conf/site.cfg.php
 /node_modules
 .sass-cache
+.idea

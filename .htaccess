@@ -1,8 +1,8 @@
 # don't forget to load mod_rewrite in apache-config!
 # $Id$
-<IfModule mod_rewrite.c>
+#<IfModule mod_rewrite.c>
   RewriteEngine On
-  #RewriteBase /
+  RewriteBase /
 
   # unbedingt benötigte ausnahmen
   RewriteRule ^basic.* - [L] 			
@@ -28,7 +28,7 @@
   #RewriteRule ^.+ basic/main.php [T=application/x-httpd-php]
 
   # oder betrieb ohne index.php
-  RewriteRule ^.* ./basic/main.php [T=application/x-httpd-php]
-</IfModule>
+  RewriteRule ^(.*)$ basic/main.php [QSA,L]
+#</IfModule>
 #php_value upload_max_filesize 25M
 #php_value post_max_size 25M

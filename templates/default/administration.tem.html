@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <title>Neues Internet</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+        <meta name="author" content="" />
+        <meta name="description" content=" " />
+        <link rel="stylesheet" href="../../css/html/screen.css" type="text/css" />
+    </head>
+    <body>
+<!--##begin-->
+<!--administration.tem.html emnili/krompi-->
+    <div class="admin">
+        <div>
+            #(ueberschrift)
+        </div>
+        <div id="output"></div>
+        
+        !#ausgaben_ext_script
+        
+        !#ausgaben_bereiche  
+                
+        
+    </div>
+           
+    !#ausgaben_output
+    !#ausgaben_inaccessible
+       
+    <div id="preview_dialog" style="display:none;">
+        <div id="substance"></div>
+    </div>
+ 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            aj_menu(0);
+            jQuery('#ajax_menubaum').accordion({
+                animated: 'bounceslide',
+                active: 1,
+                collapsible: true,
+                autoHeight: false
+            });
+        })
+                
+        function aj_menu(id) {
+            jQuery.ajax ({
+                type: 'POST',
+                data:   'ajax_menu=on&point_id='+id, 
+                url:       '!#ausgaben_ajax_menu',
+                success: function (reqCode) {
+                    jQuery('#buffy').html(reqCode);
+                } 
+             });
+        }                                       
+    </script>
+<!--##end-->
+
+    </body>
+</html>

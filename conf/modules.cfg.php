@@ -50,9 +50,9 @@
 
     date_default_timezone_set('Europe/Berlin');
 
-    if ( ($_SESSION["uid"] != 1 && !strpos($_SERVER["SERVER_NAME"],"krompi")) ) {
-        unset($debugging);
-    }
+#    if ( ($_SESSION["uid"] != 1 && !strpos($_SERVER["SERVER_NAME"],"krompi")) ) {
+#        unset($debugging);
+#    }
 
     // basic: menu
     include $pathvars["moduleroot"]."basic/menu2.cfg.php";

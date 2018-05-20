@@ -163,7 +163,8 @@
                                               )
                      ),
        "import_log" => TRUE,
-         "encoding" => "iso-8859-15",
+     #    "encoding" => "iso-8859-15",
+         "encoding" => "utf-8",
             "right" => "",
     "expand_rights" => array(
                         "va14" => array(14,12,10,9,7),     # LVG, Abt. 1-5

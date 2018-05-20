@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+<title>keyworded.edit_page</title>
+<link rel="stylesheet" href="../../css/default/screen.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../css/default/eed.css" type="text/css" media="screen" />
+</head>
+<body>
+<!--##begin-->
+<!--keyworded.edit_page.tem.html v1 krompi-->
+<form method="post" action="!#ausgaben_form_aktion" id="eEd" enctype="multipart/form-data">
+    <h1>#(ueberschrift)</h1>
+    <p>#(inhalt)</p>
+    <p>!#ausgaben_form_error</p>
+    <fieldset>
+        <label for="url">
+            #(url)
+        </label>
+        <input id="url" type="text" value="!#ausgaben_path" name="url" tabindex="1" />
+        <div class="clearer">&nbsp;</div>
+        
+        <label>Neu</label>
+        <input id="manuell_hit" type="text"></input>
+        <span style="margin:10px" onclick="manuell_add_hit();" class="ui-icon ui-icon-plusthick"></span>
+        <div class="clearer">&nbsp;</div>
+        
+        <fieldset class="cloud">
+            <ul>
+        <!--##loop-tags_all-->
+            <li class="!{class}">
+                <a onclick="manuell_add_hit('!{keyword}')">!{keyword}</a>
+            </li>
+            <!--##cont-->
+            </ul>
+        </fieldset> 
+        
+        <div class="clearer">&nbsp;</div>
+        
+        
+        <div id="schlag" style="display:!#ausgaben_schlag">
+            <label for="keywords"> 
+            #(keyword)
+            </label>
+            <div class="clearer">&nbsp;</div>   
+            <ul id="tags_wrap">
+                <!--##loop-sitetags-->
+                <li id="!{keyword}" style="padding: 3px;" class="ui-state-default ui-button-text-only ui-corner-all dienstposten_!{keyword}">
+                    <span>!{keyword}</span>
+                    <button onclick="$(this).parent().remove();check_hits();" style="vertical-align: text-bottom; float: right;" class="ui-button !{class}" type="button">
+                        <span class="ui-icon ui-icon-minusthick"></span>
+                    </button>
+                    <input type="hidden" name="keywords[]" value="!{keyword}">
+                    <div class="ui-helper-clearfix"></div>
+                </li>
+                <!--##cont-->
+            </ul> 
+
+
+            
+            
+            <ul id="dienstposten_dummy" style="display:none;">
+                <li style="padding: 3px;" class="ui-state-default ui-button-text-only ui-corner-all dienstposten_##value##">
+                    <span>##label##</span>
+                    <button onclick="$(this).parent().remove();check_hits();" style="vertical-align: text-bottom; float: right;" class="ui-button" type="button">
+                        <span class="ui-icon ui-icon-minusthick"></span>
+                    </button>
+                    <input type="hidden" name="keywords[]" value="##value##">
+                    <div class="ui-helper-clearfix"></div>
+                </li>
+            </ul>
+        </div>
+    </fieldset>
+    <fieldset>
+        <input type="submit" name="send[]" value="g(send)" class="first" tabindex="3" />
+        <input type="button" name="abort" value="g(abort)" onclick="location='!#ausgaben_form_break'" class="next" tabindex="4" />
+        <div class="clearer">&nbsp;</div>
+    </fieldset>
+
+    <script type="text/javascript">
+        
+        function check_hits() {
+           if (  jQuery('#tags_wrap').children().length > 0 ) {               
+               jQuery('#schlag').show();
+           } else {
+               jQuery('#schlag').hide();
+           };
+        }
+        
+        function manuell_add_hit(value) {        
+            if ( !value ) {
+                value = $('#manuell_hit').val();
+            }
+
+            if ( $('.dienstposten_' + value).length == 0 && value != "") {               
+                li = $('#dienstposten_dummy').html();                            
+                li = li.replace(/##value##/g, value);
+                li = li.replace(/##label##/g, value);
+                $('#tags_wrap').append(li);
+                check_hits();
+            }
+        }
+        $('#dienstposten').focus();
+        $(function() {
+            var availableTags = [
+        
+        <!--##loop-tags_all-->
+        "!{keyword}",
+        <!--##cont-->
+            ];
+            
+        jQuery('#manuell_hit').autocomplete({
+            source: availableTags,
+            select: function(event,ui) {
+                manuell_add_hit(ui.item.value),
+                check_hits();
+            }
+        })
+        });
+    </script>
+
+    <div class="clearer">&nbsp;</div>
+    <p id="output"></p>
+
+    <p>!#ausgaben_output</p>
+    <p>!#ausgaben_inaccessible</p>
+</form>
+<!--##end-->
+</body>
+</html>
