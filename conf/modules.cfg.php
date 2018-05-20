@@ -73,7 +73,10 @@
     }
 
 
-
+if ( $environment["ebene"] == "/mitgliedwerden" ) {
+    header("Location: ".$pathvars["virtual"]."/mitgliedwerden.html");
+    exit;
+}
 
 
 if ( $_SESSION["uid"] != "" ) {
