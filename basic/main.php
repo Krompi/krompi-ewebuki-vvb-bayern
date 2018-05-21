@@ -418,6 +418,7 @@
         rparser("base.tem.html", $specialvars["default_template"].".tem.html");
     }
 
+
     $exec_time = array_sum(explode(' ', microtime())) - $t_start;
     if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "Execution Time: ".$exec_time." seconds".$debugging["char"];
 

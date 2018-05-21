@@ -4,7 +4,7 @@
   RewriteEngine On
   RewriteBase /
 
-  # unbedingt benötigte ausnahmen
+  # unbedingt benï¿½tigte ausnahmen
   RewriteRule ^basic.* - [L] 			
   RewriteRule ^conf.* - [L] 			
   RewriteRule ^css.* - [L] 			
@@ -23,7 +23,7 @@
   # zusaetzliche eigene ausnahmen
   #RewriteRule ^my.* - [L] 			
 
-  # entweder aufruf über index.php
+  # entweder aufruf ï¿½ber index.php
   #RewriteRule ^index.php - [L]
   #RewriteRule ^.+ basic/main.php [T=application/x-httpd-php]
 

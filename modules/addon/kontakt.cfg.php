@@ -58,7 +58,8 @@
             "right" => "",
             "email" => array(
                     // mail an betreiber
-                    "owner" => "VVB <kontakt@vvb-bayern.de>",
+//                "owner" => "VVB <kontakt@vvb-bayern.de>",
+                "owner" => "VVB <vvb@uber.space>",
                     "subj1" => "Neue Anfrage VVB-Internetseite",
                     "repl1" => array("firma","ansprechpartner"),
                     "template1" => "kontakt-email1",
@@ -100,10 +101,10 @@
 //                                 "/usr/local/share/fonts/VeraMoIt.ttf",
 //                                 "/usr/local/share/fonts/VeraMoBI.ttf",
 //                                 "/usr/local/share/fonts/VeraMoBd.ttf",
-                                 "/srv/www/htdocs/vvb/vvb.ext/modules/vvb/fonts/VeraMono.ttf",
-                                 "/srv/www/htdocs/vvb/vvb.ext/modules/vvb/fonts/VeraMoIt.ttf",
-                                 "/srv/www/htdocs/vvb/vvb.ext/modules/vvb/fonts/VeraMoBI.ttf",
-                                 "/srv/www/htdocs/vvb/vvb.ext/modules/vvb/fonts/VeraMoBd.ttf",
+                           $pathvars["fileroot"]."modules/vvb/fonts/VeraMono.ttf",
+                           $pathvars["fileroot"]."modules/vvb/fonts/VeraMoIt.ttf",
+                           $pathvars["fileroot"]."modules/vvb/fonts/VeraMoBI.ttf",
+                           $pathvars["fileroot"]."modules/vvb/fonts/VeraMoBd.ttf",
                              ),
                )
     );
