@@ -63,7 +63,7 @@
         $vvb_recht = array(
             "group" => "ort",
             "right" => array("show"),
-            "where" => $cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$match[1]."'"
+            "where" => "(".$cfg["mitglieder"]["db"]["mitglieder"]["va"]."='".$match[1]."' OR ".$cfg["mitglieder"]["db"]["mitglieder"]["ast"]."='".$match[1]."')"
         );
 
         // in der config kann die Berechtigung erweitert werden
