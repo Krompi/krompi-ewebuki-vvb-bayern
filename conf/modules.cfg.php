@@ -202,8 +202,8 @@ if ( $_SESSION["uid"] != "" ) {
     if ( strstr($environment["ebene"]."/".$environment["kategorie"],"/admin/mitglieder") )
     {
 //if ( $_POST["ajax"] == "" ) echo "<pre>";
-        include $pathvars["moduleroot"]."vvb/mitglieder.cfg.php";
-        include $pathvars["moduleroot"]."vvb/mitglieder-ctrl.inc.php"; # erweitertes modul
+//        include $pathvars["moduleroot"]."vvb/mitglieder.cfg.php";
+//        include $pathvars["moduleroot"]."vvb/mitglieder-ctrl.inc.php"; # erweitertes modul
 //if ( $_POST["ajax"] == "" ) echo "</pre>";
     }
     // Mitglieder-Ausgabe
