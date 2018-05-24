@@ -212,6 +212,7 @@ if ( $_SESSION["uid"] != "" ) {
     if (  ( $environment["ebene"] == "" && $environment["kategorie"] == "kontakt" )
        || ( $environment["ebene"] == "/kontakt" ))
     {
+        $mapping["main"] = "404";
 //        include $pathvars["moduleroot"]."addon/kontakt.cfg.php";
 //        include $pathvars["moduleroot"]."addon/kontakt-ctrl.inc.php";
     }
