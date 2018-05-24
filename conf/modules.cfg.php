@@ -212,8 +212,8 @@ if ( $_SESSION["uid"] != "" ) {
     if (  ( $environment["ebene"] == "" && $environment["kategorie"] == "kontakt" )
        || ( $environment["ebene"] == "/kontakt" ))
     {
-        include $pathvars["moduleroot"]."addon/kontakt.cfg.php";
-        include $pathvars["moduleroot"]."addon/kontakt-ctrl.inc.php";
+//        include $pathvars["moduleroot"]."addon/kontakt.cfg.php";
+//        include $pathvars["moduleroot"]."addon/kontakt-ctrl.inc.php";
     }
 
 #    // addon: search
