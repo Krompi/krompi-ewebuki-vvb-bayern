@@ -274,10 +274,10 @@ echo "</pre>";
                         "label" => "Import",
                     );
                     // Log
-                    $dataloop["memb_import_rights"][] = array(
-                        "link"  => $cfg["mitglieder"]["basis"]."/import-log.html",
-                        "label" => "Import-Log",
-                    );
+                    #$dataloop["memb_import_rights"][] = array(
+                    #    "link"  => $cfg["mitglieder"]["basis"]."/import-log.html",
+                    #    "label" => "Import-Log",
+                    #);
                 }
                 
                 if ( $vvb_recht["group"] != "ort" ) {

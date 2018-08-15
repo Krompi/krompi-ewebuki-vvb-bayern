@@ -161,6 +161,7 @@
         // use it via $db->query(your_sql_statement);
         function query($sql) {
             $conn = $this->CONN;
+            echo "<pre>-", $sql, "</pre>";
 
             // wir drehen fuer postgresql < 7.3 das limit :(
             if ( preg_match("/LIMIT ([0-9]+),([0-9]+)/i",$sql,$limit) ) {

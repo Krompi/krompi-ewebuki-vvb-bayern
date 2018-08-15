@@ -118,7 +118,7 @@
                                                     "db"    => "Ort",
                                                     "crypt" => TRUE,
                                                ),
-                         "Abteilung_1"     => array(
+                         "Eingruppierung"     => array(
                                                     "db"    => "Eingruppierung",
                                                     "crypt" => TRUE,
                                                ),
@@ -162,7 +162,7 @@
                                                    "nb"  => "Niederbayern",
                                               )
                      ),
-       "import_log" => TRUE,
+       "import_log" => TRUE,  # "backup": es werden die Mitgliedsdaten serialisiert gespeichert
      #    "encoding" => "iso-8859-15",
          "encoding" => "utf-8",
             "right" => "",

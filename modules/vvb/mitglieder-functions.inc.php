@@ -112,6 +112,16 @@
                 $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
                 $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
                 $crypttext = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $this->skey, $text, MCRYPT_MODE_ECB, $iv);
+
+//                echo "<pre>";
+//                echo "value:   ", $value, PHP_EOL;
+//                echo "text:    ", $text, PHP_EOL;
+//                echo "iv_size: ", $iv_size, PHP_EOL;
+//                echo "iv:      ", $iv, PHP_EOL;
+//                echo "crypt:   ", $crypttext, PHP_EOL;
+//                echo "result:  ", $this->safe_b64encode($crypttext), PHP_EOL;
+//                echo "---", PHP_EOL;
+//                echo "</pre>";
                 return trim($this->safe_b64encode($crypttext));
             }
 
@@ -119,9 +129,19 @@
 
                 if(!$value){return false;}
                 $crypttext = $this->safe_b64decode($value);
+//                $crypttext = $value;
                 $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
                 $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
                 $decrypttext = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $this->skey, $crypttext, MCRYPT_MODE_ECB, $iv);
+//                echo "<pre>";
+//                echo "value:   ", $value, PHP_EOL;
+//                echo "b64:     ", $crypttext, PHP_EOL;
+//                echo "mc_key:  ", $this->skey, PHP_EOL;
+//                echo "iv_size: ", $iv_size, PHP_EOL;
+//                echo "iv:      ", $iv, PHP_EOL;
+//                echo "decrypt: ", $decrypttext, PHP_EOL;
+//                echo "---", PHP_EOL;
+//                echo "</pre>";
                 return trim($decrypttext);
             }
         }
@@ -137,7 +157,7 @@
 
             // SQL in log-tabelle speichern
             // -----------------------------------------------------------------
-            if ( $cfg["mitglieder"]["import_log"] == TRUE ) {
+            if ( $cfg["mitglieder"]["import_log"] != FALSE ) {
 
                 // TODO: evtl. log-speicherung wieder aus Funktion rausnehmen
 
@@ -180,11 +200,6 @@
                             return unserialize($string2);
                         }
 
-
-
-
-
-
                         $member_data = mb_unserialize($data[$cfg["mitglieder"]["db"]["import_log"]["content"]]);
 //echo print_r(($data[$cfg["mitglieder"]["db"]["import_log"]["content"]]),true)."\n";
 
@@ -205,17 +220,28 @@
                         $result  = $db -> query($sql);
                     }
                 } else {
+                
+                    $data = [ 
+                        "fields" => [
+                            $cfg["mitglieder"]["db"]["import_log"]["time"],
+                            $cfg["mitglieder"]["db"]["import_log"]["count"],
+                            $cfg["mitglieder"]["db"]["import_log"]["active"]
+                        ],
+                        "values" => [
+                            "'".$log_date."'",
+                            count($member_data),
+                            '-1'
+                        ],
+                    ];
+                    if ( $cfg["mitglieder"]["import_log"] == "backup" ) {
+                        $data["fields"][] = $cfg["mitglieder"]["db"]["import_log"]["content"];
+                        $data["values"][] = "'".addcslashes(serialize($member_data),"'")."'";
+                    }
 
                     // neuen Datensatz einfuegen
                     $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["import_log"]["entries"]."
-                                        (".$cfg["mitglieder"]["db"]["import_log"]["time"].",
-                                        ".$cfg["mitglieder"]["db"]["import_log"]["content"].",
-                                        ".$cfg["mitglieder"]["db"]["import_log"]["count"].",
-                                        ".$cfg["mitglieder"]["db"]["import_log"]["active"].")
-                                VALUES ('".$log_date."',
-                                        '".addcslashes(serialize($member_data),"'")."',
-                                        ".count($member_data).",
-                                        -1)";
+                                        (".implode(", ", $data["fields"]).")
+                                 VALUES (".implode(", ", $data["values"]).")";
 //echo "<pre>";
 //echo print_r($member_data,true);
 //echo print_r(serialize($member_data),true)."\n";
@@ -246,34 +272,32 @@
             if ( $error == "" ) {
                 $start = array_sum(explode(' ', microtime()));
                 $sql_tmp_array = array();
+                
+                $datetime = date("Y-m-d H:i:s");
 
                 // Transaktion vorbereiten
-                $sql = "BEGIN;";
-                $sql_tmp_array[] = "BEGIN;";
-                $result  = $db -> query($sql);
+                #$sql = "BEGIN;";
+                #$sql_tmp_array[] = "BEGIN;";
+                #$result  = $db -> query($sql);
 
                 // Tabelle loeschen
-                $sql = "DELETE FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].";";
-                $sql_tmp_array[] = "DELETE FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].";";
-                $result  = $db -> query($sql);
-                if ( !$result ) {
-                    $error = $db -> error("FEHLER");
-                }
+                #$sql = "DELETE FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].";";
+                #$sql_tmp_array[] = "DELETE FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"].";";
+                #$result  = $db -> query($sql);
+                #if ( !$result ) {
+                #    $error = $db -> error("FEHLER");
+                #}
 
                 if ( $error == "" ) {
                     // Neue Daten einfuegen
                     foreach ( $member_data as $value ) {
-//                        $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
+//                        sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
 //                                                    (".implode(",
 //                                                        ",$value["field"]).")
 //                                                VALUES (".implode(",
 //                                                        ",$value["value"]).");";
-                        $sql_tmp_array[] = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
-                                                    (".implode(",
-                                                        ",$value["field"]).")
-                                                VALUES (".implode(",
-                                                        ",$value["value"]).");";
-//                        $result  = $db -> query($sql);
+                        $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]." (".implode(", ",$value["field"]).", import_date) VALUES (".implode(", ",$value["value"]).", '".$datetime."');";
+                        $result  = $db -> query($sql);
                         if ( !$result ) {
                             $error = $db -> error("FEHLER");
                             break;
@@ -283,12 +307,15 @@
 
                 // Transaktion durchfuehren
                 if ( $error == "" ) {
-//                    $sql = "COMMIT;";
-                    $sql_tmp_array[] = "COMMIT;";
-                    $sql = implode("\n", $sql_tmp_array);
-//echo $sql;
-                    $result  = $db -> query($sql);
+                    $sql = "DELETE FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]." WHERE import_date<>'".$datetime."';";
+                } else {
+                    $sql = "DELETE FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]." WHERE import_date='".$datetime."';";
                 }
+                $result  = $db -> query($sql);
+                if ( !$result ) {
+                    $error = $db -> error("FEHLER");
+                }
+                
 //echo implode("\n",$sql_tmp_array)."\n";
                 $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * Infos in DB geschrieben in           ".$exec_time." Sekunden".$debugging["char"];

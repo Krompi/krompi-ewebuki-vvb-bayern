@@ -42,7 +42,18 @@
     URL: http://www.chaos.de
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/// 
+///
+//echo "<pre>";
+//define("PASSPHRASE", $specialvars["crypt_salt"]);
+//$Encrypt = new Encryption();
+//
+//$enc_text =  $Encrypt->encode("dies ist ein test");
+//echo $enc_text, PHP_EOL;
+//echo $Encrypt->decode($enc_text), PHP_EOL;
+//
+//echo "</pre>";
+//exit;
 
 
     if ( in_array("import",$vvb_recht["right"]) ) {
@@ -133,7 +144,7 @@
         // =====================================================================
         if ( count($_FILES) > 0 ) {
 
-//echo "<pre>";
+#echo "<pre>";
             // Feld- und Text-Trenner rausfinden
             // -----------------------------------------------------------------
             if (($handle = fopen($_FILES["cvs"]["tmp_name"], "r")) !== FALSE) {
@@ -248,7 +259,8 @@
                         // -----------------------------------------------------
                         foreach ( $data as $key=>$field ) {
                             // zeichensatz-konvertierung
-                            mb_convert_variables("UTF-8", "ISO-8859-15,Windows-1251,Windows-1252", $field);
+                            mb_convert_variables("UTF-8", "UTF-8,ISO-8859-15,Windows-1251,Windows-1252", $field);
+                            if ( in_array($field, $field_indizes) ) continue;
                             // es sollen nur die in der Config bestimmten Spalten geholt werden
                             if ( $cfg["mitglieder"]["csv_fields"][$field] != "" ) {
                                 // array schreiben
@@ -256,6 +268,7 @@
 
                             }
                         }
+   # echo print_r($field_indizes,true);
                         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  *  zu holende Spalten: ".print_r($field_indizes,true).$debugging["char"];
                         // -----------------------------------------------------
 
@@ -266,7 +279,7 @@
                         // -----------------------------------------------------
                         foreach ( $field_indizes as $key=>$field_name ) {
                             // zeichensatz-konvertierung
-                            mb_convert_variables("UTF-8", "ISO-8859-15,Windows-1251,Windows-1252", $data[$key]);
+                            mb_convert_variables("UTF-8", "UTF-8,ISO-8859-15,Windows-1251,Windows-1252", $data[$key]);
 
                             // DB-Spalten namen
                             $sql_array[$i]["field"][$key] = $cfg["mitglieder"]["csv_fields"][$field_name]["db"];
@@ -290,13 +303,17 @@
                         }
 
                         // amtskennzahl suchen
-                        $field_amt = array_search( "Berufsgruppe", $field_indizes);
-//echo print_r($field_indizes,true);
-//echo "field_amt: ".$field_amt."\n";
+                        $field_amt = array_search( "VA_text", $field_indizes);
+#echo "---------------", PHP_EOL;
+#echo "data: ".print_r($data,true), PHP_EOL;
+#echo "field_indizes: ". print_r($field_indizes,true), PHP_EOL;
+#echo "array_aemter_parent: ".print_r($array_aemter_parent,true), PHP_EOL;
+#echo "field_amt: ".$field_amt."\n";
                         // amtskennzahl wird in Form gebracht
                         $akz = (int)$data[$field_amt];
-//echo $akz."\n";
-//echo $array_aemter[$akz]."\n";
+#echo "akz: ".$akz."\n";
+#echo "array_aemter: ".$array_aemter[$akz]."\n";
+#echo "---------------", PHP_EOL;
 
                         // ist es eine aussenstelle
                         if ( $array_aemter_parent[$akz] != "" ) {
@@ -304,10 +321,11 @@
                             $sql_array[$i]["field"][110] = "Aussenstelle";
                             $sql_array[$i]["value"][110] = $akz;
                         }
-                        $sql_array[$i]["field"][120] = "VA_text";
-                        $sql_array[$i]["value"][120] = "'".$array_aemter[$akz]."'";
+                        #$sql_array[$i]["field"][120] = "VA_text";
+                        #$sql_array[$i]["value"][120] = "'".$array_aemter[$akz]."'";
 
                         // -----------------------------------------------------
+//                        break;
                     }
                     $i++;
 
@@ -322,10 +340,10 @@
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * <b>CSV eingelesen in                    ".$exec_time." Sekunden</b>".$debugging["char"];
 
             }
-        }
-//echo print_r($sql_array,true);
-//echo "<pre>";
+            #echo print_r($sql_array,true);
+            #echo print_r($array_aemter,true);
 //exit;
+        }
 
 
 
@@ -343,6 +361,7 @@
             }
 
         }
+#echo "</pre>";
 //echo "</pre>";
 
 
