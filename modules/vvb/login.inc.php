@@ -311,7 +311,6 @@ echo "</pre>";
                     }
                 }
 
-                unset($hidedata["show_mitglieder"], $hidedata["export_table"]);
 
             }
             // =================================================================
