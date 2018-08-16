@@ -297,6 +297,11 @@
 //                                                VALUES (".implode(",
 //                                                        ",$value["value"]).");";
                         $sql = "INSERT INTO ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]." (".implode(", ",$value["field"]).", import_date) VALUES (".implode(", ",$value["value"]).", '".$datetime."');";
+#echo "<pre>";
+#echo $sql, PHP_EOL;
+#echo print_r($member_data,true), PHP_EOL;
+#echo "</pre>";
+#exit;
                         $result  = $db -> query($sql);
                         if ( !$result ) {
                             $error = $db -> error("FEHLER");

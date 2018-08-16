@@ -148,14 +148,14 @@
             // Feld- und Text-Trenner rausfinden
             // -----------------------------------------------------------------
             if (($handle = fopen($_FILES["cvs"]["tmp_name"], "r")) !== FALSE) {
-                $line = fgets($handle,1024);
+                $line = fgets($handle);
 
                 // Feld-Trenner
                 if ( count(explode(",",$line)) > 1 ) $field_separator = ",";
                 if ( count(explode(";",$line)) > 1 ) $field_separator = ";";
 
                 // Text-Trenner
-                $text_separator = " ";
+                $text_separator = "\"";
                 if (substr( trim($line) , 0, 1) == "\"" ) $text_separator = "\"";
                 if (substr( trim($line) , 0, 1) == "'" ) $text_separator = "'";
 
@@ -202,6 +202,10 @@
                         }
                     }
                 }
+                ksort($array_aemter);
+                ksort($array_aemter_parent);
+#echo "<pre>", print_r($array_aemter, true), "</pre>";
+#echo "<pre>", print_r($array_aemter_parent, true), "</pre>";
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  *  Dienststellen-Array: ".print_r($array_aemter,true).$debugging["char"];
                 $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
                 if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  * Aemterinfos gepuffert in             ".$exec_time." Sekunden".$debugging["char"];
@@ -251,13 +255,23 @@
                 // -------------------------------------------------------------
                 $start = array_sum(explode(' ', microtime()));
 
+#echo "<pre>", print_r($field_separator, true), "</pre>";
+#echo "<pre>", print_r($text_separator, true), "</pre>";
 
-                while (($data = fgetcsv($handle, 2000, $field_separator, $text_separator)) !== FALSE) {
+                while (($data = fgetcsv($handle, 0, $field_separator, $text_separator)) !== FALSE) {
+#echo "<pre>=================================</pre>";
+#echo "<pre>", print_r($i, true), "</pre>";
+#echo "<pre>", print_r($data, true), "</pre>";
+            
+#echo "<pre>";
 
                     if ( $i == 0 ) {
                         // Zeile mit Spalten-Ueberschriften einlesen
                         // -----------------------------------------------------
                         foreach ( $data as $key=>$field ) {
+#echo "Key:   ",$key, PHP_EOL;
+#echo "Field: ",$field, PHP_EOL;
+#echo print_r($cfg["mitglieder"]["csv_fields"][$field],true), PHP_EOL;
                             // zeichensatz-konvertierung
                             mb_convert_variables("UTF-8", "UTF-8,ISO-8859-15,Windows-1251,Windows-1252", $field);
                             if ( in_array($field, $field_indizes) ) continue;
@@ -268,7 +282,6 @@
 
                             }
                         }
-   # echo print_r($field_indizes,true);
                         if ( $debugging["html_enable"] ) $debugging["ausgabe"] .= "  *  zu holende Spalten: ".print_r($field_indizes,true).$debugging["char"];
                         // -----------------------------------------------------
 
@@ -277,12 +290,20 @@
 
                         // Daten einlesen und SQL vorbereiten
                         // -----------------------------------------------------
+#echo print_r($data,true), PHP_EOL;
+#if ( $data[0] != 125 ) continue;
                         foreach ( $field_indizes as $key=>$field_name ) {
+#echo "<pre>---------------", PHP_EOL;
+#echo "Key:  ",$key, PHP_EOL;
+#echo "Wert: ",$data[$key], PHP_EOL;
                             // zeichensatz-konvertierung
                             mb_convert_variables("UTF-8", "UTF-8,ISO-8859-15,Windows-1251,Windows-1252", $data[$key]);
+#echo "Enc:  ",$data[$key], PHP_EOL;
 
                             // DB-Spalten namen
                             $sql_array[$i]["field"][$key] = $cfg["mitglieder"]["csv_fields"][$field_name]["db"];
+                            
+                            $data[$key] = trim($data[$key]);
 
                             // manche eintraege sollen verschluesselt werden
                             if ( $cfg["mitglieder"]["csv_fields"][$field_name]["crypt"] == TRUE ) {
@@ -300,20 +321,27 @@
                             } else {
 
                             }
+#echo "field: ".print_r($sql_array[$i]["field"][$key],true), PHP_EOL;
+#echo "data:  ".print_r($sql_array[$i]["value"][$key],true), PHP_EOL;
+#echo "---------------</pre>", PHP_EOL;
                         }
 
                         // amtskennzahl suchen
                         $field_amt = array_search( "VA_text", $field_indizes);
-#echo "---------------", PHP_EOL;
-#echo "data: ".print_r($data,true), PHP_EOL;
+                        $field_amt = array_search( "VA", $sql_array[$i]["field"]);
+#echo "Amt:  ",$field_amt, PHP_EOL;
+#echo "<pre>---------------", PHP_EOL;
+#echo "data: ".print_r($sql_array,true), PHP_EOL;
 #echo "field_indizes: ". print_r($field_indizes,true), PHP_EOL;
+#echo "data: ".print_r($data,true), PHP_EOL;
 #echo "array_aemter_parent: ".print_r($array_aemter_parent,true), PHP_EOL;
 #echo "field_amt: ".$field_amt."\n";
                         // amtskennzahl wird in Form gebracht
                         $akz = (int)$data[$field_amt];
-#echo "akz: ".$akz."\n";
-#echo "array_aemter: ".$array_aemter[$akz]."\n";
-#echo "---------------", PHP_EOL;
+#echo "akz:  ".$akz."\n";
+#echo "text: ".$array_aemter[$akz]."\n";
+#echo "parent: ".$array_aemter_parent[$akz]."\n";
+#echo "---------------</pre>", PHP_EOL;
 
                         // ist es eine aussenstelle
                         if ( $array_aemter_parent[$akz] != "" ) {
@@ -321,13 +349,16 @@
                             $sql_array[$i]["field"][110] = "Aussenstelle";
                             $sql_array[$i]["value"][110] = $akz;
                         }
-                        #$sql_array[$i]["field"][120] = "VA_text";
-                        #$sql_array[$i]["value"][120] = "'".$array_aemter[$akz]."'";
+#echo print_r($field_indizes,true), PHP_EOL;
+#echo print_r($sql_array,true), PHP_EOL;
+                        $sql_array[$i]["field"][120] = "VA_text";
+                        $sql_array[$i]["value"][120] = "'".$array_aemter[$akz]."'";
 
                         // -----------------------------------------------------
-//                        break;
+                        #break;
                     }
                     $i++;
+#echo "</pre>";
 
                 }
                 $exec_time = number_format( (array_sum(explode(' ', microtime())) - $start) , 5);
@@ -342,6 +373,10 @@
             }
             #echo print_r($sql_array,true);
             #echo print_r($array_aemter,true);
+                #echo "<pre>------------------------</pre>";
+                #echo "<pre>", print_r($sql_array, true), "</pre>";
+                #echo "<pre>", print_r($field_indizes, true), "</pre>";
+                #exit;
 //exit;
         }
 

@@ -118,7 +118,7 @@
                                                     "db"    => "Ort",
                                                     "crypt" => TRUE,
                                                ),
-                         "Eingruppierung"     => array(
+                         "Abteilung_4"     => array(
                                                     "db"    => "Eingruppierung",
                                                     "crypt" => TRUE,
                                                ),
