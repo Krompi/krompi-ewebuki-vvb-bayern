@@ -141,16 +141,17 @@
             $haupt_aussen[$data[$cfg["mitglieder"]["db"]["mitglieder"]["va"]]] = $data[$cfg["mitglieder"]["db"]["mitglieder"]["ast"]];
         }
         
-        
+
         
         
         $sql = "SELECT DISTINCT ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"].",
-                                ".$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"].",
+                                GROUP_CONCAT(DISTINCT ".$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]." ORDER BY ".$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"]." ASC SEPARATOR ' ') AS ".$cfg["mitglieder"]["db"]["mitglieder"]["bezirk"].",
                                 ".$cfg["mitglieder"]["db"]["mitglieder"]["va"]."
                            FROM ".$cfg["mitglieder"]["db"]["mitglieder"]["entries"]."
                           WHERE ".implode("
                             AND ",$buffer_where)."
                             AND ".$cfg["mitglieder"]["db"]["mitglieder"]["ast"]."=0
+                       GROUP BY ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"].", ".$cfg["mitglieder"]["db"]["mitglieder"]["va"]."
                        ORDER BY ".$cfg["mitglieder"]["db"]["mitglieder"]["va_text"]."";
         $result = $db -> query($sql);
         while ( $data = $db -> fetch_array($result,1) ) {
