@@ -8254,7 +8254,7 @@ button.close {
 
 body {
   background: #daeaf2;
-  font-family: "PT Sans",Sans-serif;
+  font-family: "PT Sans", sans-serif;
   line-height: 1.5; }
 
 .main-wrap {
@@ -8364,6 +8364,18 @@ table {
         display: inline-block; }
         .header .header-nav ul a:hover {
           text-decoration: underline; }
+          
+
+  @media screen and (max-width: 767px) {
+    .header .header-logo {
+        max-width: 25%;
+    }
+    .header .header-title {
+        padding: 0;
+        font-size: 20px;
+        line-height: 24px;
+    }
+  }
 
 .footer {
   background: #aedcf2;
